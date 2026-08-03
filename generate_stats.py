@@ -4,7 +4,8 @@ import re
 import chess.pgn
 
 MAIN_SEASON_DIR = "seasons/season_3/main"
-DEFAULT_RATING = 3200.0
+DEFAULT_RATING = 3000.0
+TOTAL_STAGE_GAMES = 1260
 K_FACTOR = 32.0
 
 def calculate_expected_score(r1, r2):
@@ -166,12 +167,12 @@ def process_stage_pgns(pgn_files, global_ratings):
     b_pct = (total_black_wins / total_stage_games * 100) if total_stage_games > 0 else 0
     d_pct = (total_draws / total_stage_games * 100) if total_stage_games > 0 else 0
 
-    md = f"> 📊 **Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
+    md = f"> 📊 **Stage Summary:** **{total_stage_games:,}/{TOTAL_STAGE_GAMES:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
     # 1. MAIN STANDINGS TABLE
     md += "#### 📊 Leaderboard\n\n"
-    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>W - D - L</nobr> | Win % |\n"
+    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>+ / = / -</nobr> | Win % |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for rank, eng in enumerate(sorted_engines, 1):
@@ -182,7 +183,9 @@ def process_stage_pgns(pgn_files, global_ratings):
         p, g = stats[eng]["points"], stats[eng]["played"]
         w, d, l = stats[eng]["wins"], stats[eng]["draws"], stats[eng]["losses"]
         win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
-        wdl_str = f"<nobr>{w}-{d}-{l}</nobr>"
+        
+        # Clean stacked vertical notation for mobile display
+        wdl_str = f"+{w}<br>={d}<br>-{l}"
         
         md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {wdl_str} | {win_pct} |\n"
 
