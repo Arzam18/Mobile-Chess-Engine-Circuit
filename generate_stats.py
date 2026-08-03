@@ -11,20 +11,14 @@ def calculate_expected_score(r1, r2):
     return 1.0 / (1.0 + 10.0 ** ((r2 - r1) / 400.0))
 
 def parse_move_comments(game):
-    """Safely extract average depth and move time if embedded in PGN comments."""
-    depths = []
+    """Safely extract move time if embedded in PGN comments."""
     clk_times = []
-    
     prev_clk = None
+    
     for node in game.mainline():
         comment = node.comment
         if not comment:
             continue
-            
-        # Extract depth (e.g., d=24, depth=24, or [%eval 0.15,24])
-        depth_match = re.search(r'(?:depth|d=)\s*(\d+)', comment, re.IGNORECASE) or re.search(r'\[%eval [^\]]+,(\d+)\]', comment)
-        if depth_match:
-            depths.append(int(depth_match.group(1)))
             
         # Extract clock time (e.g., [%clk 0:01:30])
         clk_match = re.search(r'\[%clk\s+(\d+):(\d+):(\d+(?:\.\d+)?)\]', comment)
@@ -36,11 +30,8 @@ def parse_move_comments(game):
                 clk_times.append(used_sec)
             prev_clk = total_sec
 
-    avg_depth = round(sum(depths) / len(depths), 1) if depths else None
-    max_depth = max(depths) if depths else None
     avg_time = round(sum(clk_times) / len(clk_times), 2) if clk_times else None
-    
-    return avg_depth, max_depth, avg_time
+    return avg_time
 
 def process_stage_pgns(pgn_files, global_ratings):
     stage_start_ratings = {}
@@ -74,7 +65,7 @@ def process_stage_pgns(pgn_files, global_ratings):
 
                 # Track move counts & game metrics
                 game_length = sum(1 for _ in game.mainline_moves())
-                avg_depth, max_depth, avg_time = parse_move_comments(game)
+                avg_time = parse_move_comments(game)
 
                 # Initialize structures
                 for eng in (white, black):
@@ -89,7 +80,7 @@ def process_stage_pgns(pgn_files, global_ratings):
                             "black_pts": 0.0, "black_games": 0,
                             "total_moves": 0, "shortest_win": 999, "longest_game": 0,
                             "time_losses": 0, "crashes": 0,
-                            "depths": [], "max_depth": 0, "move_times": []
+                            "move_times": []
                         }
 
                 if white not in head_to_head: head_to_head[white] = {}
@@ -97,13 +88,7 @@ def process_stage_pgns(pgn_files, global_ratings):
                 if black not in head_to_head[white]: head_to_head[white][black] = {"pts": 0.0, "games": 0, "results": []}
                 if white not in head_to_head[black]: head_to_head[black][white] = {"pts": 0.0, "games": 0, "results": []}
 
-                # Store depth / time stats if available
-                if avg_depth:
-                    stats[white]["depths"].append(avg_depth)
-                    stats[black]["depths"].append(avg_depth)
-                if max_depth:
-                    stats[white]["max_depth"] = max(stats[white]["max_depth"], max_depth)
-                    stats[black]["max_depth"] = max(stats[black]["max_depth"], max_depth)
+                # Store time stats if available
                 if avg_time:
                     stats[white]["move_times"].append(avg_time)
                     stats[black]["move_times"].append(avg_time)
@@ -186,7 +171,7 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     # 1. MAIN STANDINGS TABLE
     md += "#### 📊 Leaderboard\n\n"
-    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | W / D / L | Win % |\n"
+    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>W - D - L</nobr> | Win % |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for rank, eng in enumerate(sorted_engines, 1):
@@ -197,30 +182,26 @@ def process_stage_pgns(pgn_files, global_ratings):
         p, g = stats[eng]["points"], stats[eng]["played"]
         w, d, l = stats[eng]["wins"], stats[eng]["draws"], stats[eng]["losses"]
         win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
+        wdl_str = f"<nobr>{w}-{d}-{l}</nobr>"
         
-        md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {w} / {d} / {l} | {win_pct} |\n"
+        md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {wdl_str} | {win_pct} |\n"
 
     # 2. DEVELOPER PERFORMANCE LOG
-    md += "\n<details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability, Depth & Color Stats)</b></summary>\n\n"
-    md += "| Engine | White Win % | Black Win % | Avg Game Length | Avg / Max Depth | Time Losses | Illegal/Crashes |\n"
-    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    md += "\n<details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability & Color Stats)</b></summary>\n\n"
+    md += "| Engine | White Win % | Black Win % | Avg Game Length | Time Losses | Illegal/Crashes |\n"
+    md += "| :--- | :---: | :---: | :---: | :---: | :---: |\n"
 
     for eng in sorted_engines:
         st = stats[eng]
         w_pct_e = f"{(st['white_pts'] / st['white_games'] * 100):.1f}%" if st['white_games'] > 0 else "0.0%"
         b_pct_e = f"{(st['black_pts'] / st['black_games'] * 100):.1f}%" if st['black_games'] > 0 else "0.0%"
         avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
-        
-        # Depth parsing output
-        avg_d = round(sum(st["depths"]) / len(st["depths"]), 1) if st["depths"] else "N/A"
-        max_d = st["max_depth"] if st["max_depth"] > 0 else "N/A"
-        depth_str = f"{avg_d} / {max_d}" if avg_d != "N/A" else "N/A"
 
-        md += f"| **{eng}** | {w_pct_e} | {b_pct_e} | {avg_len} | {depth_str} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+        md += f"| **{eng}** | {w_pct_e} | {b_pct_e} | {avg_len} | `{st['time_losses']}` | `{st['crashes']}` |\n"
 
     md += "\n</details>\n\n"
 
-    # 3. CROSSTABLE (CCC STYLE WITH COLORS)
+    # 3. CROSSTABLE
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
     header_row = "| Engine | " + " | ".join([f"**{i+1}**" for i in range(len(sorted_engines))]) + " |\n"
     divider_row = "| :--- | " + " | ".join([":---:"] * len(sorted_engines)) + " |\n"
@@ -241,16 +222,15 @@ def process_stage_pgns(pgn_files, global_ratings):
                     pts2 = rec2["pts"] if rec2 else 0.0
                     h2h_diff = pts1 - pts2
                     
-                    # Color formatting using GitHub LaTeX math syntax
                     if h2h_diff > 0:
-                        diff_str = f"$\\color{{green}}{{\\mathbf{{+{h2h_diff:.1f}}}}}"
+                        diff_str = f"+{h2h_diff:.1f}"
                     elif h2h_diff < 0:
-                        diff_str = f"$\\color{{red}}{{\\mathbf{{{h2h_diff:.1f}}}}}"
+                        diff_str = f"{h2h_diff:.1f}"
                     else:
-                        diff_str = f"$\\color{{gray}}{{\\mathbf{{0.0}}}}"
+                        diff_str = "0.0"
                     
                     game_outcomes = " ".join(rec1["results"])
-                    cells.append(f"{game_outcomes}<br>({diff_str})")
+                    cells.append(f"<nobr>{game_outcomes}</nobr><br>({diff_str})")
                 else:
                     cells.append("*")
         row += " | ".join(cells) + " |\n"
