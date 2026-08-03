@@ -3,7 +3,7 @@ name: Generate MCEC Tournament Statistics
 on:
   push:
     paths:
-      - 'pgn/**' # Runs automatically whenever a PGN inside pgn/ or any stage folder is updated
+      - 'seasons/**' # Triggers whenever you add or edit PGNs inside seasons/
 
 jobs:
   build-stats:
