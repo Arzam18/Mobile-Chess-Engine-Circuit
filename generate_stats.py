@@ -16,9 +16,7 @@ def parse_move_comments(game):
     clk_times = []
     
     prev_clk = None
-    node = game
-    while node.has_next():
-        node = node.next()
+    for node in game.mainline():
         comment = node.comment
         if not comment:
             continue
@@ -314,3 +312,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
