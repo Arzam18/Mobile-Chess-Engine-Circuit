@@ -5,6 +5,11 @@ on:
     paths:
       - 'seasons/**' # Triggers whenever you add or edit PGNs inside seasons/
 
+# Prevent race conditions if multiple pushes happen quickly
+concurrency:
+  group: update-stats-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-stats:
     runs-on: ubuntu-latest
@@ -14,6 +19,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch full git history for clean rebasing
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,6 +38,12 @@ jobs:
           git config --global user.name 'MCEC-Bot'
           git config --global user.email 'bot@mcec.local'
           git add README.md
-          git diff --quiet || git commit -m "Auto-update MCEC standings and crosstables [skip ci]"
-          git pull --rebase origin main
-          git push
+          
+          # Only commit and push if README.md actually changed
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-update MCEC standings and crosstables [skip ci]"
+            git pull --rebase origin main
+            git push
+          else
+            echo "No changes detected in README.md."
+          fi
