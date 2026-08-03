@@ -59,7 +59,7 @@ Because MCEC maintains a strict cap of 72 engines:
 
 #### 📊 Leaderboard
 
-| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>+ / = / -</nobr> | Win % |
+| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>W / D / L</nobr> | Win % |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | 1 | **Hobbes 3.0** | 3000 | **3161** | `+160.8` | **19.0** / 22 | +16<br>=6<br>-0 | 86.4% |
 | 2 | **Halogen 16.7.12** | 3000 | **3113** | `+112.9` | **16.5** / 22 | +12<br>=9<br>-1 | 75.0% |
