@@ -3,13 +3,13 @@ name: Generate MCEC Tournament Statistics
 on:
   push:
     paths:
-      - 'seasons/**'
+      - 'seasons/**' # Triggers whenever you add or edit PGNs inside seasons/
 
 jobs:
   build-stats:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Enables git push permissions
+      contents: write # Grants write permissions to commit & push back to the repository
 
     steps:
       - name: Checkout Repository
@@ -32,4 +32,5 @@ jobs:
           git config --global user.email 'bot@mcec.local'
           git add README.md
           git diff --quiet || git commit -m "Auto-update MCEC standings and crosstables [skip ci]"
+          git pull --rebase origin main
           git push
