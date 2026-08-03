@@ -2,13 +2,15 @@ import os
 import glob
 import chess.pgn
 
+# Base configuration
+MAIN_SEASON_DIR = "seasons/season_3/main"
 DEFAULT_RATING = 3200.0
 K_FACTOR = 32.0
 
 def calculate_expected_score(r1, r2):
     return 1.0 / (1.0 + 10.0 ** ((r2 - r1) / 400.0))
 
-def process_stage(pgn_files, global_ratings):
+def process_stage_pgns(pgn_files, global_ratings):
     stage_start_ratings = {}
     stats = {}
     head_to_head = {}
@@ -120,24 +122,41 @@ def process_stage(pgn_files, global_ratings):
     return md
 
 def main():
-    stage_dirs = sorted([d for d in glob.glob("pgn/*") if os.path.isdir(d)])
-    
-    if not stage_dirs:
-        print("No stage directories found in pgn/")
+    if not os.path.exists(MAIN_SEASON_DIR):
+        print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
         return
+
+    # Check for subdirectories (e.g. 01_gateway/) OR direct stage PGN files
+    subdirs = sorted([d for d in glob.glob(os.path.join(MAIN_SEASON_DIR, "*")) if os.path.isdir(d)])
+    pgn_files = sorted(glob.glob(os.path.join(MAIN_SEASON_DIR, "*.pgn")))
 
     global_ratings = {}
     full_md_output = "## 🏆 Stage Results & Live Standings\n\n"
+    stages_processed = 0
 
-    for stage_path in stage_dirs:
-        raw_folder = os.path.basename(stage_path)
-        stage_title = " ".join(raw_folder.split("_")[1:]).title()
-        pgn_files = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
-        
-        if pgn_files:
+    if subdirs:
+        for stage_path in subdirs:
+            raw_folder = os.path.basename(stage_path)
+            stage_title = " ".join(raw_folder.split("_")[1:]).title() if "_" in raw_folder else raw_folder.title()
+            stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
+            
+            if stage_pgns:
+                full_md_output += f"### 📌 Stage: {stage_title}\n\n"
+                full_md_output += process_stage_pgns(stage_pgns, global_ratings) + "\n\n---\n\n"
+                stages_processed += 1
+    elif pgn_files:
+        for pgn_file in pgn_files:
+            file_name = os.path.splitext(os.path.basename(pgn_file))[0]
+            stage_title = " ".join(file_name.split("-")).title()
             full_md_output += f"### 📌 Stage: {stage_title}\n\n"
-            full_md_output += process_stage(pgn_files, global_ratings) + "\n\n---\n\n"
+            full_md_output += process_stage_pgns([pgn_file], global_ratings) + "\n\n---\n\n"
+            stages_processed += 1
 
+    if stages_processed == 0:
+        print("No PGN files or stage folders found in " + MAIN_SEASON_DIR)
+        return
+
+    # Update README.md
     readme_path = "README.md"
     if os.path.exists(readme_path):
         with open(readme_path, "r", encoding="utf-8") as f:
