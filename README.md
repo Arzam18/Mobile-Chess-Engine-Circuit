@@ -12,7 +12,7 @@ Following an initial 72-engine baseline benchmark, participant engines are divid
 
 * **Top 1–36:** The Main Engines
 * **Top 37–48:** The Gateway (Gatekeepers)
-* **Top 49–72:** The Arise
+* **Top 49–72:** The Fringe
 
 ---
 
