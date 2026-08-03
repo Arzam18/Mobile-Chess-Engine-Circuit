@@ -3,11 +3,14 @@ name: Generate MCEC Tournament Statistics
 on:
   push:
     paths:
-      - 'seasons/**' # Triggers whenever you add or edit PGNs inside seasons/
+      - 'seasons/**'
 
 jobs:
   build-stats:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Enables git push permissions
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
