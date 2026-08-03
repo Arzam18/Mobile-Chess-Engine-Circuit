@@ -172,7 +172,7 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     # 1. MAIN STANDINGS TABLE
     md += "#### 📊 Leaderboard\n\n"
-    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>+ / = / -</nobr> | Win % |\n"
+    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>W / D / L</nobr> | Win % |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for rank, eng in enumerate(sorted_engines, 1):
@@ -184,7 +184,7 @@ def process_stage_pgns(pgn_files, global_ratings):
         w, d, l = stats[eng]["wins"], stats[eng]["draws"], stats[eng]["losses"]
         win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
         
-        # Clean stacked vertical notation for mobile display
+        # Display +W, =D, -L stacked vertically
         wdl_str = f"+{w}<br>={d}<br>-{l}"
         
         md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {wdl_str} | {win_pct} |\n"
