@@ -179,8 +179,18 @@ def process_stage_pgns(pgn_files, global_ratings):
     md = f"> 📊 **Stage Summary:** **{total_stage_games:,}/{TOTAL_STAGE_GAMES:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
-    # 1. MAIN STANDINGS TABLE
-    md += "#### 📊 Leaderboard\n\n"
+    # 1. MAIN VIEW: SIMPLE STANDINGS TABLE
+    md += "#### 🏆 Standings\n\n"
+    md += "| Rank | Engine | Score |\n"
+    md += "| :---: | :--- | :---: |\n"
+
+    for rank, eng in enumerate(sorted_engines, 1):
+        st = stats[eng]
+        p, g = st["points"], st["played"]
+        md += f"| {rank} | **{eng}** | **{p:.1f}** / {g} |\n"
+
+    # 2. COLLAPSIBLE FULL LEADERBOARD
+    md += "\n<details><summary><b>📊 View Full Leaderboard (Elo, W/D/L Breakdown & Win %)</b></summary>\n\n"
     md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | W | D | L | Win % |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
@@ -193,15 +203,16 @@ def process_stage_pgns(pgn_files, global_ratings):
         p, g = st["points"], st["played"]
         win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
         
-        # W, D, L in format Total (White - Black)
         w_str = f"{st['wins']} ({st['white_wins']}-{st['black_wins']})"
         d_str = f"{st['draws']} ({st['white_draws']}-{st['black_draws']})"
         l_str = f"{st['losses']} ({st['white_losses']}-{st['black_losses']})"
         
         md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {w_str} | {d_str} | {l_str} | {win_pct} |\n"
 
-    # 2. DEVELOPER PERFORMANCE LOG
-    md += "\n<details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability & Color Stats)</b></summary>\n\n"
+    md += "\n</details>\n\n"
+
+    # 3. COLLAPSIBLE DEVELOPER PERFORMANCE LOG
+    md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability & Color Stats)</b></summary>\n\n"
     md += "| Engine | White Win % | Black Win % | Avg Game Length | Time Losses | Illegal/Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: |\n"
 
@@ -215,7 +226,7 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     md += "\n</details>\n\n"
 
-    # 3. CROSSTABLE
+    # 4. COLLAPSIBLE CROSSTABLE
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
     header_row = "| Engine | " + " | ".join([f"**{i+1}**" for i in range(len(sorted_engines))]) + " |\n"
     divider_row = "| :--- | " + " | ".join([":---:"] * len(sorted_engines)) + " |\n"
