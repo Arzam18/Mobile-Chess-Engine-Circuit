@@ -77,6 +77,9 @@ def process_stage_pgns(pgn_files, global_ratings):
                     if eng not in stats:
                         stats[eng] = {
                             "points": 0.0, "played": 0, "wins": 0, "draws": 0, "losses": 0,
+                            "white_wins": 0, "black_wins": 0,
+                            "white_draws": 0, "black_draws": 0,
+                            "white_losses": 0, "black_losses": 0,
                             "white_pts": 0.0, "white_games": 0,
                             "black_pts": 0.0, "black_games": 0,
                             "total_moves": 0, "shortest_win": 999, "longest_game": 0,
@@ -112,7 +115,9 @@ def process_stage_pgns(pgn_files, global_ratings):
                 if result == "1-0":
                     s_w, s_b = 1.0, 0.0
                     stats[white]["wins"] += 1
+                    stats[white]["white_wins"] += 1
                     stats[black]["losses"] += 1
+                    stats[black]["black_losses"] += 1
                     stats[white]["shortest_win"] = min(stats[white]["shortest_win"], game_length)
                     total_white_wins += 1
                     head_to_head[white][black]["results"].append("1")
@@ -120,7 +125,9 @@ def process_stage_pgns(pgn_files, global_ratings):
                 elif result == "0-1":
                     s_w, s_b = 0.0, 1.0
                     stats[black]["wins"] += 1
+                    stats[black]["black_wins"] += 1
                     stats[white]["losses"] += 1
+                    stats[white]["white_losses"] += 1
                     stats[black]["shortest_win"] = min(stats[black]["shortest_win"], game_length)
                     total_black_wins += 1
                     head_to_head[white][black]["results"].append("0")
@@ -128,7 +135,9 @@ def process_stage_pgns(pgn_files, global_ratings):
                 else:
                     s_w, s_b = 0.5, 0.5
                     stats[white]["draws"] += 1
+                    stats[white]["white_draws"] += 1
                     stats[black]["draws"] += 1
+                    stats[black]["black_draws"] += 1
                     total_draws += 1
                     head_to_head[white][black]["results"].append("½")
                     head_to_head[black][white]["results"].append("½")
@@ -172,22 +181,24 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     # 1. MAIN STANDINGS TABLE
     md += "#### 📊 Leaderboard\n\n"
-    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | <nobr>W / D / L</nobr> | Win % |\n"
-    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | W | D | L | Win % |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for rank, eng in enumerate(sorted_engines, 1):
+        st = stats[eng]
         start_r = stage_start_ratings[eng]
         end_r = global_ratings[eng]
         diff = end_r - start_r
         diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
-        p, g = stats[eng]["points"], stats[eng]["played"]
-        w, d, l = stats[eng]["wins"], stats[eng]["draws"], stats[eng]["losses"]
+        p, g = st["points"], st["played"]
         win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
         
-        # Display +W, =D, -L stacked vertically
-        wdl_str = f"+{w}<br>={d}<br>-{l}"
+        # W, D, L in format Total (White - Black)
+        w_str = f"{st['wins']} ({st['white_wins']}-{st['black_wins']})"
+        d_str = f"{st['draws']} ({st['white_draws']}-{st['black_draws']})"
+        l_str = f"{st['losses']} ({st['white_losses']}-{st['black_losses']})"
         
-        md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {wdl_str} | {win_pct} |\n"
+        md += f"| {rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {w_str} | {d_str} | {l_str} | {win_pct} |\n"
 
     # 2. DEVELOPER PERFORMANCE LOG
     md += "\n<details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability & Color Stats)</b></summary>\n\n"
