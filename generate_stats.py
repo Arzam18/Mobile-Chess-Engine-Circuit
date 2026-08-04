@@ -8,7 +8,7 @@ DEFAULT_RATING = 3000.0
 TOTAL_STAGE_GAMES = 1260
 K_FACTOR = 32.0
 
-# League System Constants
+# Dynamic Ladder Rules
 GATEWAY_TOP_RANK = 37
 GATEWAY_BOTTOM_RANK = 48
 GATEWAY_CAPACITY = 12  # Standard 12 slots (37 to 48)
@@ -39,21 +39,16 @@ def parse_move_comments(game):
     return avg_time
 
 def get_dynamic_rank_and_status(idx, total_engines):
-    """
-    Calculates exact global rank and status badge based on stage index (0-based).
-    """
+    """Calculates global ladder rank and status for the Full Rank List."""
     newcomers_count = max(0, total_engines - GATEWAY_CAPACITY)
 
     if idx < newcomers_count:
-        # Borrowing upper tier ranks (1-36)
         abs_rank = (GATEWAY_TOP_RANK - newcomers_count) + idx
-        status = f"🟡 Contested (Borrowed #{abs_rank})"
+        status = f"🟡 Borrowed Tier (#{abs_rank})"
     elif idx < GATEWAY_CAPACITY:
-        # Standard Gateway tier (37-48)
         abs_rank = GATEWAY_TOP_RANK + (idx - newcomers_count)
         status = f"🟢 Gateway Safe (#{abs_rank})"
     else:
-        # Relegated / Cucked tier (49-72)
         abs_rank = GATEWAY_BOTTOM_RANK + (idx - GATEWAY_CAPACITY + 1)
         status = f"🔴 Relegated / Cucked (#{abs_rank})"
 
@@ -127,7 +122,6 @@ def process_stage_pgns(pgn_files, global_ratings):
                 stats[white]["total_moves"] += game_length
                 stats[black]["total_moves"] += game_length
 
-                # Check forfeits / crashes
                 if "time" in termination.lower():
                     if result == "0-1": stats[white]["time_losses"] += 1
                     elif result == "1-0": stats[black]["time_losses"] += 1
@@ -219,47 +213,44 @@ def process_stage_pgns(pgn_files, global_ratings):
     md = f"> 📊 **Stage Summary:** **{total_stage_games:,}/{TOTAL_STAGE_GAMES:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
-    # 1. MAIN STANDINGS TABLE
+    # 1. CLEAN, INDEPENDENT STAGE STANDINGS (Pure Stage View 1 to N)
     md += "#### 🏆 Standings\n\n"
-    md += "| Rank | Engine | Score | Status |\n"
-    md += "| :---: | :--- | :---: | :--- |\n"
+    md += "| Rank | Engine | Score |\n"
+    md += "| :---: | :--- | :---: |\n"
+
+    for idx, eng in enumerate(sorted_engines, start=1):
+        st = stats[eng]
+        p, g = st["points"], st["played"]
+        md += f"| {idx} | **{eng}** | **{p:.1f}** / {g} |\n"
+
+    # 2. COLLAPSIBLE FULL RANK LISTS (Now contains dynamic global rank, new Elo, win score % & draw score %)
+    md += "\n<details><summary><b>📊 View Full Rank Lists (Global Rank, New Elo, Win Score % & Draw Score %)</b></summary>\n\n"
+    md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win Score % | Draw Score % | Status |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |\n"
 
     for idx, eng in enumerate(sorted_engines):
         abs_rank, status_badge = get_dynamic_rank_and_status(idx, total_engines_count)
-        st = stats[eng]
-        p, g = st["points"], st["played"]
-        md += f"| {abs_rank} | **{eng}** | **{p:.1f}** / {g} | {status_badge} |\n"
-
-    # 2. COLLAPSIBLE FULL LEADERBOARD
-    md += "\n<details><summary><b>📊 View Full Leaderboard (Elo, W/D/L Breakdown & Win %)</b></summary>\n\n"
-    md += "| Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | W | D | L | Win % |\n"
-    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
-
-    for idx, eng in enumerate(sorted_engines):
-        abs_rank, _ = get_dynamic_rank_and_status(idx, total_engines_count)
         st = stats[eng]
         start_r = stage_start_ratings[eng]
         end_r = global_ratings[eng]
         diff = end_r - start_r
         diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
         p, g = st["points"], st["played"]
-        win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
         
-        w_str = f"{st['wins']} ({st['white_wins']}-{st['black_wins']})"
-        d_str = f"{st['draws']} ({st['white_draws']}-{st['black_draws']})"
-        l_str = f"{st['losses']} ({st['white_losses']}-{st['black_losses']})"
+        # Calculate Win Score % and Draw Score %
+        win_score_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
+        draw_score_pct = f"{(st['draws'] / g * 100):.1f}%" if g > 0 else "0.0%"
         
-        md += f"| {abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {w_str} | {d_str} | {l_str} | {win_pct} |\n"
+        md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {win_score_pct} | {draw_score_pct} | {status_badge} |\n"
 
     md += "\n</details>\n\n"
 
     # 3. COLLAPSIBLE DEVELOPER PERFORMANCE LOG
     md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, Percentages & Move Stats)</b></summary>\n\n"
-    md += "| Engine | Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
+    md += "| Engine | Stage Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
-    for idx, eng in enumerate(sorted_engines):
-        abs_rank, _ = get_dynamic_rank_and_status(idx, total_engines_count)
+    for idx, eng in enumerate(sorted_engines, start=1):
         st = stats[eng]
         win_pct_total = f"{(st['wins'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
         draw_pct_total = f"{(st['draws'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
@@ -271,13 +262,13 @@ def process_stage_pgns(pgn_files, global_ratings):
         draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st["draws"] > 0 else "N/A"
         loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st["losses"] > 0 else "N/A"
 
-        md += f"| **{eng}** | #{abs_rank} | {win_pct_total} | {draw_pct_total} | {w_pct_e} | {b_pct_e} | {avg_len} | {win_range} | {draw_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {w_pct_e} | {b_pct_e} | {avg_len} | {win_range} | {draw_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
 
     md += "\n</details>\n\n"
 
-    # 4. COLLAPSIBLE CUCKED / RELEGATED ENGINES LOG (Ranks 49-72)
+    # 4. COLLAPSIBLE CUCKED / RELEGATED ENGINES LOG
     md += "<details><summary><b>🪦 View Cucked / Relegated Engines (Pushed to Ranks 49-72)</b></summary>\n\n"
-    md += "| Rank | Engine | Score | Win % | Forfeits (Crash / Timeout) | Relegation Status |\n"
+    md += "| Global Rank | Engine | Score | Win Score % | Forfeits (Crash / Timeout) | Relegation Status |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :--- |\n"
 
     cucked_found = False
@@ -287,9 +278,9 @@ def process_stage_pgns(pgn_files, global_ratings):
             cucked_found = True
             st = stats[eng]
             p, g = st["points"], st["played"]
-            win_pct = f"{(p / g * 100):.1f}%" if g > 0 else "0.0%"
+            win_score_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
             forfeits = f"{st['crashes']} C / {st['time_losses']} TO"
-            md += f"| {abs_rank} | **{eng}** | **{p:.1f}** / {g} | {win_pct} | `{forfeits}` | 🚨 Relegated out of Gateway (Rank {abs_rank}) |\n"
+            md += f"| #{abs_rank} | **{eng}** | **{p:.1f}** / {g} | {win_score_pct} | `{forfeits}` | 🚨 Relegated out of Gateway |\n"
 
     if not cucked_found:
         md += "| — | *No engines relegated past Rank 48 in this stage.* | — | — | — | — |\n"
@@ -298,17 +289,14 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     # 5. COLLAPSIBLE CROSSTABLE
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
-    header_ranks = [str(get_dynamic_rank_and_status(i, total_engines_count)[0]) for i in range(total_engines_count)]
-    
-    header_row = "| Engine | " + " | ".join([f"**#{r}**" for r in header_ranks]) + " |\n"
+    header_row = "| Engine | " + " | ".join([f"**#{i}**" for i in range(1, total_engines_count + 1)]) + " |\n"
     divider_row = "| :--- | " + " | ".join([":---:"] * total_engines_count) + " |\n"
     md += header_row + divider_row
 
-    for i, eng1 in enumerate(sorted_engines):
-        r1, _ = get_dynamic_rank_and_status(i, total_engines_count)
-        row = f"| **#{r1}. {eng1}** | "
+    for i, eng1 in enumerate(sorted_engines, start=1):
+        row = f"| **#{i}. {eng1}** | "
         cells = []
-        for j, eng2 in enumerate(sorted_engines):
+        for j, eng2 in enumerate(sorted_engines, start=1):
             if i == j:
                 cells.append("—")
             else:
@@ -386,7 +374,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated README.md with live tournament stats & developer logs!")
+            print("Successfully updated README.md with clean standings and dedicated Full Rank Lists!")
 
 if __name__ == "__main__":
     main()
