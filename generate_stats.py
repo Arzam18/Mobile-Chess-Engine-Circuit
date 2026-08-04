@@ -8,10 +8,13 @@ DEFAULT_RATING = 3000.0
 TOTAL_STAGE_GAMES = 1260
 K_FACTOR = 32.0
 
-# Dynamic Ladder Rules
+# Dynamic MCEC Tier Boundaries
+MAIN_TOP_RANK = 1
+MAIN_BOTTOM_RANK = 36
 GATEWAY_TOP_RANK = 37
 GATEWAY_BOTTOM_RANK = 48
-GATEWAY_CAPACITY = 12  # Standard 12 slots (37 to 48)
+FRINGE_TOP_RANK = 49
+FRINGE_BOTTOM_RANK = 72
 
 def calculate_expected_score(r1, r2):
     return 1.0 / (1.0 + 10.0 ** ((r2 - r1) / 400.0))
@@ -38,23 +41,45 @@ def parse_move_comments(game):
     avg_time = round(sum(clk_times) / len(clk_times), 2) if clk_times else None
     return avg_time
 
-def get_dynamic_rank_and_status(idx, total_engines):
-    """Calculates global ladder rank and status for the Full Rank List."""
-    newcomers_count = max(0, total_engines - GATEWAY_CAPACITY)
+def get_mcec_stage_status(idx, stage_type, total_engines):
+    """Calculates Global Rank and Status Badges according to MCEC dynamic stage rules."""
+    rank = idx + 1  # 1-based index within stage
 
-    if idx < newcomers_count:
-        abs_rank = (GATEWAY_TOP_RANK - newcomers_count) + idx
-        status = f"🟡 Borrowed Tier (#{abs_rank})"
-    elif idx < GATEWAY_CAPACITY:
-        abs_rank = GATEWAY_TOP_RANK + (idx - newcomers_count)
-        status = f"🟢 Gateway Safe (#{abs_rank})"
-    else:
-        abs_rank = GATEWAY_BOTTOM_RANK + (idx - GATEWAY_CAPACITY + 1)
-        status = f"🔴 Relegated / Cucked (#{abs_rank})"
+    if stage_type == "gateway":
+        if rank <= 19:
+            return rank + 36, "🟢 Advanced to Entry League"
+        else:
+            return rank + 36, "🟡 Sent to Survival Stage"
 
-    return abs_rank, status
+    elif stage_type == "entry_league":
+        if rank <= 6:
+            return rank + 30, "🔥 Promoted to League 4"
+        elif rank <= 19:
+            return rank + 30, "🛡️ Defended Gateway / Retained"
+        else:
+            return rank + 30, "🔴 Dropped to Relegation / Survival"
 
-def process_stage_pgns(pgn_files, global_ratings):
+    elif stage_type in ["league_4", "league_3", "league_2", "league_1", "main_league"]:
+        if rank <= 6:
+            return rank, "⬆️ Promoted / Upper Bracket"
+        else:
+            return rank, "⬇️ Relegated / Lower Bracket"
+
+    elif stage_type == "survival":
+        if rank <= 12:
+            return rank + 36, "🟢 Secured Gateway Slot"
+        else:
+            return rank + 36, "🔴 Relegated to Fringe / Kickout"
+
+    elif stage_type == "crucible":
+        if rank <= 8:
+            return rank + 48, "🛡️ Saved in Fringe"
+        else:
+            return rank + 48, "❌ Fully Kicked Out"
+
+    return rank, "⚔️ Active"
+
+def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
     stage_start_ratings = {}
     stats = {}
     head_to_head = {}
@@ -64,6 +89,8 @@ def process_stage_pgns(pgn_files, global_ratings):
     total_white_wins = 0
     total_black_wins = 0
     total_draws = 0
+
+    stage_key = stage_name.lower().replace(" ", "_")
 
     for pgn_path in pgn_files:
         with open(pgn_path, encoding="utf-8", errors="replace") as pgn_file:
@@ -86,7 +113,6 @@ def process_stage_pgns(pgn_files, global_ratings):
 
                 plies = sum(1 for _ in game.mainline_moves())
                 game_length = (plies + 1) // 2
-                
                 avg_time = parse_move_comments(game)
 
                 for eng in (white, black):
@@ -210,10 +236,10 @@ def process_stage_pgns(pgn_files, global_ratings):
     b_pct = (total_black_wins / total_stage_games * 100) if total_stage_games > 0 else 0
     d_pct = (total_draws / total_stage_games * 100) if total_stage_games > 0 else 0
 
-    md = f"> 📊 **Stage Summary:** **{total_stage_games:,}/{TOTAL_STAGE_GAMES:,}** Total Games Played\n"
+    md = f"> 📊 **Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
-    # 1. CLEAN, INDEPENDENT STAGE STANDINGS (Pure Stage View 1 to N)
+    # 1. CLEAN, INDEPENDENT STAGE STANDINGS (Pure 1..N)
     md += "#### 🏆 Standings\n\n"
     md += "| Rank | Engine | Score |\n"
     md += "| :---: | :--- | :---: |\n"
@@ -223,13 +249,13 @@ def process_stage_pgns(pgn_files, global_ratings):
         p, g = st["points"], st["played"]
         md += f"| {idx} | **{eng}** | **{p:.1f}** / {g} |\n"
 
-    # 2. COLLAPSIBLE FULL RANK LISTS (Now contains dynamic global rank, new Elo, win score % & draw score %)
-    md += "\n<details><summary><b>📊 View Full Rank Lists (Global Rank, New Elo, Win Score % & Draw Score %)</b></summary>\n\n"
-    md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win Score % | Draw Score % | Status |\n"
+    # 2. SEPARATE SECTION: FULL RATING LISTS / FULL ENGINES
+    md += "\n<details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>\n\n"
+    md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |\n"
 
     for idx, eng in enumerate(sorted_engines):
-        abs_rank, status_badge = get_dynamic_rank_and_status(idx, total_engines_count)
+        abs_rank, status_badge = get_mcec_stage_status(idx, stage_key, total_engines_count)
         st = stats[eng]
         start_r = stage_start_ratings[eng]
         end_r = global_ratings[eng]
@@ -237,16 +263,16 @@ def process_stage_pgns(pgn_files, global_ratings):
         diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
         p, g = st["points"], st["played"]
         
-        # Calculate Win Score % and Draw Score %
-        win_score_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
-        draw_score_pct = f"{(st['draws'] / g * 100):.1f}%" if g > 0 else "0.0%"
+        # Calculate Win % and Loss %
+        win_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
+        loss_pct = f"{(st['losses'] / g * 100):.1f}%" if g > 0 else "0.0%"
         
-        md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {win_score_pct} | {draw_score_pct} | {status_badge} |\n"
+        md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {win_pct} | {loss_pct} | {status_badge} |\n"
 
     md += "\n</details>\n\n"
 
-    # 3. COLLAPSIBLE DEVELOPER PERFORMANCE LOG
-    md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, Percentages & Move Stats)</b></summary>\n\n"
+    # 3. INDEPENDENT DEVELOPER PERFORMANCE LOGS
+    md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, W/D/L Split & Move Stats)</b></summary>\n\n"
     md += "| Engine | Stage Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
@@ -266,28 +292,7 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     md += "\n</details>\n\n"
 
-    # 4. COLLAPSIBLE CUCKED / RELEGATED ENGINES LOG
-    md += "<details><summary><b>🪦 View Cucked / Relegated Engines (Pushed to Ranks 49-72)</b></summary>\n\n"
-    md += "| Global Rank | Engine | Score | Win Score % | Forfeits (Crash / Timeout) | Relegation Status |\n"
-    md += "| :---: | :--- | :---: | :---: | :---: | :--- |\n"
-
-    cucked_found = False
-    for idx, eng in enumerate(sorted_engines):
-        abs_rank, _ = get_dynamic_rank_and_status(idx, total_engines_count)
-        if abs_rank > GATEWAY_BOTTOM_RANK:
-            cucked_found = True
-            st = stats[eng]
-            p, g = st["points"], st["played"]
-            win_score_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
-            forfeits = f"{st['crashes']} C / {st['time_losses']} TO"
-            md += f"| #{abs_rank} | **{eng}** | **{p:.1f}** / {g} | {win_score_pct} | `{forfeits}` | 🚨 Relegated out of Gateway |\n"
-
-    if not cucked_found:
-        md += "| — | *No engines relegated past Rank 48 in this stage.* | — | — | — | — |\n"
-
-    md += "\n</details>\n\n"
-
-    # 5. COLLAPSIBLE CROSSTABLE
+    # 4. INDEPENDENT CROSSTABLE
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
     header_row = "| Engine | " + " | ".join([f"**#{i}**" for i in range(1, total_engines_count + 1)]) + " |\n"
     divider_row = "| :--- | " + " | ".join([":---:"] * total_engines_count) + " |\n"
@@ -324,58 +329,4 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     md += "\n</details>\n"
     return md
-
-def main():
-    if not os.path.exists(MAIN_SEASON_DIR):
-        print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
-        return
-
-    subdirs = sorted([d for d in glob.glob(os.path.join(MAIN_SEASON_DIR, "*")) if os.path.isdir(d)])
-    pgn_files = sorted(glob.glob(os.path.join(MAIN_SEASON_DIR, "*.pgn")))
-
-    global_ratings = {}
-    full_md_output = "## 🏆 Stage Results & Live Standings\n\n"
-    stages_processed = 0
-
-    if subdirs:
-        for stage_path in subdirs:
-            raw_folder = os.path.basename(stage_path)
-            stage_title = " ".join(raw_folder.split("_")[1:]).title() if "_" in raw_folder else raw_folder.title()
-            stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
-            
-            if stage_pgns:
-                full_md_output += f"### 📌 Stage: {stage_title}\n\n"
-                full_md_output += process_stage_pgns(stage_pgns, global_ratings) + "\n\n---\n\n"
-                stages_processed += 1
-    elif pgn_files:
-        for pgn_file in pgn_files:
-            file_name = os.path.splitext(os.path.basename(pgn_file))[0]
-            stage_title = " ".join(file_name.split("-")).title()
-            full_md_output += f"### 📌 Stage: {stage_title}\n\n"
-            full_md_output += process_stage_pgns([pgn_file], global_ratings) + "\n\n---\n\n"
-            stages_processed += 1
-
-    if stages_processed == 0:
-        print("No PGN files or stage folders found in " + MAIN_SEASON_DIR)
-        return
-
-    readme_path = "README.md"
-    if os.path.exists(readme_path):
-        with open(readme_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        start_marker = "<!-- STATS_START -->"
-        end_marker = "<!-- STATS_END -->"
-
-        if start_marker in content and end_marker in content:
-            before = content.split(start_marker)[0]
-            after = content.split(end_marker)[1]
-            new_content = f"{before}{start_marker}\n{full_md_output}\n{end_marker}{after}"
-            
-            with open(readme_path, "w", encoding="utf-8") as f:
-                f.write(new_content)
-            print("Successfully updated README.md with clean standings and dedicated Full Rank Lists!")
-
-if __name__ == "__main__":
-    main()
 
