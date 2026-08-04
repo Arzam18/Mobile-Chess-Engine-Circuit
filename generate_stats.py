@@ -86,8 +86,8 @@ def process_stage_pgns(pgn_files, global_ratings):
                             "black_pts": 0.0, "black_games": 0,
                             "total_moves": 0, 
                             "shortest_win": 9999, "longest_win": 0,
+                            "shortest_draw": 9999, "longest_draw": 0,
                             "shortest_loss": 9999, "longest_loss": 0,
-                            "longest_game": 0,
                             "time_losses": 0, "crashes": 0,
                             "move_times": []
                         }
@@ -105,8 +105,6 @@ def process_stage_pgns(pgn_files, global_ratings):
                 # Game length stats
                 stats[white]["total_moves"] += game_length
                 stats[black]["total_moves"] += game_length
-                stats[white]["longest_game"] = max(stats[white]["longest_game"], game_length)
-                stats[black]["longest_game"] = max(stats[black]["longest_game"], game_length)
 
                 # Check forfeits
                 if "time" in termination.lower():
@@ -155,6 +153,13 @@ def process_stage_pgns(pgn_files, global_ratings):
                     stats[white]["white_draws"] += 1
                     stats[black]["draws"] += 1
                     stats[black]["black_draws"] += 1
+
+                    # Track draw lengths
+                    stats[white]["shortest_draw"] = min(stats[white]["shortest_draw"], game_length)
+                    stats[white]["longest_draw"] = max(stats[white]["longest_draw"], game_length)
+                    stats[black]["shortest_draw"] = min(stats[black]["shortest_draw"], game_length)
+                    stats[black]["longest_draw"] = max(stats[black]["longest_draw"], game_length)
+
                     total_draws += 1
                     head_to_head[white][black]["results"].append("½")
                     head_to_head[black][white]["results"].append("½")
@@ -230,7 +235,7 @@ def process_stage_pgns(pgn_files, global_ratings):
 
     # 3. COLLAPSIBLE DEVELOPER PERFORMANCE LOG
     md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, Percentages & Move Stats)</b></summary>\n\n"
-    md += "| Engine | Win % | Draw % | White Win % | Black Win % | Avg Length | Longest Game | Short / Long Win | Short / Long Loss | Time Losses | Crashes |\n"
+    md += "| Engine | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for eng in sorted_engines:
@@ -240,21 +245,17 @@ def process_stage_pgns(pgn_files, global_ratings):
         w_pct_e = f"{(st['white_pts'] / st['white_games'] * 100):.1f}%" if st['white_games'] > 0 else "0.0%"
         b_pct_e = f"{(st['black_pts'] / st['black_games'] * 100):.1f}%" if st['black_games'] > 0 else "0.0%"
         avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
-        lg_game = f"{st['longest_game']} moves" if st['played'] > 0 else "N/A"
 
         # Win range
-        if st["wins"] > 0:
-            win_range = f"{st['shortest_win']} / {st['longest_win']} moves"
-        else:
-            win_range = "N/A"
+        win_range = f"{st['shortest_win']} / {st['longest_win']} moves" if st["wins"] > 0 else "N/A"
+
+        # Draw range
+        draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st["draws"] > 0 else "N/A"
 
         # Loss range
-        if st["losses"] > 0:
-            loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves"
-        else:
-            loss_range = "N/A"
+        loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st["losses"] > 0 else "N/A"
 
-        md += f"| **{eng}** | {win_pct_total} | {draw_pct_total} | {w_pct_e} | {b_pct_e} | {avg_len} | {lg_game} | {win_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+        md += f"| **{eng}** | {win_pct_total} | {draw_pct_total} | {w_pct_e} | {b_pct_e} | {avg_len} | {win_range} | {draw_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
 
     md += "\n</details>\n\n"
 
