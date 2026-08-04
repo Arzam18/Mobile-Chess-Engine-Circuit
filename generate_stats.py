@@ -64,8 +64,10 @@ def process_stage_pgns(pgn_files, global_ratings):
                 engines_in_stage.add(black)
                 total_stage_games += 1
 
-                # Track move counts & game metrics
-                game_length = sum(1 for _ in game.mainline_moves())
+                # Calculate Full Moves (Convert plies/half-moves to full moves)
+                plies = sum(1 for _ in game.mainline_moves())
+                game_length = (plies + 1) // 2
+                
                 avg_time = parse_move_comments(game)
 
                 # Initialize structures
@@ -237,18 +239,18 @@ def process_stage_pgns(pgn_files, global_ratings):
         draw_pct_total = f"{(st['draws'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
         w_pct_e = f"{(st['white_pts'] / st['white_games'] * 100):.1f}%" if st['white_games'] > 0 else "0.0%"
         b_pct_e = f"{(st['black_pts'] / st['black_games'] * 100):.1f}%" if st['black_games'] > 0 else "0.0%"
-        avg_len = f"{(st['total_moves'] / st['played']):.1f} m" if st['played'] > 0 else "N/A"
-        lg_game = f"{st['longest_game']} m" if st['played'] > 0 else "N/A"
+        avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
+        lg_game = f"{st['longest_game']} moves" if st['played'] > 0 else "N/A"
 
         # Win range
         if st["wins"] > 0:
-            win_range = f"{st['shortest_win']} / {st['longest_win']} m"
+            win_range = f"{st['shortest_win']} / {st['longest_win']} moves"
         else:
             win_range = "N/A"
 
         # Loss range
         if st["losses"] > 0:
-            loss_range = f"{st['shortest_loss']} / {st['longest_loss']} m"
+            loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves"
         else:
             loss_range = "N/A"
 
