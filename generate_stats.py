@@ -82,7 +82,10 @@ def process_stage_pgns(pgn_files, global_ratings):
                             "white_losses": 0, "black_losses": 0,
                             "white_pts": 0.0, "white_games": 0,
                             "black_pts": 0.0, "black_games": 0,
-                            "total_moves": 0, "shortest_win": 999, "longest_game": 0,
+                            "total_moves": 0, 
+                            "shortest_win": 9999, "longest_win": 0,
+                            "shortest_loss": 9999, "longest_loss": 0,
+                            "longest_game": 0,
                             "time_losses": 0, "crashes": 0,
                             "move_times": []
                         }
@@ -118,7 +121,13 @@ def process_stage_pgns(pgn_files, global_ratings):
                     stats[white]["white_wins"] += 1
                     stats[black]["losses"] += 1
                     stats[black]["black_losses"] += 1
+                    
+                    # Track win/loss lengths
                     stats[white]["shortest_win"] = min(stats[white]["shortest_win"], game_length)
+                    stats[white]["longest_win"] = max(stats[white]["longest_win"], game_length)
+                    stats[black]["shortest_loss"] = min(stats[black]["shortest_loss"], game_length)
+                    stats[black]["longest_loss"] = max(stats[black]["longest_loss"], game_length)
+
                     total_white_wins += 1
                     head_to_head[white][black]["results"].append("1")
                     head_to_head[black][white]["results"].append("0")
@@ -128,7 +137,13 @@ def process_stage_pgns(pgn_files, global_ratings):
                     stats[black]["black_wins"] += 1
                     stats[white]["losses"] += 1
                     stats[white]["white_losses"] += 1
+                    
+                    # Track win/loss lengths
                     stats[black]["shortest_win"] = min(stats[black]["shortest_win"], game_length)
+                    stats[black]["longest_win"] = max(stats[black]["longest_win"], game_length)
+                    stats[white]["shortest_loss"] = min(stats[white]["shortest_loss"], game_length)
+                    stats[white]["longest_loss"] = max(stats[white]["longest_loss"], game_length)
+
                     total_black_wins += 1
                     head_to_head[white][black]["results"].append("0")
                     head_to_head[black][white]["results"].append("1")
@@ -212,17 +227,30 @@ def process_stage_pgns(pgn_files, global_ratings):
     md += "\n</details>\n\n"
 
     # 3. COLLAPSIBLE DEVELOPER PERFORMANCE LOG
-    md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability & Color Stats)</b></summary>\n\n"
-    md += "| Engine | White Win % | Black Win % | Avg Game Length | Time Losses | Illegal/Crashes |\n"
-    md += "| :--- | :---: | :---: | :---: | :---: | :---: |\n"
+    md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, Move Lengths & Color Stats)</b></summary>\n\n"
+    md += "| Engine | White Win % | Black Win % | Avg Length | Longest Game | Short / Long Win | Short / Long Loss | Time Losses | Crashes |\n"
+    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for eng in sorted_engines:
         st = stats[eng]
         w_pct_e = f"{(st['white_pts'] / st['white_games'] * 100):.1f}%" if st['white_games'] > 0 else "0.0%"
         b_pct_e = f"{(st['black_pts'] / st['black_games'] * 100):.1f}%" if st['black_games'] > 0 else "0.0%"
-        avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
+        avg_len = f"{(st['total_moves'] / st['played']):.1f} m" if st['played'] > 0 else "N/A"
+        lg_game = f"{st['longest_game']} m" if st['played'] > 0 else "N/A"
 
-        md += f"| **{eng}** | {w_pct_e} | {b_pct_e} | {avg_len} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+        # Win range
+        if st["wins"] > 0:
+            win_range = f"{st['shortest_win']} / {st['longest_win']} m"
+        else:
+            win_range = "N/A"
+
+        # Loss range
+        if st["losses"] > 0:
+            loss_range = f"{st['shortest_loss']} / {st['longest_loss']} m"
+        else:
+            loss_range = "N/A"
+
+        md += f"| **{eng}** | {w_pct_e} | {b_pct_e} | {avg_len} | {lg_game} | {win_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
 
     md += "\n</details>\n\n"
 
