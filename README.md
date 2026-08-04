@@ -139,42 +139,42 @@ Because MCEC maintains a strict cap of 72 engines:
 
 <details><summary><b>🛠️ View Developer Performance Logs (Speed, Percentages & Move Stats)</b></summary>
 
-| Engine | Win % | Draw % | White Win % | Black Win % | Avg Length | Longest Game | Short / Long Win | Short / Long Loss | Time Losses | Crashes |
+| Engine | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Hobbes 3.0** | 69.2% | 30.8% | 100.0% | 69.2% | 63.9 moves | 92 moves | 45 / 92 moves | N/A | `0` | `0` |
-| **Halogen 16.7.12** | 57.7% | 38.5% | 92.3% | 61.5% | 52.5 moves | 77 moves | 31 / 76 moves | 60 / 60 moves | `1` | `0` |
-| **Icarus 1.1.1 dev** | 46.2% | 50.0% | 88.5% | 53.8% | 60.5 moves | 101 moves | 24 / 87 moves | 68 / 68 moves | `0` | `0` |
-| **Renegade 1.3.1** | 68.2% | 27.3% | 95.5% | 68.2% | 52.1 moves | 100 moves | 27 / 84 moves | 100 / 100 moves | `0` | `0` |
-| **Triumviratus 6.0 Dotprod** | 58.3% | 33.3% | 87.5% | 62.5% | 58.8 moves | 101 moves | 33 / 81 moves | 74 / 77 moves | `0` | `0` |
-| **Coda 0.9.3 AI** | 54.2% | 41.7% | 95.8% | 54.2% | 51.8 moves | 80 moves | 37 / 64 moves | 73 / 73 moves | `0` | `0` |
-| **Tcheran 14.0 dev** | 41.7% | 50.0% | 75.0% | 58.3% | 62.3 moves | 154 moves | 29 / 79 moves | 70 / 92 moves | `0` | `0` |
-| **Panda 2.0** | 59.1% | 22.7% | 77.3% | 63.6% | 59.2 moves | 161 moves | 19 / 93 moves | 47 / 90 moves | `0` | `0` |
-| **Minke 6.0.0 Dotprod** | 45.8% | 37.5% | 87.5% | 41.7% | 63.4 moves | 93 moves | 24 / 91 moves | 45 / 80 moves | `0` | `0` |
-| **Elixir 3.0** | 23.1% | 65.4% | 61.5% | 50.0% | 63.7 moves | 104 moves | 36 / 63 moves | 49 / 76 moves | `0` | `0` |
-| **Rice dev 1169a58** | 40.9% | 45.5% | 81.8% | 45.5% | 62.3 moves | 161 moves | 21 / 67 moves | 61 / 91 moves | `0` | `0` |
-| **Zangdar 7.0** | 33.3% | 41.7% | 54.2% | 54.2% | 59.9 moves | 108 moves | 32 / 65 moves | 44 / 83 moves | `2` | `0` |
-| **Iris 2.0 dev** | 30.8% | 38.5% | 73.1% | 26.9% | 60.2 moves | 154 moves | 22 / 100 moves | 33 / 72 moves | `0` | `0` |
-| **Sirius 9.0 Dotprod** | 40.9% | 31.8% | 81.8% | 31.8% | 58.8 moves | 91 moves | 27 / 67 moves | 48 / 85 moves | `0` | `0` |
-| **Ursus 1.0.0** | 29.2% | 41.7% | 66.7% | 33.3% | 60.9 moves | 129 moves | 36 / 120 moves | 37 / 59 moves | `0` | `0` |
-| **Tarnished 6.0** | 36.4% | 31.8% | 81.8% | 22.7% | 63.1 moves | 140 moves | 19 / 114 moves | 20 / 56 moves | `0` | `0` |
-| **Ruthorin 1.9.9** | 36.4% | 31.8% | 68.2% | 36.4% | 66.0 moves | 161 moves | 26 / 110 moves | 48 / 93 moves | `0` | `0` |
-| **Zigqueen 5.8.3 AI** | 25.0% | 45.8% | 66.7% | 29.2% | 62.6 moves | 161 moves | 24 / 123 moves | 29 / 64 moves | `0` | `0` |
-| **Igel 3.6.3 Dotprod** | 19.2% | 50.0% | 53.8% | 34.6% | 58.5 moves | 85 moves | 30 / 84 moves | 32 / 83 moves | `0` | `0` |
-| **Lunar 0.4.0 dev** | 29.2% | 29.2% | 62.5% | 25.0% | 61.1 moves | 161 moves | 20 / 103 moves | 37 / 110 moves | `0` | `0` |
-| **Carp 3.0.1** | 20.8% | 45.8% | 58.3% | 29.2% | 77.9 moves | 161 moves | 49 / 114 moves | 50 / 123 moves | `0` | `0` |
-| **Prelude 2.1 dev** | 18.2% | 54.5% | 59.1% | 31.8% | 53.4 moves | 103 moves | 24 / 43 moves | 37 / 103 moves | `0` | `0` |
-| **Avalanche 3.1.0 dev** | 12.5% | 58.3% | 58.3% | 25.0% | 74.3 moves | 161 moves | 52 / 74 moves | 33 / 92 moves | `0` | `0` |
-| **Weiss 2.1 dev e3bf1e5** | 12.5% | 58.3% | 54.2% | 29.2% | 57.8 moves | 107 moves | 36 / 68 moves | 37 / 67 moves | `0` | `0` |
-| **Eleanor 4.1** | 16.7% | 50.0% | 58.3% | 25.0% | 63.3 moves | 161 moves | 47 / 66 moves | 51 / 114 moves | `0` | `0` |
-| **Tucano 12.17 Dotprod** | 29.2% | 20.8% | 62.5% | 16.7% | 59.8 moves | 89 moves | 33 / 78 moves | 35 / 89 moves | `1` | `0` |
-| **Bread 3.0.0 Dotprod** | 8.3% | 58.3% | 58.3% | 16.7% | 67.3 moves | 103 moves | 50 / 55 moves | 52 / 83 moves | `0` | `0` |
-| **Grail 2.0.1** | 11.5% | 46.2% | 46.2% | 23.1% | 70.6 moves | 154 moves | 35 / 44 moves | 36 / 120 moves | `0` | `0` |
-| **Lambergar 1.2** | 25.0% | 20.8% | 45.8% | 25.0% | 60.8 moves | 129 moves | 21 / 89 moves | 35 / 112 moves | `0` | `0` |
-| **Illumina 3 dev 85c Dotprod** | 11.5% | 38.5% | 53.8% | 7.7% | 58.9 moves | 114 moves | 25 / 81 moves | 42 / 114 moves | `0` | `0` |
-| **Cataphract 1.3 Dotprod** | 4.2% | 50.0% | 37.5% | 20.8% | 67.1 moves | 161 moves | 58 / 58 moves | 24 / 74 moves | `0` | `0` |
-| **Peacekeeper 0B** | 9.1% | 31.8% | 27.3% | 22.7% | 42.5 moves | 92 moves | 25 / 28 moves | 20 / 71 moves | `12` | `0` |
-| **Spaghet 1.1.3** | 8.3% | 16.7% | 16.7% | 16.7% | 44.1 moves | 114 moves | 36 / 51 moves | 24 / 71 moves | `4` | `0` |
-| **Luna 2.1.0** | 0.0% | 0.0% | 0.0% | 0.0% | 34.6 moves | 75 moves | N/A | 19 / 75 moves | `0` | `0` |
+| **Hobbes 3.0** | 69.2% | 30.8% | 100.0% | 69.2% | 63.9 moves | 45 / 92 moves | 40 / 91 moves | N/A | `0` | `0` |
+| **Halogen 16.7.12** | 57.7% | 38.5% | 92.3% | 61.5% | 52.5 moves | 31 / 76 moves | 33 / 77 moves | 60 / 60 moves | `1` | `0` |
+| **Icarus 1.1.1 dev** | 46.2% | 50.0% | 88.5% | 53.8% | 60.5 moves | 24 / 87 moves | 36 / 101 moves | 68 / 68 moves | `0` | `0` |
+| **Renegade 1.3.1** | 68.2% | 27.3% | 95.5% | 68.2% | 52.1 moves | 27 / 84 moves | 31 / 85 moves | 100 / 100 moves | `0` | `0` |
+| **Triumviratus 6.0 Dotprod** | 58.3% | 33.3% | 87.5% | 62.5% | 58.8 moves | 33 / 81 moves | 27 / 101 moves | 74 / 77 moves | `0` | `0` |
+| **Coda 0.9.3 AI** | 54.2% | 41.7% | 95.8% | 54.2% | 51.8 moves | 37 / 64 moves | 41 / 80 moves | 73 / 73 moves | `0` | `0` |
+| **Tcheran 14.0 dev** | 41.7% | 50.0% | 75.0% | 58.3% | 62.3 moves | 29 / 79 moves | 40 / 154 moves | 70 / 92 moves | `0` | `0` |
+| **Panda 2.0** | 59.1% | 22.7% | 77.3% | 63.6% | 59.2 moves | 19 / 93 moves | 53 / 161 moves | 47 / 90 moves | `0` | `0` |
+| **Minke 6.0.0 Dotprod** | 45.8% | 37.5% | 87.5% | 41.7% | 63.4 moves | 24 / 91 moves | 52 / 93 moves | 45 / 80 moves | `0` | `0` |
+| **Elixir 3.0** | 23.1% | 65.4% | 61.5% | 50.0% | 63.7 moves | 36 / 63 moves | 42 / 104 moves | 49 / 76 moves | `0` | `0` |
+| **Rice dev 1169a58** | 40.9% | 45.5% | 81.8% | 45.5% | 62.3 moves | 21 / 67 moves | 41 / 161 moves | 61 / 91 moves | `0` | `0` |
+| **Zangdar 7.0** | 33.3% | 41.7% | 54.2% | 54.2% | 59.9 moves | 32 / 65 moves | 44 / 108 moves | 44 / 83 moves | `2` | `0` |
+| **Iris 2.0 dev** | 30.8% | 38.5% | 73.1% | 26.9% | 60.2 moves | 22 / 100 moves | 41 / 154 moves | 33 / 72 moves | `0` | `0` |
+| **Sirius 9.0 Dotprod** | 40.9% | 31.8% | 81.8% | 31.8% | 58.8 moves | 27 / 67 moves | 36 / 91 moves | 48 / 85 moves | `0` | `0` |
+| **Ursus 1.0.0** | 29.2% | 41.7% | 66.7% | 33.3% | 60.9 moves | 36 / 120 moves | 39 / 129 moves | 37 / 59 moves | `0` | `0` |
+| **Tarnished 6.0** | 36.4% | 31.8% | 81.8% | 22.7% | 63.1 moves | 19 / 114 moves | 54 / 140 moves | 20 / 56 moves | `0` | `0` |
+| **Ruthorin 1.9.9** | 36.4% | 31.8% | 68.2% | 36.4% | 66.0 moves | 26 / 110 moves | 41 / 161 moves | 48 / 93 moves | `0` | `0` |
+| **Zigqueen 5.8.3 AI** | 25.0% | 45.8% | 66.7% | 29.2% | 62.6 moves | 24 / 123 moves | 31 / 161 moves | 29 / 64 moves | `0` | `0` |
+| **Igel 3.6.3 Dotprod** | 19.2% | 50.0% | 53.8% | 34.6% | 58.5 moves | 30 / 84 moves | 27 / 85 moves | 32 / 83 moves | `0` | `0` |
+| **Lunar 0.4.0 dev** | 29.2% | 29.2% | 62.5% | 25.0% | 61.1 moves | 20 / 103 moves | 35 / 161 moves | 37 / 110 moves | `0` | `0` |
+| **Carp 3.0.1** | 20.8% | 45.8% | 58.3% | 29.2% | 77.9 moves | 49 / 114 moves | 41 / 161 moves | 50 / 123 moves | `0` | `0` |
+| **Prelude 2.1 dev** | 18.2% | 54.5% | 59.1% | 31.8% | 53.4 moves | 24 / 43 moves | 35 / 78 moves | 37 / 103 moves | `0` | `0` |
+| **Avalanche 3.1.0 dev** | 12.5% | 58.3% | 58.3% | 25.0% | 74.3 moves | 52 / 74 moves | 41 / 161 moves | 33 / 92 moves | `0` | `0` |
+| **Weiss 2.1 dev e3bf1e5** | 12.5% | 58.3% | 54.2% | 29.2% | 57.8 moves | 36 / 68 moves | 33 / 107 moves | 37 / 67 moves | `0` | `0` |
+| **Eleanor 4.1** | 16.7% | 50.0% | 58.3% | 25.0% | 63.3 moves | 47 / 66 moves | 39 / 161 moves | 51 / 114 moves | `0` | `0` |
+| **Tucano 12.17 Dotprod** | 29.2% | 20.8% | 62.5% | 16.7% | 59.8 moves | 33 / 78 moves | 41 / 56 moves | 35 / 89 moves | `1` | `0` |
+| **Bread 3.0.0 Dotprod** | 8.3% | 58.3% | 58.3% | 16.7% | 67.3 moves | 50 / 55 moves | 46 / 103 moves | 52 / 83 moves | `0` | `0` |
+| **Grail 2.0.1** | 11.5% | 46.2% | 46.2% | 23.1% | 70.6 moves | 35 / 44 moves | 31 / 154 moves | 36 / 120 moves | `0` | `0` |
+| **Lambergar 1.2** | 25.0% | 20.8% | 45.8% | 25.0% | 60.8 moves | 21 / 89 moves | 36 / 129 moves | 35 / 112 moves | `0` | `0` |
+| **Illumina 3 dev 85c Dotprod** | 11.5% | 38.5% | 53.8% | 7.7% | 58.9 moves | 25 / 81 moves | 39 / 79 moves | 42 / 114 moves | `0` | `0` |
+| **Cataphract 1.3 Dotprod** | 4.2% | 50.0% | 37.5% | 20.8% | 67.1 moves | 58 / 58 moves | 31 / 161 moves | 24 / 74 moves | `0` | `0` |
+| **Peacekeeper 0B** | 9.1% | 31.8% | 27.3% | 22.7% | 42.5 moves | 25 / 28 moves | 43 / 92 moves | 20 / 71 moves | `12` | `0` |
+| **Spaghet 1.1.3** | 8.3% | 16.7% | 16.7% | 16.7% | 44.1 moves | 36 / 51 moves | 39 / 114 moves | 24 / 71 moves | `4` | `0` |
+| **Luna 2.1.0** | 0.0% | 0.0% | 0.0% | 0.0% | 34.6 moves | N/A | N/A | 19 / 75 moves | `0` | `0` |
 
 </details>
 
