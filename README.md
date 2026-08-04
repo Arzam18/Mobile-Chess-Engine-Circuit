@@ -57,7 +57,46 @@ Because MCEC maintains a strict cap of 72 engines:
 > 📊 **Stage Summary:** **408/1,260** Total Games Played
 > ⚪ **White Wins:** 182 (44.6%) | ⬛ **Black Wins:** 65 (15.9%) | 🤝 **Draws:** 161 (39.5%)
 
-#### 📊 Leaderboard
+#### 🏆 Standings
+
+| Rank | Engine | Score |
+| :---: | :--- | :---: |
+| 1 | **Hobbes 3.0** | **22.0** / 26 |
+| 2 | **Halogen 16.7.12** | **20.0** / 26 |
+| 3 | **Icarus 1.1.1 dev** | **18.5** / 26 |
+| 4 | **Renegade 1.3.1** | **18.0** / 22 |
+| 5 | **Triumviratus 6.0 Dotprod** | **18.0** / 24 |
+| 6 | **Coda 0.9.3 AI** | **18.0** / 24 |
+| 7 | **Tcheran 14.0 dev** | **16.0** / 24 |
+| 8 | **Panda 2.0** | **15.5** / 22 |
+| 9 | **Minke 6.0.0 Dotprod** | **15.5** / 24 |
+| 10 | **Elixir 3.0** | **14.5** / 26 |
+| 11 | **Rice dev 1169a58** | **14.0** / 22 |
+| 12 | **Zangdar 7.0** | **13.0** / 24 |
+| 13 | **Iris 2.0 dev** | **13.0** / 26 |
+| 14 | **Sirius 9.0 Dotprod** | **12.5** / 22 |
+| 15 | **Ursus 1.0.0** | **12.0** / 24 |
+| 16 | **Tarnished 6.0** | **11.5** / 22 |
+| 17 | **Ruthorin 1.9.9** | **11.5** / 22 |
+| 18 | **Zigqueen 5.8.3 AI** | **11.5** / 24 |
+| 19 | **Igel 3.6.3 Dotprod** | **11.5** / 26 |
+| 20 | **Lunar 0.4.0 dev** | **10.5** / 24 |
+| 21 | **Carp 3.0.1** | **10.5** / 24 |
+| 22 | **Prelude 2.1 dev** | **10.0** / 22 |
+| 23 | **Avalanche 3.1.0 dev** | **10.0** / 24 |
+| 24 | **Weiss 2.1 dev e3bf1e5** | **10.0** / 24 |
+| 25 | **Eleanor 4.1** | **10.0** / 24 |
+| 26 | **Tucano 12.17 Dotprod** | **9.5** / 24 |
+| 27 | **Bread 3.0.0 Dotprod** | **9.0** / 24 |
+| 28 | **Grail 2.0.1** | **9.0** / 26 |
+| 29 | **Lambergar 1.2** | **8.5** / 24 |
+| 30 | **Illumina 3 dev 85c Dotprod** | **8.0** / 26 |
+| 31 | **Cataphract 1.3 Dotprod** | **7.0** / 24 |
+| 32 | **Peacekeeper 0B** | **5.5** / 22 |
+| 33 | **Spaghet 1.1.3** | **4.0** / 24 |
+| 34 | **Luna 2.1.0** | **0.0** / 24 |
+
+<details><summary><b>📊 View Full Leaderboard (Elo, W/D/L Breakdown & Win %)</b></summary>
 
 | Rank | Engine | Start Elo | End Elo | Change (Δ) | Points / Played | W | D | L | Win % |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
@@ -95,6 +134,8 @@ Because MCEC maintains a strict cap of 72 engines:
 | 32 | **Peacekeeper 0B** | 3000 | **2897** | `-102.8` | **5.5** / 22 | 2 (1-1) | 7 (4-3) | 13 (6-7) | 25.0% |
 | 33 | **Spaghet 1.1.3** | 3000 | **2837** | `-163.5` | **4.0** / 24 | 2 (1-1) | 4 (2-2) | 18 (9-9) | 16.7% |
 | 34 | **Luna 2.1.0** | 3000 | **2755** | `-245.4` | **0.0** / 24 | 0 (0-0) | 0 (0-0) | 24 (12-12) | 0.0% |
+
+</details>
 
 <details><summary><b>🛠️ View Developer Performance Logs (Speed, Stability & Color Stats)</b></summary>
 
