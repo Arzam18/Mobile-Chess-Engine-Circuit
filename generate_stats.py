@@ -1,6 +1,7 @@
 import os
 import glob
 import re
+import math
 import chess.pgn
 
 MAIN_SEASON_DIR = "seasons/season_3/main"
@@ -33,38 +34,81 @@ def parse_move_comments(game):
     return avg_time
 
 def get_mcec_stage_status(idx, stage_type, total_engines):
-    """Calculates Global Rank and Status Badges according to MCEC dynamic stage rules."""
+    """Calculates Global Rank and Status Badges according to updated MCEC dynamic stage rules."""
     rank = idx + 1  # 1-based index within stage
+    half_cutoff = math.ceil(total_engines / 2.0)
 
-    if stage_type == "gateway":
-        if rank <= 19:
+    if "gateway" in stage_type:
+        if rank <= half_cutoff:
             return rank + 36, "🟢 Advanced to Entry League"
         else:
-            return rank + 36, "🟡 Sent to Survival Stage"
+            return rank + 36, "🔴 Relegated to The Survival"
 
-    elif stage_type == "entry_league":
+    elif "entry" in stage_type:
+        if rank <= half_cutoff:
+            return rank + 30, "🟢 Promoted to League 4"
+        else:
+            return rank + 30, "🔴 Relegated to The Survival"
+
+    elif "league_4" in stage_type or "league4" in stage_type or "l4" in stage_type:
         if rank <= 6:
-            return rank + 30, "🔥 Promoted to League 4"
-        elif rank <= 19:
-            return rank + 30, "🛡️ Defended Gateway / Retained"
+            return rank + 24, "🟢 Promoted to League 3"
         else:
-            return rank + 30, "🔴 Dropped to Relegation / Survival"
+            return rank + 24, "🔴 Relegated"
 
-    elif stage_type in ["league_4", "league_3", "league_2", "league_1", "main_league"]:
+    elif "league_3" in stage_type or "league3" in stage_type or "l3" in stage_type:
         if rank <= 6:
-            return rank, "⬆️ Promoted / Upper Bracket"
+            return rank + 18, "🟢 Promoted to League 2"
         else:
-            return rank, "⬇️ Relegated / Lower Bracket"
+            return rank + 18, "🔴 Relegated"
 
-    elif stage_type == "survival":
-        if rank <= 12:
-            return rank + 36, "🟢 Secured Gateway Slot"
+    elif "league_2" in stage_type or "league2" in stage_type or "l2" in stage_type:
+        if rank <= 6:
+            return rank + 12, "🟢 Promoted to League 1"
         else:
-            return rank + 36, "🔴 Relegated to Fringe / Kickout"
+            return rank + 12, "🔴 Relegated"
 
-    elif stage_type == "crucible":
-        if rank <= 8:
-            return rank + 48, "🛡️ Saved in Fringe"
+    elif "league_1" in stage_type or "league1" in stage_type or "l1" in stage_type:
+        if rank <= 6:
+            return rank + 6, "🟢 Promoted to Main"
+        else:
+            return rank + 6, "🔴 Relegated"
+
+    elif "main" in stage_type:
+        if rank <= 6:
+            return rank, "🟢 Advanced to Semi-Final"
+        else:
+            return rank, "🔴 Relegated"
+
+    elif "semi" in stage_type:
+        if rank <= 2:
+            return rank, "🟢 Advanced to Final"
+        else:
+            return rank, "🔴 Retained in Main Pool"
+
+    elif "final" in stage_type:
+        if rank == 1:
+            return rank, "🏆 MCEC Champion"
+        elif rank == 2:
+            return rank, "🥈 MCEC Runner-Up"
+        else:
+            return rank, "🥉 Podium"
+
+    elif "survival" in stage_type:
+        if rank <= half_cutoff:
+            return rank + 36, "🟢 Advanced to The Fringe"
+        else:
+            return rank + 36, "🔴 Relegated to Crucible"
+
+    elif "fringe" in stage_type:
+        if rank <= half_cutoff:
+            return rank + 48, "🟢 Retained in Circuit"
+        else:
+            return rank + 48, "🔴 Relegated to Crucible"
+
+    elif "crucible" in stage_type:
+        if rank <= half_cutoff:
+            return rank + 48, "🛡️ Saved in Circuit"
         else:
             return rank + 48, "❌ Fully Kicked Out"
 
@@ -386,3 +430,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
