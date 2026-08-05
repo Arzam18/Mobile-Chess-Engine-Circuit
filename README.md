@@ -52,8 +52,8 @@ Because MCEC maintains a strict cap of 72 engines:
 <!-- STATS_START -->
 ## 🏆 Active Stage: Gateway
 
-> 📊 **Active Stage Summary:** **531** Total Games Played
-> ⚪ **White Wins:** 249 (46.9%) | ⬛ **Black Wins:** 85 (16.0%) | 🤝 **Draws:** 197 (37.1%)
+> 📊 **Active Stage Summary:** **532** Total Games Played
+> ⚪ **White Wins:** 249 (46.8%) | ⬛ **Black Wins:** 86 (16.2%) | 🤝 **Draws:** 197 (37.0%)
 
 #### 🏆 Standings
 
@@ -65,7 +65,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | 4 | **Icarus 1.1.1 dev** | **23.5** / 34 |
 | 5 | **Coda 0.9.3 AI** | **23.0** / 32 |
 | 6 | **Triumviratus 6.0 Dotprod** | **21.5** / 28 |
-| 7 | **Minke 6.0.0 Dotprod** | **20.0** / 31 |
+| 7 | **Minke 6.0.0 Dotprod** | **21.0** / 32 |
 | 8 | **Tcheran 14.0 dev** | **19.5** / 28 |
 | 9 | **Zangdar 7.0** | **19.0** / 32 |
 | 10 | **Iris 2.0 dev** | **18.0** / 34 |
@@ -75,7 +75,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | 14 | **Sirius 9.0 Dotprod** | **16.0** / 30 |
 | 15 | **Elixir 3.0** | **16.0** / 32 |
 | 16 | **Carp 3.0.1** | **15.0** / 32 |
-| 17 | **Weiss 2.1 dev e3bf1e5** | **15.0** / 31 |
+| 17 | **Weiss 2.1 dev e3bf1e5** | **15.0** / 32 |
 | 18 | **Avalanche 3.1.0 dev** | **15.0** / 32 |
 | 19 | **Igel 3.6.3 Dotprod** | **15.0** / 34 |
 | 20 | **Zigqueen 5.8.3 AI** | **14.5** / 30 |
@@ -104,7 +104,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | #40 | **Icarus 1.1.1 dev** | 3000 | **3083** | `+83.3` | **23.5** / 34 | 47.1% | 8.8% | 🟢 Advanced to Entry League |
 | #41 | **Coda 0.9.3 AI** | 3000 | **3137** | `+137.0` | **23.0** / 32 | 50.0% | 6.2% | 🟢 Advanced to Entry League |
 | #42 | **Triumviratus 6.0 Dotprod** | 3000 | **3155** | `+155.1` | **21.5** / 28 | 60.7% | 7.1% | 🟢 Advanced to Entry League |
-| #43 | **Minke 6.0.0 Dotprod** | 3000 | **3089** | `+89.2` | **20.0** / 31 | 48.4% | 19.4% | 🟢 Advanced to Entry League |
+| #43 | **Minke 6.0.0 Dotprod** | 3000 | **3101** | `+100.9` | **21.0** / 32 | 50.0% | 18.8% | 🟢 Advanced to Entry League |
 | #44 | **Tcheran 14.0 dev** | 3000 | **3119** | `+119.1` | **19.5** / 28 | 46.4% | 7.1% | 🟢 Advanced to Entry League |
 | #45 | **Zangdar 7.0** | 3000 | **3042** | `+41.9` | **19.0** / 32 | 43.8% | 25.0% | 🟢 Advanced to Entry League |
 | #46 | **Iris 2.0 dev** | 3000 | **3009** | `+8.7` | **18.0** / 34 | 35.3% | 29.4% | 🟢 Advanced to Entry League |
@@ -114,7 +114,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | #50 | **Sirius 9.0 Dotprod** | 3000 | **3024** | `+24.2` | **16.0** / 30 | 40.0% | 33.3% | 🟢 Advanced to Entry League |
 | #51 | **Elixir 3.0** | 3000 | **3008** | `+8.0` | **16.0** / 32 | 18.8% | 18.8% | 🟢 Advanced to Entry League |
 | #52 | **Carp 3.0.1** | 3000 | **2996** | `-4.1` | **15.0** / 32 | 25.0% | 31.2% | 🟢 Advanced to Entry League |
-| #53 | **Weiss 2.1 dev e3bf1e5** | 3000 | **2993** | `-7.1` | **15.0** / 31 | 25.8% | 29.0% | 🟢 Advanced to Entry League |
+| #53 | **Weiss 2.1 dev e3bf1e5** | 3000 | **2981** | `-18.7` | **15.0** / 32 | 25.0% | 31.2% | 🟢 Advanced to Entry League |
 | #54 | **Avalanche 3.1.0 dev** | 3000 | **2968** | `-31.8` | **15.0** / 32 | 21.9% | 28.1% | 🔴 Relegated to The Survival |
 | #55 | **Igel 3.6.3 Dotprod** | 3000 | **2941** | `-59.4` | **15.0** / 34 | 20.6% | 32.4% | 🔴 Relegated to The Survival |
 | #56 | **Zigqueen 5.8.3 AI** | 3000 | **3002** | `+2.2` | **14.5** / 30 | 23.3% | 26.7% | 🔴 Relegated to The Survival |
@@ -145,7 +145,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | **Icarus 1.1.1 dev** | #4 | 47.1% | 44.1% | 88.2% | 50.0% | 60.7 moves | 24 / 87 moves | 36 / 112 moves | 57 / 79 moves | `0` | `0` |
 | **Coda 0.9.3 AI** | #5 | 50.0% | 43.8% | 90.6% | 53.1% | 58.3 moves | 37 / 81 moves | 35 / 123 moves | 59 / 73 moves | `0` | `0` |
 | **Triumviratus 6.0 Dotprod** | #6 | 60.7% | 32.1% | 89.3% | 64.3% | 58.0 moves | 33 / 81 moves | 27 / 101 moves | 74 / 77 moves | `0` | `0` |
-| **Minke 6.0.0 Dotprod** | #7 | 48.4% | 32.3% | 87.5% | 40.0% | 62.8 moves | 24 / 91 moves | 41 / 93 moves | 45 / 85 moves | `0` | `0` |
+| **Minke 6.0.0 Dotprod** | #7 | 50.0% | 31.2% | 87.5% | 43.8% | 63.7 moves | 24 / 92 moves | 41 / 93 moves | 45 / 85 moves | `0` | `0` |
 | **Tcheran 14.0 dev** | #8 | 46.4% | 46.4% | 78.6% | 60.7% | 59.8 moves | 11 / 79 moves | 40 / 154 moves | 70 / 92 moves | `0` | `0` |
 | **Zangdar 7.0** | #9 | 43.8% | 31.2% | 59.4% | 59.4% | 57.2 moves | 25 / 65 moves | 44 / 108 moves | 32 / 84 moves | `4` | `0` |
 | **Iris 2.0 dev** | #10 | 35.3% | 35.3% | 79.4% | 26.5% | 59.4 moves | 22 / 100 moves | 41 / 154 moves | 33 / 72 moves | `0` | `0` |
@@ -155,7 +155,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | **Sirius 9.0 Dotprod** | #14 | 40.0% | 26.7% | 83.3% | 23.3% | 56.3 moves | 27 / 67 moves | 36 / 91 moves | 48 / 85 moves | `0` | `0` |
 | **Elixir 3.0** | #15 | 18.8% | 62.5% | 56.2% | 43.8% | 59.8 moves | 36 / 63 moves | 39 / 104 moves | 24 / 76 moves | `0` | `0` |
 | **Carp 3.0.1** | #16 | 25.0% | 43.8% | 65.6% | 28.1% | 71.3 moves | 42 / 114 moves | 32 / 161 moves | 41 / 123 moves | `0` | `0` |
-| **Weiss 2.1 dev e3bf1e5** | #17 | 25.8% | 45.2% | 63.3% | 34.4% | 55.4 moves | 19 / 68 moves | 33 / 107 moves | 37 / 67 moves | `0` | `0` |
+| **Weiss 2.1 dev e3bf1e5** | #17 | 25.0% | 43.8% | 59.4% | 34.4% | 56.6 moves | 19 / 68 moves | 33 / 107 moves | 37 / 92 moves | `0` | `0` |
 | **Avalanche 3.1.0 dev** | #18 | 21.9% | 50.0% | 65.6% | 28.1% | 68.3 moves | 26 / 74 moves | 41 / 161 moves | 33 / 92 moves | `0` | `0` |
 | **Igel 3.6.3 Dotprod** | #19 | 20.6% | 47.1% | 55.9% | 32.4% | 61.7 moves | 30 / 94 moves | 27 / 108 moves | 32 / 83 moves | `0` | `0` |
 | **Zigqueen 5.8.3 AI** | #20 | 23.3% | 50.0% | 66.7% | 30.0% | 62.8 moves | 24 / 123 moves | 31 / 161 moves | 29 / 74 moves | `0` | `0` |
@@ -186,7 +186,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | **#4. Icarus 1.1.1 dev** | * | * | * | — | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 1</nobr><br>(+2.0) | * | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 0</nobr><br>(0.0) | * | <nobr>1 ½</nobr><br>(+1.0) | * | * | * | <nobr>1 1</nobr><br>(+2.0) | <nobr>1 1</nobr><br>(+2.0) | * |
 | **#5. Coda 0.9.3 AI** | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | — | * | * | * | <nobr>½ 1</nobr><br>(+1.0) | * | * | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>1 1</nobr><br>(+2.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>1 0</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | * | <nobr>1 1</nobr><br>(+2.0) | * | * |
 | **#6. Triumviratus 6.0 Dotprod** | <nobr>½ 0</nobr><br>(-1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | * | — | <nobr>1 ½</nobr><br>(+1.0) | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>1 1</nobr><br>(+2.0) | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | * | <nobr>1 1</nobr><br>(+2.0) | * | * | * | <nobr>1 1</nobr><br>(+2.0) | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>1 1</nobr><br>(+2.0) | <nobr>1 1</nobr><br>(+2.0) | * | * | * | <nobr>1 1</nobr><br>(+2.0) |
-| **#7. Minke 6.0.0 Dotprod** | * | <nobr>½ 0</nobr><br>(-1.0) | * | * | * | <nobr>0 ½</nobr><br>(-1.0) | — | <nobr>½ 0</nobr><br>(-1.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | <nobr>1</nobr><br>(+1.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | * | * | * | * | * | <nobr>1 1</nobr><br>(+2.0) | * | <nobr>1 1</nobr><br>(+2.0) | * |
+| **#7. Minke 6.0.0 Dotprod** | * | <nobr>½ 0</nobr><br>(-1.0) | * | * | * | <nobr>0 ½</nobr><br>(-1.0) | — | <nobr>½ 0</nobr><br>(-1.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | <nobr>1 1</nobr><br>(+2.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | * | * | * | * | * | <nobr>1 1</nobr><br>(+2.0) | * | <nobr>1 1</nobr><br>(+2.0) | * |
 | **#8. Tcheran 14.0 dev** | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | — | * | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>1 ½</nobr><br>(+1.0) | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | * | <nobr>½ ½</nobr><br>(0.0) | * | * | * | * | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>1 1</nobr><br>(+2.0) | * | * | <nobr>1 1</nobr><br>(+2.0) |
 | **#9. Zangdar 7.0** | <nobr>½ 0</nobr><br>(-1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>½ 0</nobr><br>(-1.0) | * | * | * | — | <nobr>1 0</nobr><br>(0.0) | * | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | <nobr>1 1</nobr><br>(+2.0) | * | * | <nobr>1 0</nobr><br>(0.0) | * | * | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) | * | <nobr>1 1</nobr><br>(+2.0) | * | <nobr>1 1</nobr><br>(+2.0) |
 | **#10. Iris 2.0 dev** | * | <nobr>1 0</nobr><br>(0.0) | * | * | * | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | — | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>1 0</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | * | <nobr>1 0</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | * | * | <nobr>½ ½</nobr><br>(0.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 0</nobr><br>(0.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>1 ½</nobr><br>(+1.0) | * |
@@ -196,7 +196,7 @@ Because MCEC maintains a strict cap of 72 engines:
 | **#14. Sirius 9.0 Dotprod** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | * | * | <nobr>½ 0</nobr><br>(-1.0) | * | * | <nobr>1 0</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | — | * | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | * | * | * | * | <nobr>0 1</nobr><br>(0.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>0 1</nobr><br>(0.0) | * | * | <nobr>1 1</nobr><br>(+2.0) |
 | **#15. Elixir 3.0** | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0 0</nobr><br>(-2.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | * | * | * | * | * | — | <nobr>1 1</nobr><br>(+2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | * | <nobr>½ ½</nobr><br>(0.0) | * | * | <nobr>0 1</nobr><br>(0.0) | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | * | * |
 | **#16. Carp 3.0.1** | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | * | * | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | * | * | * | * | <nobr>0 0</nobr><br>(-2.0) | — | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 0</nobr><br>(-1.0) | * | * | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | * | * | <nobr>½ ½</nobr><br>(0.0) | * | * |
-| **#17. Weiss 2.1 dev e3bf1e5** | <nobr>0 0</nobr><br>(-2.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0</nobr><br>(-1.0) | * | * | <nobr>0 ½</nobr><br>(-1.0) | * | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | — | * | <nobr>½ ½</nobr><br>(0.0) | * | * | <nobr>1 1</nobr><br>(+2.0) | * | * | * | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | * | <nobr>½ ½</nobr><br>(0.0) | * | <nobr>1 1</nobr><br>(+2.0) |
+| **#17. Weiss 2.1 dev e3bf1e5** | <nobr>0 0</nobr><br>(-2.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0 0</nobr><br>(-2.0) | * | * | <nobr>0 ½</nobr><br>(-1.0) | * | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | — | * | <nobr>½ ½</nobr><br>(0.0) | * | * | <nobr>1 1</nobr><br>(+2.0) | * | * | * | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | * | <nobr>½ ½</nobr><br>(0.0) | * | <nobr>1 1</nobr><br>(+2.0) |
 | **#18. Avalanche 3.1.0 dev** | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0 0</nobr><br>(-2.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | * | * | * | * | <nobr>0 ½</nobr><br>(-1.0) | * | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | * | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | * | * | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>1 1</nobr><br>(+2.0) |
 | **#19. Igel 3.6.3 Dotprod** | * | <nobr>0 ½</nobr><br>(-1.0) | * | * | <nobr>0 0</nobr><br>(-2.0) | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 0</nobr><br>(-2.0) | * | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>1 0</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | — | * | * | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | * | * | <nobr>½ 1</nobr><br>(+1.0) | * | * | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) | * |
 | **#20. Zigqueen 5.8.3 AI** | * | <nobr>½ 0</nobr><br>(-1.0) | * | * | <nobr>0 0</nobr><br>(-2.0) | * | <nobr>½ 0</nobr><br>(-1.0) | * | * | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>½ 0</nobr><br>(-1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | <nobr>0 1</nobr><br>(0.0) | * | — | <nobr>½ ½</nobr><br>(0.0) | * | * | * | * | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | * | * |
