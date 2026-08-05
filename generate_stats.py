@@ -11,93 +11,42 @@ from pathlib import Path
 # ==========================================
 DEFAULT_ELO = 3000.0
 K_FACTOR = 32.0
-PGN_DIR = "pgn"
+STAGE_DIR = "seasons/season_3/main"  # Change this to "pgn" if your folders are in pgn/
 README_FILE = "README.md"
 
 # ==========================================
 # STAGE STATUS LOGIC (MCEC SEASON 3)
 # ==========================================
 def get_mcec_stage_status(stage_name: str, rank: int, total_engines: int) -> str:
-    """
-    Determines promotion, retention, or relegation status based on MCEC Season 3 rules.
-    Dynamically adjusts cutoffs for variable newcomer counts using dynamic 50/50 splits.
-    """
     stage = stage_name.lower().replace("-", "_").replace(" ", "_")
     half_cutoff = math.ceil(total_engines / 2.0)
 
-    # 1. MCEC S3 The Gateway
     if "gateway" in stage:
-        if rank <= half_cutoff:
-            return "🟢 Advanced to Entry League"
-        return "🔴 Relegated to The Survival"
-
-    # 2. MCEC S3 Entry League
+        return "🟢 Advanced to Entry League" if rank <= half_cutoff else "🔴 Relegated to The Survival"
     elif "entry" in stage:
-        if rank <= half_cutoff:
-            return "🟢 Promoted to League 4"
-        return "🔴 Relegated to The Survival"
-
-    # 3. MCEC S3 League 4
+        return "🟢 Promoted to League 4" if rank <= half_cutoff else "🔴 Relegated to The Survival"
     elif "league_4" in stage or "league4" in stage or "l4" in stage:
-        if rank <= 6:
-            return "🟢 Promoted to League 3"
-        return "🔴 Relegated to Entry League"
-
-    # 4. MCEC S3 League 3
+        return "🟢 Promoted to League 3" if rank <= 6 else "🔴 Relegated to Entry League"
     elif "league_3" in stage or "league3" in stage or "l3" in stage:
-        if rank <= 6:
-            return "🟢 Promoted to League 2"
-        return "🔴 Relegated to League 4"
-
-    # 5. MCEC S3 League 2
+        return "🟢 Promoted to League 2" if rank <= 6 else "🔴 Relegated to League 4"
     elif "league_2" in stage or "league2" in stage or "l2" in stage:
-        if rank <= 6:
-            return "🟢 Promoted to League 1"
-        return "🔴 Relegated to League 3"
-
-    # 6. MCEC S3 League 1
+        return "🟢 Promoted to League 1" if rank <= 6 else "🔴 Relegated to League 3"
     elif "league_1" in stage or "league1" in stage or "l1" in stage:
-        if rank <= 6:
-            return "🟢 Promoted to Main"
-        return "🔴 Relegated to League 2"
-
-    # 7. MCEC S3 Main
+        return "🟢 Promoted to Main" if rank <= 6 else "🔴 Relegated to League 2"
     elif "main" in stage:
-        if rank <= 6:
-            return "🟢 Advanced to Semi-Final"
-        return "🔴 Relegated to League 1"
-
-    # 8. MCEC S3 Semi-Final
+        return "🟢 Advanced to Semi-Final" if rank <= 6 else "🔴 Relegated to League 1"
     elif "semi" in stage:
-        if rank <= 2:
-            return "🟢 Advanced to Final"
-        return "🔴 Retained in Main Pool"
-
-    # 9. MCEC S3 Final
+        return "🟢 Advanced to Final" if rank <= 2 else "🔴 Retained in Main Pool"
     elif "final" in stage:
-        if rank == 1:
-            return "🏆 MCEC Champion"
-        elif rank == 2:
-            return "🥈 MCEC Runner-Up"
+        if rank == 1: return "🏆 MCEC Champion"
+        elif rank == 2: return "🥈 MCEC Runner-Up"
         return "🥉 Podium"
-
-    # 10. MCEC S3 The Survival
     elif "survival" in stage:
-        if rank <= half_cutoff:
-            return "🟢 Advanced to The Fringe"
-        return "🔴 Relegated to The Crucible"
-
-    # 11. MCEC S3 The Fringe
+        return "🟢 Advanced to The Fringe" if rank <= half_cutoff else "🔴 Relegated to The Crucible"
     elif "fringe" in stage:
-        if rank <= half_cutoff:
-            return "🟢 Retained in Circuit"
-        return "🔴 Relegated to The Crucible"
-
-    # 12. MCEC S3 The Crucible
+        return "🟢 Retained in Circuit" if rank <= half_cutoff else "🔴 Relegated to The Crucible"
     elif "crucible" in stage:
-        if rank <= half_cutoff:
-            return "🟢 Saved (Retained in Circuit)"
-        return "❌ Eliminated from Circuit"
+        return "🟢 Saved (Retained in Circuit)" if rank <= half_cutoff else "❌ Eliminated from Circuit"
 
     return "⚔️ Active"
 
@@ -122,18 +71,15 @@ def update_elo(rating_a: float, rating_b: float, score_a: float) -> tuple[float,
 # PGN PARSER & STATS AGGREGATOR
 # ==========================================
 def parse_pgn_game(game_text: str):
-    """Extracts metadata, move count, result, and termination flags from a single PGN game."""
     headers = dict(re.findall(r'\[(\w+)\s+"([^"]*)"\]', game_text))
     white = headers.get("White", "Unknown").strip()
     black = headers.get("Black", "Unknown").strip()
     result = headers.get("Result", "*").strip()
     termination = headers.get("Termination", "").lower()
 
-    # Extract move count (highest move number or dot count)
     moves = re.findall(r'(\d+)\.\s+', game_text)
     move_count = int(moves[-1]) if moves else 0
 
-    # Determine numeric scores
     if result == "1-0":
         score_w, score_b = 1.0, 0.0
     elif result == "0-1":
@@ -141,9 +87,8 @@ def parse_pgn_game(game_text: str):
     elif result in ["1/2-1/2", "0.5-0.5"]:
         score_w, score_b = 0.5, 0.5
     else:
-        return None  # Skip unfinished or invalid games
+        return None  
 
-    # Check for time forfeit/flag loss
     time_loss_w = "time" in termination and score_w == 0.0
     time_loss_b = "time" in termination and score_b == 0.0
 
@@ -159,10 +104,8 @@ def parse_pgn_game(game_text: str):
 
 
 def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
-    """Processes all PGN files in a stage directory and outputs updated engine stats."""
     pgn_files = glob.glob(os.path.join(stage_path, "*.pgn"))
     
-    # Track stage-specific stats
     wins = defaultdict(int)
     draws = defaultdict(int)
     losses = defaultdict(int)
@@ -188,7 +131,6 @@ def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
 
-        # Split PGN stream into individual games
         raw_games = re.split(r'\n(?=\[Event )', content)
         for raw_game in raw_games:
             if not raw_game.strip():
@@ -202,7 +144,6 @@ def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
             sw, sb = game["score_w"], game["score_b"]
             moves = game["moves"]
 
-            # Initialize new engines if not present
             if w not in current_elos:
                 start_elos[w] = DEFAULT_ELO
                 current_elos[w] = DEFAULT_ELO
@@ -210,7 +151,6 @@ def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
                 start_elos[b] = DEFAULT_ELO
                 current_elos[b] = DEFAULT_ELO
 
-            # Aggregate game stats
             total_stage_games += 1
             games_played[w] += 1
             games_played[b] += 1
@@ -223,14 +163,12 @@ def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
                 white_wins += 1
                 wins[w] += 1
                 losses[b] += 1
-                # Track loss game lengths for black
                 long_loss[b] = max(long_loss.get(b, 0), moves)
                 short_loss[b] = min(short_loss.get(b, float('inf')), moves)
             elif sb == 1.0:
                 black_wins += 1
                 wins[b] += 1
                 losses[w] += 1
-                # Track loss game lengths for white
                 long_loss[w] = max(long_loss.get(w, 0), moves)
                 short_loss[w] = min(short_loss.get(w, float('inf')), moves)
             else:
@@ -243,18 +181,15 @@ def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
             if game["time_loss_b"]:
                 time_losses[b] += 1
 
-            # Crosstable accumulation
             crosstable[w][b]["pts"] += sw
             crosstable[w][b]["games"] += 1
             crosstable[b][w]["pts"] += sb
             crosstable[b][w]["games"] += 1
 
-            # Update continuous Elo ratings
             new_ew, new_eb = update_elo(current_elos[w], current_elos[b], sw)
             current_elos[w] = new_ew
             current_elos[b] = new_eb
 
-    # Write back updated ratings to global persistent state
     for engine, elo in current_elos.items():
         global_elos[engine] = elo
 
@@ -294,7 +229,6 @@ def generate_markdown(stage_name: str, stats: dict, is_complete: bool) -> str:
     
     md = []
     
-    # Stage Overview Header
     md.append(f"### 📊 Stage Overview: {stage_name.replace('_', ' ').title()}")
     md.append(
         f"* **Total Games Played:** {stats['total_games']} | "
@@ -376,43 +310,61 @@ def generate_markdown(stage_name: str, stats: dict, is_complete: bool) -> str:
 # MAIN EXECUTION ROUTINE
 # ==========================================
 def main():
-    base_dir = Path(PGN_DIR)
+    base_dir = Path(STAGE_DIR)
+    print(f"🔍 Looking for stage folders in: '{STAGE_DIR}'...")
+    
     if not base_dir.exists():
-        print(f"Directory '{PGN_DIR}' not found. Creating empty directory.")
-        base_dir.mkdir(parents=True, exist_ok=True)
+        print(f"❌ ERROR: Directory '{STAGE_DIR}' not found!")
         return
 
-    # Gather and sort stage subdirectories chronologically
     stage_dirs = sorted([d for d in base_dir.iterdir() if d.is_dir()])
     if not stage_dirs:
-        print(f"No stage directories found inside '{PGN_DIR}/'.")
+        print(f"❌ ERROR: No stage subdirectories found inside '{STAGE_DIR}/'!")
         return
 
     global_elos = defaultdict(lambda: DEFAULT_ELO)
     all_markdown = []
 
     total_stages = len(stage_dirs)
-    for idx, stage_dir in enumerate(stage_dirs):
+    for idx, stage_dir in enumerate(stage_dir for stage_dir in stage_dirs):
         stage_name = stage_dir.name
         is_latest_stage = (idx == total_stages - 1)
         
-        print(f"Processing Stage [{idx+1}/{total_stages}]: {stage_name}...")
+        print(f"⚙️ Processing Stage [{idx+1}/{total_stages}]: {stage_name}...")
         
         stats = process_stage_directory(str(stage_dir), global_elos)
         stage_md = generate_markdown(stage_name, stats, is_complete=not is_latest_stage)
         
         all_markdown.append(stage_md)
 
-    # Combine into single markdown output document
     final_output = "\n\n".join(all_markdown)
 
-    # Write output to file
-    with open(README_FILE, "w", encoding="utf-8") as f:
-        f.write("# MCEC Tournament Standings & Statistics\n\n")
-        f.write(final_output)
+    # Update README.md safely using markers
+    if not os.path.exists(README_FILE):
+        print(f"❌ ERROR: '{README_FILE}' not found in root directory!")
+        return
 
-    print(f"Successfully updated statistics in {README_FILE}!")
+    with open(README_FILE, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    start_marker = "<!-- STATS_START -->"
+    end_marker = "<!-- STATS_END -->"
+
+    if start_marker not in content or end_marker not in content:
+        print(f"❌ ERROR: Markers '{start_marker}' and/or '{end_marker}' are missing from your README.md!")
+        print("👉 Please add these markers to your README.md where you want the tables to appear.")
+        return
+
+    before = content.split(start_marker)[0]
+    after = content.split(end_marker)[1]
+    new_content = f"{before}{start_marker}\n\n{final_output}\n\n{end_marker}{after}"
+
+    with open(README_FILE, "w", encoding="utf-8") as f:
+        f.write(new_content)
+
+    print(f"✅ SUCCESS: Successfully updated statistics inside {README_FILE}!")
 
 
 if __name__ == "__main__":
     main()
+
