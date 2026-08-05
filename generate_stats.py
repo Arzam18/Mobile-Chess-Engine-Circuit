@@ -95,18 +95,21 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
             return rank, "🥉 Podium"
 
     elif "survival" in stage_type:
+        # Gateway bottom half and fringe engines (mirrored split)
         if rank <= half_cutoff:
             return rank + 36, "🟢 Advanced to The Fringe"
         else:
             return rank + 36, "🔴 Relegated to Crucible"
 
     elif "fringe" in stage_type:
+        # Top 49-72 engines fighting here
         if rank <= half_cutoff:
             return rank + 48, "🟢 Retained in Circuit"
         else:
             return rank + 48, "🔴 Relegated to Crucible"
 
     elif "crucible" in stage_type:
+        # Mirroring gateway and halving it (e.g., half gateway size: fringe vs outside 1-72)
         if rank <= half_cutoff:
             return rank + 48, "🛡️ Saved in Circuit"
         else:
@@ -369,7 +372,6 @@ def main():
         print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
         return
 
-    # Sort stage folders in strict chronological order
     subdirs = sorted([d for d in glob.glob(os.path.join(MAIN_SEASON_DIR, "*")) if os.path.isdir(d)])
     
     if not subdirs:
@@ -380,7 +382,6 @@ def main():
     rendered_stages = []
     stage_titles = []
 
-    # Calculate Elo ratings sequentially across all completed stages
     for stage_path in subdirs:
         raw_folder = os.path.basename(stage_path)
         stage_title = " ".join(raw_folder.split("_")[1:]).title() if "_" in raw_folder else raw_folder.title()
@@ -395,14 +396,12 @@ def main():
         print("No PGN files found to process.")
         return
 
-    # THE MAIN VIEW: Only display the LATEST active stage
     latest_stage_title = stage_titles[-1]
     latest_stage_md = rendered_stages[-1]
 
     full_md_output = f"## 🏆 Active Stage: {latest_stage_title}\n\n"
     full_md_output += latest_stage_md + "\n\n---\n\n"
 
-    # ARCHIVE / PRE-RELEASES SECTION
     if len(stage_titles) > 1:
         full_md_output += "### 📦 Archived Stages & Pre-releases\n\n"
         full_md_output += "| Stage Name | Status | Archive Link |\n"
