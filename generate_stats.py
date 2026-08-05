@@ -95,21 +95,18 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
             return rank, "🥉 Podium"
 
     elif "survival" in stage_type:
-        # Gateway bottom half and fringe engines (mirrored split)
         if rank <= half_cutoff:
             return rank + 36, "🟢 Advanced to The Fringe"
         else:
             return rank + 36, "🔴 Relegated to Crucible"
 
     elif "fringe" in stage_type:
-        # Top 49-72 engines fighting here
         if rank <= half_cutoff:
             return rank + 48, "🟢 Retained in Circuit"
         else:
             return rank + 48, "🔴 Relegated to Crucible"
 
     elif "crucible" in stage_type:
-        # Mirroring gateway and halving it (e.g., half gateway size: fringe vs outside 1-72)
         if rank <= half_cutoff:
             return rank + 48, "🛡️ Saved in Circuit"
         else:
@@ -399,7 +396,15 @@ def main():
     latest_stage_title = stage_titles[-1]
     latest_stage_md = rendered_stages[-1]
 
-    full_md_output = f"## 🏆 Active Stage: {latest_stage_title}\n\n"
+    # Dynamically inject structural rules block alongside the active stage output
+    full_md_output = "🔄 **Post-Season Relegation & Capped Pool (Executed after Finals)**\n\n"
+    full_md_output += "Because MCEC maintains a strict cap of 72 engines through dynamic newcomers:\n\n"
+    full_md_output += "* **The Survival**: Gateway bottom half and matching number of fringe engines fight for survival.\n"
+    full_md_output += "* **The Fringe**: Lower-tier survival league (Ranked 49–72).\n"
+    full_md_output += "* **The Crucible**: Gateway-mirrored sizing (half of gateway size) where fringe engines and kicked-out engines fight to defend or earn their spot in the circuit.\n\n"
+    full_md_output += "---\n\n"
+
+    full_md_output += f"## 🏆 Active Stage: {latest_stage_title}\n\n"
     full_md_output += latest_stage_md + "\n\n---\n\n"
 
     if len(stage_titles) > 1:
@@ -425,7 +430,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and Release archive table!")
+            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and updated post-season rules!")
 
 if __name__ == "__main__":
     main()
