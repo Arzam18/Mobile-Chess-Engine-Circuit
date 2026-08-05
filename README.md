@@ -42,11 +42,6 @@ Surviving engines advance up the competitive ladder toward the championship:
 8. **Semi-Final:** 6 Engines | 750 Games | Top 1–6
 9. **Final:** 2 Engines | 300 Games | Top 1 vs Top 2
 
-### 🔄 Post-Season Relegation & Capped Pool (Executed after Finals)
-Because MCEC maintains a strict cap of 72 engines:
-* **The Fringe (Ranked 49–66):** Lower-tier survival league.
-* **The Crucible (Ranked 67–78):** Kicked-out engines (from rank 72 downward) fight the bottom 6 engines to earn or defend their spot in the circuit.
-
 ---
 
 <!-- STATS_START -->
