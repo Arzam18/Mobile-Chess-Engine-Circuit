@@ -8,8 +8,29 @@ MAIN_SEASON_DIR = "seasons/season_3/main"
 DEFAULT_RATING = 3000.0
 K_FACTOR = 32.0
 
+# 🛠️ ENGINE ALIAS & RENAME MAP
+# Map any old name, typo, or previous version to a unified canonical ID 
+# so they share historical Elo and stats continuity.
+ENGINE_ALIASES = {
+    "hobess": "Hobbes",
+    "hobbes 3.0": "Hobbes",
+    "hobbes dev": "Hobbes",
+    # Add any future renames here like: "old_engine_name": "New_Canonical_Name"
+}
+
 def calculate_expected_score(r1, r2):
     return 1.0 / (1.0 + 10.0 ** ((r2 - r1) / 400.0))
+
+def get_canonical_name(name):
+    """Normalizes engine names using the alias map or falls back to stripping 
+    version numbers so updates and renames maintain historical continuity."""
+    lower_name = name.strip().lower()
+    if lower_name in ENGINE_ALIASES:
+        return ENGINE_ALIASES[lower_name]
+        
+    # Fallback regex to strip standard version numbers (e.g., 'Stockfish 15' -> 'Stockfish')
+    cleaned = re.sub(r'\s+(?:v?\d+(?:\.\d+)*).*$', '', name, flags=re.IGNORECASE).strip()
+    return cleaned if cleaned else name
 
 def parse_move_comments(game):
     """Extract move time from PGN comments if available."""
@@ -35,7 +56,7 @@ def parse_move_comments(game):
 
 def get_mcec_stage_status(idx, stage_type, total_engines):
     """Calculates Global Rank and Status Badges according to updated MCEC dynamic stage rules."""
-    rank = idx + 1  # 1-based index within stage
+    rank = idx + 1  
     half_cutoff = math.ceil(total_engines / 2.0)
 
     if "gateway" in stage_type:
@@ -150,11 +171,14 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 game_length = (plies + 1) // 2
                 avg_time = parse_move_comments(game)
 
-                for eng in (white, black):
-                    if eng not in global_ratings:
-                        global_ratings[eng] = DEFAULT_RATING
+                c_white = get_canonical_name(white)
+                c_black = get_canonical_name(black)
+
+                for eng, c_eng in [(white, c_white), (black, c_black)]:
+                    if c_eng not in global_ratings:
+                        global_ratings[c_eng] = DEFAULT_RATING
                     if eng not in stage_start_ratings:
-                        stage_start_ratings[eng] = global_ratings[eng]
+                        stage_start_ratings[eng] = global_ratings[c_eng]
                     if eng not in stats:
                         stats[eng] = {
                             "points": 0.0, "played": 0, "wins": 0, "draws": 0, "losses": 0,
@@ -251,16 +275,16 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 head_to_head[white][black]["games"] += 1
                 head_to_head[black][white]["games"] += 1
 
-                r_w, r_b = global_ratings[white], global_ratings[black]
+                r_w, r_b = global_ratings[c_white], global_ratings[c_black]
                 exp_w = calculate_expected_score(r_w, r_b)
                 exp_b = calculate_expected_score(r_b, r_w)
 
-                global_ratings[white] += K_FACTOR * (s_w - exp_w)
-                global_ratings[black] += K_FACTOR * (s_b - exp_b)
+                global_ratings[c_white] += K_FACTOR * (s_w - exp_w)
+                global_ratings[c_black] += K_FACTOR * (s_b - exp_b)
 
     sorted_engines = sorted(
         engines_in_stage, 
-        key=lambda x: (stats[x]["points"], global_ratings[x]), 
+        key=lambda x: (stats[x]["points"], global_ratings[get_canonical_name(x)]), 
         reverse=True
     )
 
@@ -292,8 +316,9 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
     for idx, eng in enumerate(sorted_engines):
         abs_rank, status_badge = get_mcec_stage_status(idx, stage_key, total_engines_count)
         st = stats[eng]
+        c_eng = get_canonical_name(eng)
         start_r = stage_start_ratings[eng]
-        end_r = global_ratings[eng]
+        end_r = global_ratings[c_eng]
         diff = end_r - start_r
         diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
         p, g = st["points"], st["played"]
@@ -396,7 +421,6 @@ def main():
     latest_stage_title = stage_titles[-1]
     latest_stage_md = rendered_stages[-1]
 
-    # Dynamically inject structural rules block alongside the active stage output
     full_md_output = "🔄 **Post-Season Relegation & Capped Pool (Executed after Finals)**\n\n"
     full_md_output += "Because MCEC maintains a strict cap of 72 engines through dynamic newcomers:\n\n"
     full_md_output += "* **The Survival**: Gateway bottom half and matching number of fringe engines fight for survival.\n"
@@ -430,7 +454,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and updated post-season rules!")
+            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and alias mapping!")
 
 if __name__ == "__main__":
     main()
