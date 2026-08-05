@@ -41322,3 +41322,124 @@ Bxd5 {[20] 11.47 664ms 411.6knps Bxd5 Nxd5} Nxd5 {[16] 15.56 531ms 684.3knps
 30tb ..Nxd5 Rc1} 48. Nd6 {[21] 12.46 1.2s 447.4knps Nd6 Nxc7} Nxc7 {[17] 
 23.44 1.2s 674.6knps 526tb ..Nxc7 Nxc8} 1-0
 
+[Event "MCEC S3 The Gateway"]
+[Site "ChessEnginesTournament"]
+[Date "2026.08.04"]
+[Round "1.532"]
+[White "Weiss 2.1 dev e3bf1e5"]
+[Black "Minke 6.0.0 Dotprod"]
+[Result "0-1"]
+[ECO "A15"]
+[WhiteElo "1473"]
+[BlackElo "1541"]
+[PlyCount "183"]
+[TimeControl "1+1"]
+[Termination "adjudication"]
+[TerminationDetails "GUI fast win rule"]
+[EventType "round robin"]
+
+1. c4 Nf6 2. Nf3 e6 3. g3 a6 4. Bg2 b5 5. b3 Bb7 6. Nc3 c5 7. cxb5 axb5 8. Nxb5 
+d5 9. a4 {[18] 1.19 3.6s 739.1knps 0tb a4 Nbd7} Ba6 {[17] 1.05 817ms 
+447.0knps ..Ba6 Bb2} 10. Bb2 {[17] 1.04 1.1s 757.8knps 0tb Bb2 Be7} Be7 {[19] 
+1.02 1.1s 529.7knps ..Be7 Be5} 11. O-O {[19] 1.34 4.6s 862.6knps 0tb O-O O-O} 
+O-O {[18] 0.97 992ms 526.8knps ..O-O d4} 12. d4 {[19] 1.31 1.8s 803.1knps 0tb 
+d4 Nbd7} Nbd7 {[21] 1.01 852ms 520.7knps ..Nbd7 dxc5} 13. dxc5 {[19] 1.39 
+2.2s 823.0knps 0tb dxc5 Bxc5} Bxc5 {[20] 0.87 1.5s 527.9knps ..Bxc5 Bd4} 14. 
+Nfd4 {[19] 1.29 2.5s 832.9knps 0tb Nfd4 Qb6} Qb6 {[17] 0.62 1.1s 507.4knps 
+..Qb6 Qd2} 15. Qd2 {[17] 1.27 1.4s 826.7knps 0tb Qd2 h6} Rfc8 {[18] 0.62 
+572ms 498.5knps ..Rfc8 Rac1} 16. Ba3 {[19] 0.54 3.6s 835.0knps 0tb Ba3 Bxa3} 
+Bxa3 {[17] 0.51 1.4s 532.7knps ..Bxa3 Rxa3} 17. Nxa3 {[18] 1.38 1.6s 
+789.7knps 0tb Nxa3 Nc5} Nc5 {[19] 0.53 1.5s 514.4knps ..Nc5 Nab5} 18. a5 
+{[19] 1.09 2.2s 847.7knps 0tb a5 Qa7} Qa7 {[18] 0.27 1.3s 470.9knps ..Qa7 
+Rfc1} 19. Rfc1 {[20] 0.89 4.6s 827.6knps 0tb Rfc1 e5} e5 {[19] 0.72 1.8s 
+508.2knps ..e5 Nf5} 20. Nf5 {[19] 0.68 1.8s 816.0knps 0tb Nf5 Nce4} Nce4 
+{[18] 0.82 911ms 433.4knps ..Nce4 Qe1} 21. Qe1 {[21] 0.77 4.4s 824.8knps 0tb 
+Qe1} Rxc1 {[18] 0.75 1.1s 466.9knps ..Rxc1 Rxc1} 22. Rxc1 {[19] 1.0 1.5s 
+766.2knps 0tb Rxc1 Qd7} Qd7 {[20] 0.8 1.0s 487.5knps ..Qd7 Ne3} 23. Ne3 {[19] 
+1.01 2.2s 800.2knps 0tb Ne3 Rb8} Rb8 {[19] 0.4 1.1s 529.3knps ..Rb8 b4} 24. 
+b4 {[17] 0.98 642ms 877.2knps 0tb b4 d4} d4 {[19] 0.33 1.5s 538.4knps ..d4 
+Nec4} 25. Nd1 {[18] 1.26 913ms 869.4knps 0tb Nd1 Qa4} Re8 {[16] 0.49 982ms 
+510.8knps ..Re8 h3} 26. Bxe4 {[18] 1.17 2.6s 874.9knps 0tb Bxe4 Nxe4} Nxe4 
+{[18] -0.12 915ms 504.6knps ..Nxe4 b5} 27. f3 {[19] 0.0 2.6s 884.7knps 0tb f3 
+Ng5} Ng5 {[20] -0.32 906ms 531.5knps ..Ng5 Nf2} 28. Nf2 {[18] 0.91 1.0s 
+801.1knps 0tb Nf2 e4} e4 {[19] -0.78 819ms 465.7knps ..e4 fxe4} 29. fxe4 
+{[18] 1.42 672ms 938.4knps 0tb fxe4 d3} d3 {[20] -0.58 1.7s 535.6knps ..d3 
+Rd1} 30. Qd2 {[21] 0.59 1.9s 899.3knps 36tb Qd2 Nxe4} Nxe4 {[21] -0.75 331ms 
+536.3knps ..Nxe4 Nxe4} 31. Nxe4 {[19] 0.89 442ms 985.0knps 0tb Nxe4 Rxe4} 
+Rxe4 {[18] 0.57 857ms 553.2knps ..Rxe4 exd3} 32. exd3 {[18] 0.74 806ms 
+885.6knps 12tb exd3 Qd5} Re8 {[19] 0.32 1.1s 522.2knps ..Re8 Nc2} 33. Nc2 
+{[18] 2.8 1.6s 958.7knps 9tb Nc2 h5} Bb7 {[20] 0.25 1.1s 514.4knps ..Bb7 Re1} 
+34. Re1 {[16] 3.03 796ms 924.3knps 0tb Re1 Rc8} Rd8 {[23] 0.62 1.2s 534.8knps 
+..Rd8 Qe3} 35. Ne3 {[18] 2.02 3.1s 934.9knps 3tb Ne3 Qc6} Qc6 {[18] 0.17 
+755ms 510.7knps ..Qc6 Ng2} 36. Ng2 {[19] 1.73 2.3s 924.4knps 58tb Ng2 h6} h6 
+{[18] 0.42 413ms 491.4knps ..h6 Re7} 37. Qe2 {[18] 0.91 2.4s 895.1knps 71tb 
+Qe2 Ba8} Ba8 {[22] 0.0 975ms 516.8knps ..Ba8 Qe4} 38. h4 {[19] 1.02 2.4s 
+893.2knps 94tb h4 Qc3} Qc3 {[17] 0.0 1.0s 507.3knps ..Qc3 Qe7} 39. Qe7 {[17] 
+1.32 533ms 965.6knps 1tb Qe7 Qxd3} Qxd3 {[19] 0.0 894ms 507.1knps ..Qxd3 Kh2} 
+40. Kh2 {[18] 0.87 2.1s 951.6knps 13tb Kh2 Kh7} Kh7 {[19] -0.02 851ms 
+521.6knps ..Kh7 Re2} 41. Re2 {[19] 0.01 723ms 966.5knps 1tb Re2 f5} Rd4 {[20] 
+-0.27 868ms 536.0knps ..Rd4 Rf2} 42. Rf2 {[18] 0.64 708ms 828.7knps 71tb Rf2 
+f6} f6 {[22] -0.38 1.5s 537.8knps ..f6 Qe2} 43. Qe3 {[21] 0.0 1.4s 832.1knps 
+192tb Qe3 Qxe3} Qxe3 {[24] -0.48 1.3s 588.1knps ..Qxe3 Nxe3} 44. Nxe3 {[19] 
+0.08 437ms 594.1knps 154tb Nxe3 Rxb4} Rxb4 {[25] -0.39 1.7s 589.6knps ..Rxb4 
+Ra2} 45. Ra2 {[20] 0.0 660ms 652.1knps 273tb Ra2 Rb3} Rb3 {[22] -0.4 903ms 
+572.5knps ..Rb3 Nc4} 46. Nc4 {[21] 0.0 994ms 486.0knps 879tb Nc4 Rb1} Rb1 
+{[23] -0.44 346ms 564.1knps ..Rb1 g4} 47. g4 {[21] 0.0 476ms 516.7knps 332tb 
+g4 Rh1+} Rb4 {[21] -0.56 709ms 587.9knps ..Rb4 Nb6} 48. Nb6 {[17] 0.34 1.1s 
+730.1knps 164tb Nb6 Bc6} Bc6 {[21] -0.59 694ms 580.7knps ..Bc6 Rc2} 49. Rc2 
+{[20] 0.66 1.9s 750.5knps 1.3ktb Rc2 Bb5} Bb5 {[22] -0.49 1.4s 581.5knps 
+..Bb5 Kg3} 50. Rc5 {[20] 0.19 1.7s 679.8knps 372tb Rc5 Be2} Be2 {[23] -0.96 
+761ms 579.7knps ..Be2 Kg3} 51. Kh3 {[19] 0.26 1.0s 816.3knps 169tb Kh3 Bxg4+} 
+Bxg4+ {[19] -1.39 1.0s 586.8knps ..Bxg4+ Kg3} 52. Kg3 {[18] 0.03 1.0s 
+700.8knps 465tb Kg3 Be2} h5 {[20] -1.32 1.0s 582.7knps ..h5 Rc4} 53. Rc3 
+{[19] -0.01 998ms 745.8knps 329tb Nd5 Ra4} Be2 {[20] -1.59 724ms 598.5knps 
+..Be2 Nd5} 54. Ra3 {[20] -0.08 1.6s 593.8knps 1.3ktb Ra3 Ba6} Ba6 {[20] -1.62 
+712ms 586.9knps ..Ba6 Nd5} 55. Nd7 {[18] -1.29 1.7s 771.9knps 537tb Nd7 Bc8} 
+Bc8 {[21] -1.74 858ms 594.2knps ..Bc8 Nb6} 56. Nb6 {[18] -1.45 1.2s 743.9knps 
+459tb Nb6 Bb7} Bb7 {[22] -1.79 1.1s 573.7knps ..Bb7 Ra4} 57. Nd7 {[18] -0.78 
+999ms 736.7knps 616tb Nd7 Rg4+} Rg4+ {[22] -2.5 729ms 587.3knps ..Rg4+ Kf2} 
+58. Kf2 {[17] -1.66 291ms 967.6knps 36tb Kf2 Bc6} Bc6 {[22] -2.31 1.2s 
+575.1knps ..Bc6 Nf8+} 59. Nf8+ {[16] -1.61 412ms 703.3knps 109tb Nf8+ Kg8} 
+Kg8 {[21] -2.35 828ms 554.8knps ..Kg8 Ne6} 60. Ne6 {[16] -1.47 660ms 
+826.6knps 148tb Ne6 Rxh4} Rxh4 {[22] -2.31 986ms 574.2knps ..Rxh4 a6} 61. Rc3 
+{[16] -2.13 1.2s 771.2knps 522tb Rc3 Bd5} Bd5 {[22] -2.44 731ms 596.9knps 
+..Bd5 Nc7} 62. Nc7 {[16] -2.62 812ms 703.5knps 873tb Nc7 Rh2+} Rf4+ {[24] 
+-2.41 946ms 613.9knps ..Rf4+ Kg1} 63. Kg3 {[17] -2.78 1.5s 702.0knps 1.5ktb 
+Kg3 Rg4+} Rg4+ {[22] -2.54 1.1s 596.2knps ..Rg4+ Kh2} 64. Kh3 {[15] -3.18 
+478ms 651.9knps 254tb Kh3 Bb7} Bf7 {[24] -2.71 826ms 571.0knps ..Bf7 Ra3} 65. 
+Ra3 {[18] -3.72 1.3s 742.7knps 716tb Ra3 Rc4} Rc4 {[24] -3.28 725ms 611.5knps 
+..Rc4 Nb5} 66. Nb5 {[17] -3.3 280ms 776.5knps 34tb Nb5 Be8} Be6+ {[23] -3.82 
+1.5s 599.4knps ..Be6+ Kh2} 67. Kg2 {[18] -4.0 1.6s 764.3knps 806tb Kg2 Bd7} 
+Bd7 {[23] -3.92 1.4s 601.9knps ..Bd7 Nc3} 68. Nc3 {[16] -4.1 363ms 821.9knps 
+147tb Nc3 Bc8} Bc6+ {[22] -3.89 1.2s 596.5knps ..Bc6+ Kh3} 69. Kg1 {[18] 
+-4.09 1.8s 894.2knps 674tb Kg1 Bb7} Bb7 {[21] -4.14 784ms 621.9knps ..Bb7 
+Kh2} 70. Kh2 {[17] -4.62 933ms 783.4knps 428tb Kh2 h4} Kh7 {[22] -4.23 852ms 
+614.6knps ..Kh7 Nb5} 71. Nb5 {[18] -3.95 1.4s 803.5knps 851tb Nb5 Rc5} Ba6 
+{[21] -4.28 966ms 608.9knps ..Ba6 Nd6} 72. Nc3 {[20] -3.86 950ms 763.4knps 
+615tb Nc3 Rc5} Rc5 {[20] -4.6 709ms 625.3knps ..Rc5 Ne4} 73. Na2 {[17] -4.6 
+433ms 762.1knps 200tb Na2 Rc2+} Rb5 {[26] -4.5 774ms 629.1knps ..Rb5 Nc3} 74. 
+Ra4 {[17] -5.45 795ms 848.6knps 569tb Ra4 Re5} Rb2+ {[22] -5.31 861ms 
+599.1knps ..Rb2+ Kh1} 75. Kg1 {[17] -5.86 1.3s 806.7knps 717tb Kg1 Rb3} Rb3 
+{[21] -6.13 966ms 627.6knps ..Rb3 Kg2} 76. Rb4 {[18] -6.93 1.8s 764.6knps 
+1.4ktb Rb4 Ra3} Ra3 {[20] -6.42 925ms 596.6knps ..Ra3 Rb2} 77. Rb6 {[18] 
+-7.83 1.6s 698.3knps 1.6ktb Rb6 Rxa5} Bc8 {[19] -6.63 798ms 589.7knps ..Bc8 
+Nb4} 78. Nb4 {[17] -6.9 1.5s 826.8knps 1.0ktb Nb4 Rxa5} Rxa5 {[20] -6.66 1.2s 
+585.0knps ..Rxa5 Nc2} 79. Nc2 {[18] -7.85 1.7s 745.4knps 1.6ktb Nc2 Bf5} Re5 
+{[20] -6.7 1.1s 600.2knps ..Re5 Nb4} 80. Nd4 {[17] -7.72 1.3s 880.9knps 
+1.2ktb Nd4 Rc5} Bg4 {[19] -7.05 1.0s 572.5knps ..Bg4 Rb7} 81. Rb2 {[16] -7.99 
+1.0s 847.9knps 574tb Rb2 h4} g5 {[19] -7.28 1.0s 500.4knps ..g5 Rb5} 82. Rb7+ 
+{[16] -8.69 1.2s 758.4knps 448tb Rb7+ Kh6} Kh6 {[21] -7.22 1.5s 493.0knps 
+..Kh6 Nc6} 83. Rb6 {[16] -9.07 1.3s 556.1knps 515tb Rb6 Kg6} Kg6 {[21] -7.52 
+866ms 612.0knps ..Kg6 Kh2} 84. Rb2 {[16] -9.69 1.1s 768.9knps 747tb Rb2 h4} 
+Re4 {[21] -7.72 769ms 554.1knps ..Re4 Nb5} 85. Rd2 {[16] -10.33 1.4s 
+659.1knps 1.4ktb Rd2 h4} f5 {[18] -7.81 875ms 567.6knps ..f5 Nc2} 86. Rd3 
+{[16] -10.96 1.4s 690.9knps 1.6ktb Rd3 h4} h4 {[20] -8.29 1.2s 610.0knps ..h4 
+Nb3} 87. Kf2 {[15] -11.31 359ms 613.7knps 381tb Kf2 Kh5} f4 {[21] -8.66 703ms 
+601.6knps ..f4 Rd2} 88. Nb3 {[15] -14.48 931ms 589.4knps 2.5ktb Nb3 Re2+} 
+Re2+ {[21] -9.06 881ms 571.5knps ..Re2+ Kg1} 89. Kg1 {[14] -16.11 353ms 
+540.1knps 1.0ktb Kg1 Re1+} Kh5 {[21] -9.39 1.2s 609.0knps ..Kh5 Nd4} 90. Rd8 
+{[17] -13.82 1.1s 540.5knps 2.9ktb Rd8 h3} Bf3 {[23] -9.81 731ms 619.7knps 
+..Bf3 Kf1} 91. Kf1 {[15] -14.9 526ms 793.8knps 1.2ktb Kf1 Kg4} Kg4 {[25] 
+-12.42 1.6s 662.8knps ..Kg4 Rd2} 92. Rh8 {[18] -24.73 1.4s 1.1Mnps 6.3ktb Rh8 
+Re3} 0-1
+
