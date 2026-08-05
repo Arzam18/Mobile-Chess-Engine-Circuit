@@ -5,7 +5,16 @@ import chess.pgn
 
 MAIN_SEASON_DIR = "seasons/season_3/main"
 DEFAULT_RATING = 3000.0
+TOTAL_STAGE_GAMES = 1260
 K_FACTOR = 32.0
+
+# Dynamic MCEC Tier Boundaries
+MAIN_TOP_RANK = 1
+MAIN_BOTTOM_RANK = 36
+GATEWAY_TOP_RANK = 37
+GATEWAY_BOTTOM_RANK = 48
+FRINGE_TOP_RANK = 49
+FRINGE_BOTTOM_RANK = 72
 
 def calculate_expected_score(r1, r2):
     return 1.0 / (1.0 + 10.0 ** ((r2 - r1) / 400.0))
@@ -227,7 +236,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
     b_pct = (total_black_wins / total_stage_games * 100) if total_stage_games > 0 else 0
     d_pct = (total_draws / total_stage_games * 100) if total_stage_games > 0 else 0
 
-    md = f"> 📊 **Active Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
+    md = f"> 📊 **Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
     # 1. CLEAN, INDEPENDENT STAGE STANDINGS (Pure 1..N)
@@ -240,7 +249,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
         p, g = st["points"], st["played"]
         md += f"| {idx} | **{eng}** | **{p:.1f}** / {g} |\n"
 
-    # 2. FULL RATING LISTS / FULL ENGINES
+    # 2. SEPARATE SECTION: FULL RATING LISTS / FULL ENGINES
     md += "\n<details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>\n\n"
     md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |\n"
@@ -254,6 +263,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
         diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
         p, g = st["points"], st["played"]
         
+        # Calculate Win % and Loss %
         win_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
         loss_pct = f"{(st['losses'] / g * 100):.1f}%" if g > 0 else "0.0%"
         
@@ -262,7 +272,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
     md += "\n</details>\n\n"
 
     # 3. INDEPENDENT DEVELOPER PERFORMANCE LOGS
-    md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
+    md += "<details><summary><b>🛠️ View Developer Performance Logs (Speed, W/D/L Split & Move Stats)</b></summary>\n\n"
     md += "| Engine | Stage Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
@@ -319,71 +329,4 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
 
     md += "\n</details>\n"
     return md
-
-def main():
-    if not os.path.exists(MAIN_SEASON_DIR):
-        print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
-        return
-
-    # Sort stage folders in strict chronological order
-    subdirs = sorted([d for d in glob.glob(os.path.join(MAIN_SEASON_DIR, "*")) if os.path.isdir(d)])
-    
-    if not subdirs:
-        print("No stage directories found in " + MAIN_SEASON_DIR)
-        return
-
-    global_ratings = {}
-    rendered_stages = []
-    stage_titles = []
-
-    # Calculate Elo ratings sequentially across all completed stages
-    for stage_path in subdirs:
-        raw_folder = os.path.basename(stage_path)
-        stage_title = " ".join(raw_folder.split("_")[1:]).title() if "_" in raw_folder else raw_folder.title()
-        stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
-        
-        if stage_pgns:
-            stage_md = process_stage_pgns(stage_pgns, global_ratings, stage_name=raw_folder)
-            rendered_stages.append(stage_md)
-            stage_titles.append(stage_title)
-
-    if not rendered_stages:
-        print("No PGN files found to process.")
-        return
-
-    # THE MAIN VIEW: Only display the LATEST active stage
-    latest_stage_title = stage_titles[-1]
-    latest_stage_md = rendered_stages[-1]
-
-    full_md_output = f"## 🏆 Active Stage: {latest_stage_title}\n\n"
-    full_md_output += latest_stage_md + "\n\n---\n\n"
-
-    # ARCHIVE / PRE-RELEASES SECTION
-    if len(stage_titles) > 1:
-        full_md_output += "### 📦 Archived Stages & Pre-releases\n\n"
-        full_md_output += "| Stage Name | Status | Archive Link |\n"
-        full_md_output += "| :--- | :---: | :--- |\n"
-        for title in stage_titles[:-1]:
-            slug = title.lower().replace(" ", "-")
-            full_md_output += f"| **{title}** | Completed | 🔗 [View Release / Archive](../../releases/tag/v3.0-{slug}) |\n"
-
-    readme_path = "README.md"
-    if os.path.exists(readme_path):
-        with open(readme_path, "r", encoding="utf-8") as f:
-            content = f.read()
-
-        start_marker = "<!-- STATS_START -->"
-        end_marker = "<!-- STATS_END -->"
-
-        if start_marker in content and end_marker in content:
-            before = content.split(start_marker)[0]
-            after = content.split(end_marker)[1]
-            new_content = f"{before}{start_marker}\n{full_md_output}\n{end_marker}{after}"
-            
-            with open(readme_path, "w", encoding="utf-8") as f:
-                f.write(new_content)
-            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and Release archive table!")
-
-if __name__ == "__main__":
-    main()
 
