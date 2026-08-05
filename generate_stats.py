@@ -1,388 +1,418 @@
+#!/usr/bin/env python3
 import os
-import glob
 import re
-import chess.pgn
+import math
+import glob
+from collections import defaultdict
+from pathlib import Path
 
-MAIN_SEASON_DIR = "seasons/season_3/main"
-DEFAULT_RATING = 3000.0
+# ==========================================
+# CONFIGURATION & CONSTANTS
+# ==========================================
+DEFAULT_ELO = 3000.0
 K_FACTOR = 32.0
+PGN_DIR = "pgn"
+README_FILE = "README.md"
 
-def calculate_expected_score(r1, r2):
-    return 1.0 / (1.0 + 10.0 ** ((r2 - r1) / 400.0))
+# ==========================================
+# STAGE STATUS LOGIC (MCEC SEASON 3)
+# ==========================================
+def get_mcec_stage_status(stage_name: str, rank: int, total_engines: int) -> str:
+    """
+    Determines promotion, retention, or relegation status based on MCEC Season 3 rules.
+    Dynamically adjusts cutoffs for variable newcomer counts using dynamic 50/50 splits.
+    """
+    stage = stage_name.lower().replace("-", "_").replace(" ", "_")
+    half_cutoff = math.ceil(total_engines / 2.0)
 
-def parse_move_comments(game):
-    """Extract move time from PGN comments if available."""
-    clk_times = []
-    prev_clk = None
+    # 1. MCEC S3 The Gateway
+    if "gateway" in stage:
+        if rank <= half_cutoff:
+            return "🟢 Advanced to Entry League"
+        return "🔴 Relegated to The Survival"
+
+    # 2. MCEC S3 Entry League
+    elif "entry" in stage:
+        if rank <= half_cutoff:
+            return "🟢 Promoted to League 4"
+        return "🔴 Relegated to The Survival"
+
+    # 3. MCEC S3 League 4
+    elif "league_4" in stage or "league4" in stage or "l4" in stage:
+        if rank <= 6:
+            return "🟢 Promoted to League 3"
+        return "🔴 Relegated to Entry League"
+
+    # 4. MCEC S3 League 3
+    elif "league_3" in stage or "league3" in stage or "l3" in stage:
+        if rank <= 6:
+            return "🟢 Promoted to League 2"
+        return "🔴 Relegated to League 4"
+
+    # 5. MCEC S3 League 2
+    elif "league_2" in stage or "league2" in stage or "l2" in stage:
+        if rank <= 6:
+            return "🟢 Promoted to League 1"
+        return "🔴 Relegated to League 3"
+
+    # 6. MCEC S3 League 1
+    elif "league_1" in stage or "league1" in stage or "l1" in stage:
+        if rank <= 6:
+            return "🟢 Promoted to Main"
+        return "🔴 Relegated to League 2"
+
+    # 7. MCEC S3 Main
+    elif "main" in stage:
+        if rank <= 6:
+            return "🟢 Advanced to Semi-Final"
+        return "🔴 Relegated to League 1"
+
+    # 8. MCEC S3 Semi-Final
+    elif "semi" in stage:
+        if rank <= 2:
+            return "🟢 Advanced to Final"
+        return "🔴 Retained in Main Pool"
+
+    # 9. MCEC S3 Final
+    elif "final" in stage:
+        if rank == 1:
+            return "🏆 MCEC Champion"
+        elif rank == 2:
+            return "🥈 MCEC Runner-Up"
+        return "🥉 Podium"
+
+    # 10. MCEC S3 The Survival
+    elif "survival" in stage:
+        if rank <= half_cutoff:
+            return "🟢 Advanced to The Fringe"
+        return "🔴 Relegated to The Crucible"
+
+    # 11. MCEC S3 The Fringe
+    elif "fringe" in stage:
+        if rank <= half_cutoff:
+            return "🟢 Retained in Circuit"
+        return "🔴 Relegated to The Crucible"
+
+    # 12. MCEC S3 The Crucible
+    elif "crucible" in stage:
+        if rank <= half_cutoff:
+            return "🟢 Saved (Retained in Circuit)"
+        return "❌ Eliminated from Circuit"
+
+    return "⚔️ Active"
+
+
+# ==========================================
+# ELO CALCULATIONS
+# ==========================================
+def calculate_expected_score(rating_a: float, rating_b: float) -> float:
+    return 1.0 / (1.0 + math.pow(10, (rating_b - rating_a) / 400.0))
+
+def update_elo(rating_a: float, rating_b: float, score_a: float) -> tuple[float, float]:
+    expected_a = calculate_expected_score(rating_a, rating_b)
+    expected_b = 1.0 - expected_a
+    score_b = 1.0 - score_a
+
+    new_a = rating_a + K_FACTOR * (score_a - expected_a)
+    new_b = rating_b + K_FACTOR * (score_b - expected_b)
+    return new_a, new_b
+
+
+# ==========================================
+# PGN PARSER & STATS AGGREGATOR
+# ==========================================
+def parse_pgn_game(game_text: str):
+    """Extracts metadata, move count, result, and termination flags from a single PGN game."""
+    headers = dict(re.findall(r'\[(\w+)\s+"([^"]*)"\]', game_text))
+    white = headers.get("White", "Unknown").strip()
+    black = headers.get("Black", "Unknown").strip()
+    result = headers.get("Result", "*").strip()
+    termination = headers.get("Termination", "").lower()
+
+    # Extract move count (highest move number or dot count)
+    moves = re.findall(r'(\d+)\.\s+', game_text)
+    move_count = int(moves[-1]) if moves else 0
+
+    # Determine numeric scores
+    if result == "1-0":
+        score_w, score_b = 1.0, 0.0
+    elif result == "0-1":
+        score_w, score_b = 0.0, 1.0
+    elif result in ["1/2-1/2", "0.5-0.5"]:
+        score_w, score_b = 0.5, 0.5
+    else:
+        return None  # Skip unfinished or invalid games
+
+    # Check for time forfeit/flag loss
+    time_loss_w = "time" in termination and score_w == 0.0
+    time_loss_b = "time" in termination and score_b == 0.0
+
+    return {
+        "white": white,
+        "black": black,
+        "score_w": score_w,
+        "score_b": score_b,
+        "moves": move_count,
+        "time_loss_w": time_loss_w,
+        "time_loss_b": time_loss_b,
+    }
+
+
+def process_stage_directory(stage_path: str, global_elos: dict) -> dict:
+    """Processes all PGN files in a stage directory and outputs updated engine stats."""
+    pgn_files = glob.glob(os.path.join(stage_path, "*.pgn"))
     
-    for node in game.mainline():
-        comment = node.comment
-        if not comment:
-            continue
-            
-        clk_match = re.search(r'\[%clk\s+(\d+):(\d+):(\d+(?:\.\d+)?)\]', comment)
-        if clk_match:
-            h, m, s = float(clk_match.group(1)), float(clk_match.group(2)), float(clk_match.group(3))
-            total_sec = h * 3600 + m * 60 + s
-            if prev_clk is not None:
-                used_sec = max(0.0, prev_clk - total_sec)
-                clk_times.append(used_sec)
-            prev_clk = total_sec
+    # Track stage-specific stats
+    wins = defaultdict(int)
+    draws = defaultdict(int)
+    losses = defaultdict(int)
+    points = defaultdict(float)
+    games_played = defaultdict(int)
+    total_moves = defaultdict(int)
+    time_losses = defaultdict(int)
+    
+    short_loss = {}
+    long_loss = {}
+    
+    start_elos = {engine: global_elos[engine] for engine in global_elos}
+    current_elos = dict(global_elos)
 
-    avg_time = round(sum(clk_times) / len(clk_times), 2) if clk_times else None
-    return avg_time
-
-def get_mcec_stage_status(idx, stage_type, total_engines):
-    """Calculates Global Rank and Status Badges according to MCEC dynamic stage rules."""
-    rank = idx + 1  # 1-based index within stage
-
-    if stage_type == "gateway":
-        if rank <= 19:
-            return rank + 36, "🟢 Advanced to Entry League"
-        else:
-            return rank + 36, "🟡 Sent to Survival Stage"
-
-    elif stage_type == "entry_league":
-        if rank <= 6:
-            return rank + 30, "🔥 Promoted to League 4"
-        elif rank <= 19:
-            return rank + 30, "🛡️ Defended Gateway / Retained"
-        else:
-            return rank + 30, "🔴 Dropped to Relegation / Survival"
-
-    elif stage_type in ["league_4", "league_3", "league_2", "league_1", "main_league"]:
-        if rank <= 6:
-            return rank, "⬆️ Promoted / Upper Bracket"
-        else:
-            return rank, "⬇️ Relegated / Lower Bracket"
-
-    elif stage_type == "survival":
-        if rank <= 12:
-            return rank + 36, "🟢 Secured Gateway Slot"
-        else:
-            return rank + 36, "🔴 Relegated to Fringe / Kickout"
-
-    elif stage_type == "crucible":
-        if rank <= 8:
-            return rank + 48, "🛡️ Saved in Fringe"
-        else:
-            return rank + 48, "❌ Fully Kicked Out"
-
-    return rank, "⚔️ Active"
-
-def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
-    stage_start_ratings = {}
-    stats = {}
-    head_to_head = {}
-    engines_in_stage = set()
+    crosstable = defaultdict(lambda: defaultdict(lambda: {"pts": 0.0, "games": 0}))
 
     total_stage_games = 0
-    total_white_wins = 0
-    total_black_wins = 0
-    total_draws = 0
+    white_wins = 0
+    black_wins = 0
+    draw_count = 0
 
-    stage_key = stage_name.lower().replace(" ", "_")
+    for file_path in sorted(pgn_files):
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
 
-    for pgn_path in pgn_files:
-        with open(pgn_path, encoding="utf-8", errors="replace") as pgn_file:
-            while True:
-                game = chess.pgn.read_game(pgn_file)
-                if game is None:
-                    break
+        # Split PGN stream into individual games
+        raw_games = re.split(r'\n(?=\[Event )', content)
+        for raw_game in raw_games:
+            if not raw_game.strip():
+                continue
 
-                white = game.headers.get("White", "Unknown").strip()
-                black = game.headers.get("Black", "Unknown").strip()
-                result = game.headers.get("Result", "*").strip()
-                termination = game.headers.get("Termination", "Normal").strip()
+            game = parse_pgn_game(raw_game)
+            if not game:
+                continue
 
-                if white == "Unknown" or black == "Unknown" or result not in ["1-0", "0-1", "1/2-1/2", "0.5-0.5"]:
-                    continue
+            w, b = game["white"], game["black"]
+            sw, sb = game["score_w"], game["score_b"]
+            moves = game["moves"]
 
-                engines_in_stage.add(white)
-                engines_in_stage.add(black)
-                total_stage_games += 1
+            # Initialize new engines if not present
+            if w not in current_elos:
+                start_elos[w] = DEFAULT_ELO
+                current_elos[w] = DEFAULT_ELO
+            if b not in current_elos:
+                start_elos[b] = DEFAULT_ELO
+                current_elos[b] = DEFAULT_ELO
 
-                plies = sum(1 for _ in game.mainline_moves())
-                game_length = (plies + 1) // 2
-                avg_time = parse_move_comments(game)
+            # Aggregate game stats
+            total_stage_games += 1
+            games_played[w] += 1
+            games_played[b] += 1
+            points[w] += sw
+            points[b] += sb
+            total_moves[w] += moves
+            total_moves[b] += moves
 
-                for eng in (white, black):
-                    if eng not in global_ratings:
-                        global_ratings[eng] = DEFAULT_RATING
-                    if eng not in stage_start_ratings:
-                        stage_start_ratings[eng] = global_ratings[eng]
-                    if eng not in stats:
-                        stats[eng] = {
-                            "points": 0.0, "played": 0, "wins": 0, "draws": 0, "losses": 0,
-                            "white_wins": 0, "black_wins": 0,
-                            "white_draws": 0, "black_draws": 0,
-                            "white_losses": 0, "black_losses": 0,
-                            "white_pts": 0.0, "white_games": 0,
-                            "black_pts": 0.0, "black_games": 0,
-                            "total_moves": 0, 
-                            "shortest_win": 9999, "longest_win": 0,
-                            "shortest_draw": 9999, "longest_draw": 0,
-                            "shortest_loss": 9999, "longest_loss": 0,
-                            "time_losses": 0, "crashes": 0,
-                            "move_times": []
-                        }
+            if sw == 1.0:
+                white_wins += 1
+                wins[w] += 1
+                losses[b] += 1
+                # Track loss game lengths for black
+                long_loss[b] = max(long_loss.get(b, 0), moves)
+                short_loss[b] = min(short_loss.get(b, float('inf')), moves)
+            elif sb == 1.0:
+                black_wins += 1
+                wins[b] += 1
+                losses[w] += 1
+                # Track loss game lengths for white
+                long_loss[w] = max(long_loss.get(w, 0), moves)
+                short_loss[w] = min(short_loss.get(w, float('inf')), moves)
+            else:
+                draw_count += 1
+                draws[w] += 1
+                draws[b] += 1
 
-                if white not in head_to_head: head_to_head[white] = {}
-                if black not in head_to_head: head_to_head[black] = {}
-                if black not in head_to_head[white]: head_to_head[white][black] = {"pts": 0.0, "games": 0, "results": []}
-                if white not in head_to_head[black]: head_to_head[black][white] = {"pts": 0.0, "games": 0, "results": []}
+            if game["time_loss_w"]:
+                time_losses[w] += 1
+            if game["time_loss_b"]:
+                time_losses[b] += 1
 
-                if avg_time:
-                    stats[white]["move_times"].append(avg_time)
-                    stats[black]["move_times"].append(avg_time)
+            # Crosstable accumulation
+            crosstable[w][b]["pts"] += sw
+            crosstable[w][b]["games"] += 1
+            crosstable[b][w]["pts"] += sb
+            crosstable[b][w]["games"] += 1
 
-                stats[white]["total_moves"] += game_length
-                stats[black]["total_moves"] += game_length
+            # Update continuous Elo ratings
+            new_ew, new_eb = update_elo(current_elos[w], current_elos[b], sw)
+            current_elos[w] = new_ew
+            current_elos[b] = new_eb
 
-                if "time" in termination.lower():
-                    if result == "0-1": stats[white]["time_losses"] += 1
-                    elif result == "1-0": stats[black]["time_losses"] += 1
-                elif "abandoned" in termination.lower() or "rules" in termination.lower():
-                    if result == "0-1": stats[white]["crashes"] += 1
-                    elif result == "1-0": stats[black]["crashes"] += 1
+    # Write back updated ratings to global persistent state
+    for engine, elo in current_elos.items():
+        global_elos[engine] = elo
 
-                if result == "1-0":
-                    s_w, s_b = 1.0, 0.0
-                    stats[white]["wins"] += 1
-                    stats[white]["white_wins"] += 1
-                    stats[black]["losses"] += 1
-                    stats[black]["black_losses"] += 1
-                    
-                    stats[white]["shortest_win"] = min(stats[white]["shortest_win"], game_length)
-                    stats[white]["longest_win"] = max(stats[white]["longest_win"], game_length)
-                    stats[black]["shortest_loss"] = min(stats[black]["shortest_loss"], game_length)
-                    stats[black]["longest_loss"] = max(stats[black]["longest_loss"], game_length)
-
-                    total_white_wins += 1
-                    head_to_head[white][black]["results"].append("1")
-                    head_to_head[black][white]["results"].append("0")
-                elif result == "0-1":
-                    s_w, s_b = 0.0, 1.0
-                    stats[black]["wins"] += 1
-                    stats[black]["black_wins"] += 1
-                    stats[white]["losses"] += 1
-                    stats[white]["white_losses"] += 1
-                    
-                    stats[black]["shortest_win"] = min(stats[black]["shortest_win"], game_length)
-                    stats[black]["longest_win"] = max(stats[black]["longest_win"], game_length)
-                    stats[white]["shortest_loss"] = min(stats[white]["shortest_loss"], game_length)
-                    stats[white]["longest_loss"] = max(stats[white]["longest_loss"], game_length)
-
-                    total_black_wins += 1
-                    head_to_head[white][black]["results"].append("0")
-                    head_to_head[black][white]["results"].append("1")
-                else:
-                    s_w, s_b = 0.5, 0.5
-                    stats[white]["draws"] += 1
-                    stats[white]["white_draws"] += 1
-                    stats[black]["draws"] += 1
-                    stats[black]["black_draws"] += 1
-
-                    stats[white]["shortest_draw"] = min(stats[white]["shortest_draw"], game_length)
-                    stats[white]["longest_draw"] = max(stats[white]["longest_draw"], game_length)
-                    stats[black]["shortest_draw"] = min(stats[black]["shortest_draw"], game_length)
-                    stats[black]["longest_draw"] = max(stats[black]["longest_draw"], game_length)
-
-                    total_draws += 1
-                    head_to_head[white][black]["results"].append("½")
-                    head_to_head[black][white]["results"].append("½")
-
-                stats[white]["points"] += s_w
-                stats[black]["points"] += s_b
-                stats[white]["played"] += 1
-                stats[black]["played"] += 1
-
-                stats[white]["white_pts"] += s_w
-                stats[white]["white_games"] += 1
-                stats[black]["black_pts"] += s_b
-                stats[black]["black_games"] += 1
-
-                head_to_head[white][black]["pts"] += s_w
-                head_to_head[black][white]["pts"] += s_b
-                head_to_head[white][black]["games"] += 1
-                head_to_head[black][white]["games"] += 1
-
-                r_w, r_b = global_ratings[white], global_ratings[black]
-                exp_w = calculate_expected_score(r_w, r_b)
-                exp_b = calculate_expected_score(r_b, r_w)
-
-                global_ratings[white] += K_FACTOR * (s_w - exp_w)
-                global_ratings[black] += K_FACTOR * (s_b - exp_b)
-
-    sorted_engines = sorted(
-        engines_in_stage, 
-        key=lambda x: (stats[x]["points"], global_ratings[x]), 
+    all_stage_engines = sorted(
+        current_elos.keys(),
+        key=lambda e: (points[e], current_elos[e]),
         reverse=True
     )
 
-    total_engines_count = len(sorted_engines)
+    return {
+        "engines": all_stage_engines,
+        "start_elos": start_elos,
+        "current_elos": current_elos,
+        "wins": wins,
+        "draws": draws,
+        "losses": losses,
+        "points": points,
+        "games_played": games_played,
+        "total_moves": total_moves,
+        "time_losses": time_losses,
+        "short_loss": short_loss,
+        "long_loss": long_loss,
+        "crosstable": crosstable,
+        "total_games": total_stage_games,
+        "white_wins": white_wins,
+        "black_wins": black_wins,
+        "draws_count": draw_count,
+    }
 
-    # 0. STAGE OVERVIEW BANNER
-    w_pct = (total_white_wins / total_stage_games * 100) if total_stage_games > 0 else 0
-    b_pct = (total_black_wins / total_stage_games * 100) if total_stage_games > 0 else 0
-    d_pct = (total_draws / total_stage_games * 100) if total_stage_games > 0 else 0
 
-    md = f"> 📊 **Active Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
-    md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
-
-    # 1. CLEAN, INDEPENDENT STAGE STANDINGS (Pure 1..N)
-    md += "#### 🏆 Standings\n\n"
-    md += "| Rank | Engine | Score |\n"
-    md += "| :---: | :--- | :---: |\n"
-
-    for idx, eng in enumerate(sorted_engines, start=1):
-        st = stats[eng]
-        p, g = st["points"], st["played"]
-        md += f"| {idx} | **{eng}** | **{p:.1f}** / {g} |\n"
-
-    # 2. FULL RATING LISTS / FULL ENGINES
-    md += "\n<details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>\n\n"
-    md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |\n"
-    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |\n"
-
-    for idx, eng in enumerate(sorted_engines):
-        abs_rank, status_badge = get_mcec_stage_status(idx, stage_key, total_engines_count)
-        st = stats[eng]
-        start_r = stage_start_ratings[eng]
-        end_r = global_ratings[eng]
-        diff = end_r - start_r
-        diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
-        p, g = st["points"], st["played"]
-        
-        win_pct = f"{(st['wins'] / g * 100):.1f}%" if g > 0 else "0.0%"
-        loss_pct = f"{(st['losses'] / g * 100):.1f}%" if g > 0 else "0.0%"
-        
-        md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{p:.1f}** / {g} | {win_pct} | {loss_pct} | {status_badge} |\n"
-
-    md += "\n</details>\n\n"
-
-    # 3. INDEPENDENT DEVELOPER PERFORMANCE LOGS
-    md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
-    md += "| Engine | Stage Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
-    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
-
-    for idx, eng in enumerate(sorted_engines, start=1):
-        st = stats[eng]
-        win_pct_total = f"{(st['wins'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
-        draw_pct_total = f"{(st['draws'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
-        w_pct_e = f"{(st['white_pts'] / st['white_games'] * 100):.1f}%" if st['white_games'] > 0 else "0.0%"
-        b_pct_e = f"{(st['black_pts'] / st['black_games'] * 100):.1f}%" if st['black_games'] > 0 else "0.0%"
-        avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
-
-        win_range = f"{st['shortest_win']} / {st['longest_win']} moves" if st["wins"] > 0 else "N/A"
-        draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st["draws"] > 0 else "N/A"
-        loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st["losses"] > 0 else "N/A"
-
-        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {w_pct_e} | {b_pct_e} | {avg_len} | {win_range} | {draw_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
-
-    md += "\n</details>\n\n"
-
-    # 4. INDEPENDENT CROSSTABLE
-    md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
-    header_row = "| Engine | " + " | ".join([f"**#{i}**" for i in range(1, total_engines_count + 1)]) + " |\n"
-    divider_row = "| :--- | " + " | ".join([":---:"] * total_engines_count) + " |\n"
-    md += header_row + divider_row
-
-    for i, eng1 in enumerate(sorted_engines, start=1):
-        row = f"| **#{i}. {eng1}** | "
-        cells = []
-        for j, eng2 in enumerate(sorted_engines, start=1):
-            if i == j:
-                cells.append("—")
-            else:
-                rec1 = head_to_head.get(eng1, {}).get(eng2, None)
-                rec2 = head_to_head.get(eng2, {}).get(eng1, None)
-                
-                if rec1 and rec1["games"] > 0:
-                    pts1 = rec1["pts"]
-                    pts2 = rec2["pts"] if rec2 else 0.0
-                    h2h_diff = pts1 - pts2
-                    
-                    if h2h_diff > 0:
-                        diff_str = f"+{h2h_diff:.1f}"
-                    elif h2h_diff < 0:
-                        diff_str = f"{h2h_diff:.1f}"
-                    else:
-                        diff_str = "0.0"
-                    
-                    game_outcomes = " ".join(rec1["results"])
-                    cells.append(f"<nobr>{game_outcomes}</nobr><br>({diff_str})")
-                else:
-                    cells.append("*")
-        row += " | ".join(cells) + " |\n"
-        md += row
-
-    md += "\n</details>\n"
-    return md
-
-def main():
-    if not os.path.exists(MAIN_SEASON_DIR):
-        print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
-        return
-
-    # Sort stage folders in strict chronological order
-    subdirs = sorted([d for d in glob.glob(os.path.join(MAIN_SEASON_DIR, "*")) if os.path.isdir(d)])
+# ==========================================
+# MARKDOWN BUILDER
+# ==========================================
+def generate_markdown(stage_name: str, stats: dict, is_complete: bool) -> str:
+    engines = stats["engines"]
+    total_engines = len(engines)
     
-    if not subdirs:
-        print("No stage directories found in " + MAIN_SEASON_DIR)
-        return
+    md = []
+    
+    # Stage Overview Header
+    md.append(f"### 📊 Stage Overview: {stage_name.replace('_', ' ').title()}")
+    md.append(
+        f"* **Total Games Played:** {stats['total_games']} | "
+        f"**White Wins:** {stats['white_wins']} | "
+        f"**Black Wins:** {stats['black_wins']} | "
+        f"**Draws:** {stats['draws_count']}\n"
+    )
 
-    global_ratings = {}
-    rendered_stages = []
-    stage_titles = []
+    # 1. Rating & Standings Table
+    md.append("### 📈 View Full Rating Lists")
+    md.append("| Rank | Engine | Start Elo | Current Elo | Δ Elo | Score | Win % | Status |")
+    md.append("| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :--- |")
 
-    # Calculate Elo ratings sequentially across all completed stages
-    for stage_path in subdirs:
-        raw_folder = os.path.basename(stage_path)
-        stage_title = " ".join(raw_folder.split("_")[1:]).title() if "_" in raw_folder else raw_folder.title()
-        stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
+    for rank, engine in enumerate(engines, 1):
+        s_elo = stats["start_elos"][engine]
+        c_elo = stats["current_elos"][engine]
+        diff = c_elo - s_elo
+        diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
         
-        if stage_pgns:
-            stage_md = process_stage_pgns(stage_pgns, global_ratings, stage_name=raw_folder)
-            rendered_stages.append(stage_md)
-            stage_titles.append(stage_title)
+        pts = stats["points"][engine]
+        gp = stats["games_played"][engine]
+        win_pct = (pts / gp * 100.0) if gp > 0 else 0.0
+        
+        status = get_mcec_stage_status(stage_name, rank, total_engines) if is_complete else "⚔️ Active"
+        
+        md.append(
+            f"| {rank} | **{engine}** | {s_elo:.1f} | **{c_elo:.1f}** | {diff_str} | "
+            f"{pts:.1f}/{gp} | {win_pct:.1f}% | {status} |"
+        )
 
-    if not rendered_stages:
-        print("No PGN files found to process.")
+    md.append("\n---\n")
+
+    # 2. Developer Logs Table
+    md.append("### 🛠️ Developer Logs")
+    md.append("| Engine | Avg Length | Short Loss | Long Loss | Time Losses |")
+    md.append("| :--- | :---: | :---: | :---: | :---: |")
+
+    for engine in engines:
+        gp = stats["games_played"][engine]
+        avg_len = (stats["total_moves"][engine] / gp) if gp > 0 else 0.0
+        
+        s_loss = stats["short_loss"].get(engine)
+        l_loss = stats["long_loss"].get(engine)
+        
+        s_loss_str = str(s_loss) if s_loss is not None and s_loss != float('inf') else "N/A"
+        l_loss_str = str(l_loss) if l_loss is not None and l_loss > 0 else "N/A"
+        
+        t_losses = stats["time_losses"][engine]
+
+        md.append(f"| **{engine}** | {avg_len:.1f} | {s_loss_str} | {l_loss_str} | {t_losses} |")
+
+    md.append("\n---\n")
+
+    # 3. Crosstable Matrix
+    md.append("### ⚔️ Head-to-Head Crosstable")
+    header_row = "| # | Engine | " + " | ".join(f"{i+1}" for i in range(total_engines)) + " |"
+    divider_row = "| :---: | :--- | " + " | ".join(":---:" for _ in range(total_engines)) + " |"
+    md.append(header_row)
+    md.append(divider_row)
+
+    for i, e1 in enumerate(engines):
+        row = [f"{i+1}", f"**{e1}**"]
+        for j, e2 in enumerate(engines):
+            if i == j:
+                row.append("x")
+            else:
+                cell = stats["crosstable"][e1][e2]
+                if cell["games"] > 0:
+                    pts = cell["pts"]
+                    row.append(f"{pts:g}")
+                else:
+                    row.append("-")
+        md.append("| " + " | ".join(row) + " |")
+
+    return "\n".join(md)
+
+
+# ==========================================
+# MAIN EXECUTION ROUTINE
+# ==========================================
+def main():
+    base_dir = Path(PGN_DIR)
+    if not base_dir.exists():
+        print(f"Directory '{PGN_DIR}' not found. Creating empty directory.")
+        base_dir.mkdir(parents=True, exist_ok=True)
         return
 
-    # THE MAIN VIEW: Only display the LATEST active stage
-    latest_stage_title = stage_titles[-1]
-    latest_stage_md = rendered_stages[-1]
+    # Gather and sort stage subdirectories chronologically
+    stage_dirs = sorted([d for d in base_dir.iterdir() if d.is_dir()])
+    if not stage_dirs:
+        print(f"No stage directories found inside '{PGN_DIR}/'.")
+        return
 
-    full_md_output = f"## 🏆 Active Stage: {latest_stage_title}\n\n"
-    full_md_output += latest_stage_md + "\n\n---\n\n"
+    global_elos = defaultdict(lambda: DEFAULT_ELO)
+    all_markdown = []
 
-    # ARCHIVE / PRE-RELEASES SECTION
-    if len(stage_titles) > 1:
-        full_md_output += "### 📦 Archived Stages & Pre-releases\n\n"
-        full_md_output += "| Stage Name | Status | Archive Link |\n"
-        full_md_output += "| :--- | :---: | :--- |\n"
-        for title in stage_titles[:-1]:
-            slug = title.lower().replace(" ", "-")
-            full_md_output += f"| **{title}** | Completed | 🔗 [View Release / Archive](../../releases/tag/v3.0-{slug}) |\n"
+    total_stages = len(stage_dirs)
+    for idx, stage_dir in enumerate(stage_dirs):
+        stage_name = stage_dir.name
+        is_latest_stage = (idx == total_stages - 1)
+        
+        print(f"Processing Stage [{idx+1}/{total_stages}]: {stage_name}...")
+        
+        stats = process_stage_directory(str(stage_dir), global_elos)
+        stage_md = generate_markdown(stage_name, stats, is_complete=not is_latest_stage)
+        
+        all_markdown.append(stage_md)
 
-    readme_path = "README.md"
-    if os.path.exists(readme_path):
-        with open(readme_path, "r", encoding="utf-8") as f:
-            content = f.read()
+    # Combine into single markdown output document
+    final_output = "\n\n".join(all_markdown)
 
-        start_marker = "<!-- STATS_START -->"
-        end_marker = "<!-- STATS_END -->"
+    # Write output to file
+    with open(README_FILE, "w", encoding="utf-8") as f:
+        f.write("# MCEC Tournament Standings & Statistics\n\n")
+        f.write(final_output)
 
-        if start_marker in content and end_marker in content:
-            before = content.split(start_marker)[0]
-            after = content.split(end_marker)[1]
-            new_content = f"{before}{start_marker}\n{full_md_output}\n{end_marker}{after}"
-            
-            with open(readme_path, "w", encoding="utf-8") as f:
-                f.write(new_content)
-            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and Release archive table!")
+    print(f"Successfully updated statistics in {README_FILE}!")
+
 
 if __name__ == "__main__":
     main()
