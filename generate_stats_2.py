@@ -5,11 +5,11 @@ import math
 import chess.pgn
 
 MAIN_SEASON_DIR = "seasons/season_3/main"
-STAGES_OUTPUT_DIR = "stages"
+STAGES_OUTPUT_DIR = "Mobile-Chess-Engine-Circuit/more_results/main/season_3"
 DEFAULT_RATING = 3000.0
 K_FACTOR = 32.0
 
-# 🛠️ ENGINE ALIAS & RENAME MAP (Must match generate_stats.py to stay aligned)
+# 🛠️ ENGINE ALIAS & RENAME MAP
 ENGINE_ALIASES = {
     "hobess": "Hobbes",
     "hobbes 3.0": "Hobbes",
@@ -26,124 +26,520 @@ def get_canonical_name(name):
     cleaned = re.sub(r'\s+(?:v?\d+(?:\.\d+)*).*$', '', name, flags=re.IGNORECASE).strip()
     return cleaned if cleaned else name
 
-def generate_spcc_rating_list():
-    if not os.path.exists(MAIN_SEASON_DIR):
-        print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
-        return
+def format_time_display(sec):
+    if sec >= 99990.0:
+        return "N/A"
+    if sec < 1.0:
+        return f"{int(round(sec * 1000))}ms"
+    return f"{sec:.1f}s"
 
-    pgn_files = sorted(glob.glob(os.path.join(MAIN_SEASON_DIR, "**", "*.pgn"), recursive=True))
-    if not pgn_files:
-        print("No PGN files found for rating list generation.")
-        return
+def parse_engine_comment(comment):
+    if not comment:
+        return None, None, None
+        
+    match = re.search(r'\[(\d+)\]\s+(?:mate\s+\d+|[-\d\.]+)\s+([\d\.]+)(s|ms)\s+([\d\.]+)([kKM]?)nps', comment, re.IGNORECASE)
+    if not match:
+        return None, None, None
+        
+    depth = int(match.group(1))
+    val = float(match.group(2))
+    unit = match.group(3).lower()
+    time_sec = val / 1000.0 if unit == 'ms' else val
+    
+    nps_val = float(match.group(4))
+    multiplier = match.group(5).upper()
+    
+    if multiplier == 'M':
+        knps = nps_val * 1000.0
+    else:
+        knps = nps_val
 
-    global_ratings = {}
-    engine_data = {}
+    return depth, time_sec, knps
 
-    # Pass 1: Simulate all games chronologically to compute stable Elo ratings and track opponent stats
+def update_global_rankings(sorted_engines, stage_type, global_rankings):
+    """Assigns engines to their global rank slots (1-72) based on stage results."""
+    stage_type = stage_type.lower()
+    
+    if "entry" in stage_type:
+        bottom_half = sorted_engines[len(sorted_engines)//2:]
+        for i, eng in enumerate(bottom_half[:12]):
+            global_rankings[37 + i] = eng
+    elif "league_4" in stage_type or "league4" in stage_type or "l4" in stage_type:
+        for i, eng in enumerate(sorted_engines[-6:]):
+            global_rankings[31 + i] = eng
+    elif "league_3" in stage_type or "league3" in stage_type or "l3" in stage_type:
+        for i, eng in enumerate(sorted_engines[-6:]):
+            global_rankings[25 + i] = eng
+    elif "league_2" in stage_type or "league2" in stage_type or "l2" in stage_type:
+        for i, eng in enumerate(sorted_engines[-6:]):
+            global_rankings[19 + i] = eng
+    elif "league_1" in stage_type or "league1" in stage_type or "l1" in stage_type:
+        for i, eng in enumerate(sorted_engines[-6:]):
+            global_rankings[13 + i] = eng
+    elif "main" in stage_type:
+        for i, eng in enumerate(sorted_engines[-6:]):
+            global_rankings[7 + i] = eng
+    elif "semi" in stage_type:
+        for i, eng in enumerate(sorted_engines[:6]):
+            global_rankings[1 + i] = eng
+    elif "final" in stage_type:
+        if len(sorted_engines) >= 1: global_rankings[1] = sorted_engines[0]
+        if len(sorted_engines) >= 2: global_rankings[2] = sorted_engines[1]
+    elif "crucible" in stage_type:
+        for i, eng in enumerate(sorted_engines[:24]):
+            if 49 + i <= 72:
+                global_rankings[49 + i] = eng
+
+def get_mcec_stage_status(idx, stage_type, total_engines):
+    rank = idx + 1  
+    half_cutoff = math.ceil(total_engines / 2.0)
+
+    if "gateway" in stage_type:
+        if rank <= half_cutoff: return rank + 36, "🟢 Advanced to Entry League"
+        else: return rank + 36, "🔴 Relegated to The Survival"
+    elif "entry" in stage_type:
+        if rank <= half_cutoff: return rank, "🟢 Promoted to Foundation"
+        else: return rank + 36, "🔴 Relegated to Gatekeeper / Fringe"
+    elif "league_4" in stage_type or "league4" in stage_type or "l4" in stage_type:
+        if rank <= 6: return rank + 24, "🟢 Promoted to League 3"
+        else: return rank + 24, "🔴 Relegated"
+    elif "league_3" in stage_type or "league3" in stage_type or "l3" in stage_type:
+        if rank <= 6: return rank + 18, "🟢 Promoted to League 2"
+        else: return rank + 18, "🔴 Relegated"
+    elif "league_2" in stage_type or "league2" in stage_type or "l2" in stage_type:
+        if rank <= 6: return rank + 12, "🟢 Promoted to League 1"
+        else: return rank + 12, "🔴 Relegated"
+    elif "league_1" in stage_type or "league1" in stage_type or "l1" in stage_type:
+        if rank <= 6: return rank + 6, "🟢 Promoted to Main"
+        else: return rank + 6, "🔴 Relegated"
+    elif "main" in stage_type:
+        if rank <= 6: return rank, "🟢 Advanced to Semi-Final"
+        else: return rank, "🔴 Relegated"
+    elif "semi" in stage_type:
+        if rank <= 2: return rank, "🟢 Advanced to Final"
+        else: return rank, "🔴 Retained in Main Pool"
+    elif "final" in stage_type:
+        if rank == 1: return rank, "🏆 MCEC Champion"
+        elif rank == 2: return rank, "🥈 MCEC Runner-Up"
+        else: return rank, "🥉 Podium"
+    elif "survival" in stage_type:
+        if rank <= 22: return rank + 48, "🟢 Advanced to The Fringe"
+        else: return rank + 48, "🔴 Fully Kicked Out"
+    elif "fringe" in stage_type:
+        if rank <= half_cutoff: return rank + 48, "🟢 Retained in Circuit"
+        else: return rank + 48, "🔴 Relegated to Crucible / Out"
+    return rank, "⚔️ Active"
+
+def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_name=""):
+    stage_ratings = {}
+    stage_spcc_data = {}
+    stats = {}
+    head_to_head = {}
+    engines_in_stage = set()
+
+    total_stage_games = 0
+    total_white_wins = 0
+    total_black_wins = 0
+    total_draws = 0
+    stage_key = stage_name.lower().replace(" ", "_")
+
     for pgn_path in pgn_files:
         with open(pgn_path, encoding="utf-8", errors="replace") as pgn_file:
             while True:
                 game = chess.pgn.read_game(pgn_file)
-                if game is None:
-                    break
+                if game is None: break
 
                 white = game.headers.get("White", "Unknown").strip()
                 black = game.headers.get("Black", "Unknown").strip()
                 result = game.headers.get("Result", "*").strip()
+                termination = game.headers.get("Termination", "Normal").strip()
 
                 if white == "Unknown" or black == "Unknown" or result not in ["1-0", "0-1", "1/2-1/2", "0.5-0.5"]:
                     continue
 
+                engines_in_stage.add(white)
+                engines_in_stage.add(black)
+                total_stage_games += 1
+
                 c_white = get_canonical_name(white)
                 c_black = get_canonical_name(black)
 
-                if c_white not in global_ratings: global_ratings[c_white] = DEFAULT_RATING
-                if c_black not in global_ratings: global_ratings[c_black] = DEFAULT_RATING
+                if c_white not in engine_display_names or len(white) >= len(engine_display_names[c_white]):
+                    engine_display_names[c_white] = white
+                if c_black not in engine_display_names or len(black) >= len(engine_display_names[c_black]):
+                    engine_display_names[c_black] = black
 
-                for eng in [c_white, c_black]:
-                    if eng not in engine_data:
-                        engine_data[eng] = {
-                            "games": 0, "points": 0.0, "draws": 0, 
-                            "opp_rating_sum": 0.0
+                for c_eng in [c_white, c_black]:
+                    if c_eng not in stage_ratings: stage_ratings[c_eng] = DEFAULT_RATING
+                    if c_eng not in stage_spcc_data: stage_spcc_data[c_eng] = {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0}
+
+                for eng in [white, black]:
+                    if eng not in stats:
+                        stats[eng] = {
+                            "points": 0.0, "played": 0, "wins": 0, "draws": 0, "losses": 0,
+                            "white_wins": 0, "black_wins": 0, "white_draws": 0, "black_draws": 0,
+                            "white_losses": 0, "black_losses": 0, "white_pts": 0.0, "white_games": 0,
+                            "black_pts": 0.0, "black_games": 0, "total_moves": 0, 
+                            "shortest_win": 9999, "longest_win": 0, 
+                            "shortest_draw": 9999, "longest_draw": 0,
+                            "shortest_loss": 9999, "longest_loss": 0,
+                            "min_depth": 9999, "max_depth": 0, "depths_list": [],
+                            "min_time": 99999.0, "max_time": 0.0, "times_list": [],
+                            "min_knps": 99999.0, "max_knps": 0.0, "knps_list": [],
+                            "time_losses": 0, "crashes": 0, "sb": 0.0
                         }
 
-                r_w = global_ratings[c_white]
-                r_b = global_ratings[c_black]
+                if white not in head_to_head: head_to_head[white] = {}
+                if black not in head_to_head: head_to_head[black] = {}
+                if black not in head_to_head[white]: head_to_head[white][black] = {"pts": 0.0, "games": 0, "results": []}
+                if white not in head_to_head[black]: head_to_head[black][white] = {"pts": 0.0, "games": 0, "results": []}
 
-                # Record pre-game opponent ratings for Av.Op. calculation
-                engine_data[c_white]["opp_rating_sum"] += r_b
-                engine_data[c_black]["opp_rating_sum"] += r_w
+                r_w = stage_ratings[c_white]
+                r_b = stage_ratings[c_black]
 
-                # Determine scores
+                stage_spcc_data[c_white]["opp_rating_sum"] += r_b
+                stage_spcc_data[c_black]["opp_rating_sum"] += r_w
+
+                board = game.board()
+                plies = 0
+                for node in game.mainline():
+                    plies += 1
+                    is_white = board.turn == chess.WHITE
+                    player = white if is_white else black
+                    
+                    depth, time_sec, knps = parse_engine_comment(node.comment)
+                    if depth is not None:
+                        stats[player]["min_depth"] = min(stats[player]["min_depth"], depth)
+                        stats[player]["max_depth"] = max(stats[player]["max_depth"], depth)
+                        stats[player]["depths_list"].append(depth)
+                    if time_sec is not None:
+                        stats[player]["min_time"] = min(stats[player]["min_time"], time_sec)
+                        stats[player]["max_time"] = max(stats[player]["max_time"], time_sec)
+                        stats[player]["times_list"].append(time_sec)
+                    if knps is not None:
+                        stats[player]["min_knps"] = min(stats[player]["min_knps"], knps)
+                        stats[player]["max_knps"] = max(stats[player]["max_knps"], knps)
+                        stats[player]["knps_list"].append(knps)
+                    board.push(node.move)
+
+                game_length = (plies + 1) // 2
+                stats[white]["total_moves"] += game_length
+                stats[black]["total_moves"] += game_length
+
+                if "time" in termination.lower():
+                    if result == "0-1": stats[white]["time_losses"] += 1
+                    elif result == "1-0": stats[black]["time_losses"] += 1
+                elif "abandoned" in termination.lower() or "rules" in termination.lower():
+                    if result == "0-1": stats[white]["crashes"] += 1
+                    elif result == "1-0": stats[black]["crashes"] += 1
+
                 if result == "1-0":
                     s_w, s_b = 1.0, 0.0
-                    engine_data[c_white]["draws"] += 0
-                    engine_data[c_black]["draws"] += 0
+                    stats[white]["wins"] += 1; stats[white]["white_wins"] += 1
+                    stats[black]["losses"] += 1; stats[black]["black_losses"] += 1
+                    stats[white]["shortest_win"] = min(stats[white]["shortest_win"], game_length)
+                    stats[white]["longest_win"] = max(stats[white]["longest_win"], game_length)
+                    stats[black]["shortest_loss"] = min(stats[black]["shortest_loss"], game_length)
+                    stats[black]["longest_loss"] = max(stats[black]["longest_loss"], game_length)
+                    total_white_wins += 1
+                    head_to_head[white][black]["results"].append("1")
+                    head_to_head[black][white]["results"].append("0")
                 elif result == "0-1":
                     s_w, s_b = 0.0, 1.0
-                    engine_data[c_white]["draws"] += 0
-                    engine_data[c_black]["draws"] += 0
+                    stats[black]["wins"] += 1; stats[black]["black_wins"] += 1
+                    stats[white]["losses"] += 1; stats[white]["white_losses"] += 1
+                    stats[black]["shortest_win"] = min(stats[black]["shortest_win"], game_length)
+                    stats[black]["longest_win"] = max(stats[black]["longest_win"], game_length)
+                    stats[white]["shortest_loss"] = min(stats[white]["shortest_loss"], game_length)
+                    stats[white]["longest_loss"] = max(stats[white]["longest_loss"], game_length)
+                    total_black_wins += 1
+                    head_to_head[white][black]["results"].append("0")
+                    head_to_head[black][white]["results"].append("1")
                 else:
                     s_w, s_b = 0.5, 0.5
-                    engine_data[c_white]["draws"] += 1
-                    engine_data[c_black]["draws"] += 1
+                    stats[white]["draws"] += 1; stats[white]["white_draws"] += 1
+                    stats[black]["draws"] += 1; stats[black]["black_draws"] += 1
+                    stats[white]["shortest_draw"] = min(stats[white]["shortest_draw"], game_length)
+                    stats[white]["longest_draw"] = max(stats[white]["longest_draw"], game_length)
+                    stats[black]["shortest_draw"] = min(stats[black]["shortest_draw"], game_length)
+                    stats[black]["longest_draw"] = max(stats[black]["longest_draw"], game_length)
+                    total_draws += 1
+                    head_to_head[white][black]["results"].append("½")
+                    head_to_head[black][white]["results"].append("½")
+                    stage_spcc_data[c_white]["draws"] += 1
+                    stage_spcc_data[c_black]["draws"] += 1
 
-                engine_data[c_white]["games"] += 1
-                engine_data[c_white]["points"] += s_w
-                engine_data[c_black]["games"] += 1
-                engine_data[c_black]["points"] += s_b
+                stats[white]["points"] += s_w
+                stats[black]["points"] += s_b
+                stats[white]["played"] += 1
+                stats[black]["played"] += 1
+                stats[white]["white_pts"] += s_w
+                stats[white]["white_games"] += 1
+                stats[black]["black_pts"] += s_b
+                stats[black]["black_games"] += 1
 
-                # Update Elo ratings
+                stage_spcc_data[c_white]["games"] += 1
+                stage_spcc_data[c_white]["points"] += s_w
+                stage_spcc_data[c_black]["games"] += 1
+                stage_spcc_data[c_black]["points"] += s_b
+
+                head_to_head[white][black]["pts"] += s_w
+                head_to_head[black][white]["pts"] += s_b
+                head_to_head[white][black]["games"] += 1
+                head_to_head[black][white]["games"] += 1
+
                 exp_w = calculate_expected_score(r_w, r_b)
                 exp_b = calculate_expected_score(r_b, r_w)
-                global_ratings[c_white] += K_FACTOR * (s_w - exp_w)
-                global_ratings[c_black] += K_FACTOR * (s_b - exp_b)
+                stage_ratings[c_white] += K_FACTOR * (s_w - exp_w)
+                stage_ratings[c_black] += K_FACTOR * (s_b - exp_b)
 
-    # Compile final SPCC-style stats table rows
-    sorted_rating_list = sorted(global_ratings.items(), key=lambda x: x[1], reverse=True)
+    for eng1 in engines_in_stage:
+        sb = 0.0
+        if eng1 in head_to_head:
+            for eng2, rec in head_to_head[eng1].items():
+                wins = rec["results"].count("1")
+                draws = rec["results"].count("½")
+                sb += wins * stats[eng2]["points"]
+                sb += draws * (stats[eng2]["points"] / 2.0)
+        stats[eng1]["sb"] = sb
 
-    md = "### 📊 MCEC Official Computer Rating List (SPCC Style)\n\n"
-    md += "Ranking engines based on cumulative Elo performance, score percentages, average opponent strength, and draw rates across all tournament stages.\n\n"
+    sorted_engines = sorted(
+        engines_in_stage, 
+        key=lambda x: (stats[x]["points"], stats[x]["sb"], stage_ratings[get_canonical_name(x)]), 
+        reverse=True
+    )
+    total_engines_count = len(sorted_engines)
+    
+    update_global_rankings(sorted_engines, stage_key, global_rankings)
+
+    w_pct = (total_white_wins / total_stage_games * 100) if total_stage_games > 0 else 0
+    b_pct = (total_black_wins / total_stage_games * 100) if total_stage_games > 0 else 0
+    d_pct = (total_draws / total_stage_games * 100) if total_stage_games > 0 else 0
+
+    md = f"> 📊 **Active Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
+    md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
+
+    md += "#### 🏆 Standings (TCEC Style)\n\n"
+    md += "| Rank | Engine | Games | Points | % | Wins [W/B] | Losses [W/B] | Draws [W/B] | SB | Elo |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    for idx, eng in enumerate(sorted_engines, start=1):
+        st = stats[eng]
+        games = st['played']
+        pts = st['points']
+        pct = (pts / games * 100) if games > 0 else 0.0
+        wins_str = f"{st['wins']} [{st['white_wins']}/{st['black_wins']}]"
+        losses_str = f"{st['losses']} [{st['white_losses']}/{st['black_losses']}]"
+        draws_str = f"{st['draws']} [{st['white_draws']}/{st['black_draws']}]"
+        sb_str = f"{st['sb']:.2f}".rstrip('0').rstrip('.')
+        pts_str = f"{pts:.1f}".rstrip('0').rstrip('.')
+        c_eng = get_canonical_name(eng)
+        elo = stage_ratings[c_eng]
+        md += f"| {idx} | **{eng}** | {games} | **{pts_str}** | {pct:.2f}% | {wins_str} | {losses_str} | {draws_str} | {sb_str} | {elo:.0f} |\n"
+
+    md += "\n<details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>\n\n"
+    md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |\n"
+    for idx, eng in enumerate(sorted_engines):
+        abs_rank, status_badge = get_mcec_stage_status(idx, stage_key, total_engines_count)
+        st = stats[eng]
+        c_eng = get_canonical_name(eng)
+        start_r = DEFAULT_RATING
+        end_r = stage_ratings[c_eng]
+        diff = end_r - start_r
+        diff_str = f"+{diff:.1f}" if diff >= 0 else f"{diff:.1f}"
+        win_pct = f"{(st['wins'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
+        loss_pct = f"{(st['losses'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
+        md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{st['points']:.1f}** / {st['played']} | {win_pct} | {loss_pct} | {status_badge} |\n"
+    md += "\n</details>\n\n"
+
+    md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
+    md += "| Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Normal Depth | Short / Long Time | Normal Time | Short / Long kNPS | Normal kNPS | Time Losses | Crashes |\n"
+    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    for idx, eng in enumerate(sorted_engines, start=1):
+        st = stats[eng]
+        win_pct_total = f"{(st['wins'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
+        draw_pct_total = f"{(st['draws'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
+        avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
+        win_range = f"{st['shortest_win']} / {st['longest_win']} moves" if st['shortest_win'] <= 9999 else "N/A"
+        draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st['shortest_draw'] <= 9999 else "N/A"
+        loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st['shortest_loss'] <= 9999 else "N/A"
+        depth_range = f"{st['min_depth']} / {st['max_depth']}" if st['min_depth'] <= 9999 else "N/A"
+        normal_depth = f"{(sum(st['depths_list']) / len(st['depths_list'])):.1f}" if st['depths_list'] else "N/A"
+        time_range = f"{format_time_display(st['min_time'])} / {format_time_display(st['max_time'])}" if st['min_time'] < 99990.0 else "N/A"
+        normal_time = format_time_display(sum(st['times_list']) / len(st['times_list'])) if st['times_list'] else "N/A"
+        knps_range = f"{st['min_knps']:.1f} / {st['max_knps']:.1f}" if st['min_knps'] <= 9999.0 else "N/A"
+        normal_knps = f"{(sum(st['knps_list']) / len(st['knps_list'])):.1f}" if st['knps_list'] else "N/A"
+        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {avg_len} | {win_range} | {draw_range} | {loss_range} | {depth_range} | {normal_depth} | {time_range} | {normal_time} | {knps_range} | {normal_knps} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+    md += "\n</details>\n\n"
+
+    md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
+    header_row = "| Engine | " + " | ".join([f"**#{i}**" for i in range(1, total_engines_count + 1)]) + " |\n"
+    divider_row = "| :--- | " + " | ".join([":---:"] * total_engines_count) + " |\n"
+    md += header_row + divider_row
+    for i, eng1 in enumerate(sorted_engines, start=1):
+        row = f"| **#{i}. {eng1}** | "
+        cells = []
+        for j, eng2 in enumerate(sorted_engines, start=1):
+            if i == j:
+                cells.append("—")
+            else:
+                rec1 = head_to_head.get(eng1, {}).get(eng2, None)
+                rec2 = head_to_head.get(eng2, {}).get(eng1, None)
+                if rec1 and rec1["games"] > 0:
+                    h2h_diff = rec1["pts"] - (rec2["pts"] if rec2 else 0.0)
+                    diff_str = f"+{h2h_diff:.1f}" if h2h_diff > 0 else (f"{h2h_diff:.1f}" if h2h_diff < 0 else "0.0")
+                    cells.append(f"<nobr>{' '.join(rec1['results'])}</nobr><br>({diff_str})")
+                else:
+                    cells.append("*")
+        row += " | ".join(cells) + " |\n"
+        md += row
+    md += "\n</details>\n"
+    return md
+
+def generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names):
+    sorted_spcc = sorted(global_ratings.items(), key=lambda x: x[1], reverse=True)
+    md = "<details><summary><b>📊 View Official Computer Rating List (SPCC Style)</b></summary>\n\n"
+    md += "Ranking engines based on cumulative Elo performance, score percentages, average opponent strength, and draw rates across all stages.\n\n"
     md += "| Rank | Engine | Rating | + | - | Games | Score % | Av. Op. | Draws % |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
-
-    for idx, (eng, rating) in enumerate(sorted_rating_list, start=1):
-        data = engine_data[eng]
+    for idx, (c_eng, rating) in enumerate(sorted_spcc, start=1):
+        data = global_spcc_data.get(c_eng, {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0})
         games = data["games"]
-        if games == 0:
-            continue
-        
+        if games == 0: continue
+        display_name = engine_display_names.get(c_eng, c_eng)
         score_pct = (data["points"] / games) * 100.0
         draw_pct = (data["draws"] / games) * 100.0
-        av_op = data["opp_rating_sum / games"] if "opp_rating_sum / games" in data else (data["opp_rating_sum"] / games)
-        
-        # Statistical error margins approximation based on game count variance (standard SPCC/CCRL style heuristic)
+        av_op = data["opp_rating_sum"] / games
         error_margin = max(2, int(round(160.0 / math.sqrt(games)))) if games > 0 else 0
+        md += f"| {idx} | **{display_name}** | **{rating:.0f}** | {error_margin} | {error_margin} | {games:,} | {score_pct:.1f}% | {av_op:.0f} | {draw_pct:.1f}% |\n"
+    md += "\n</details>\n\n"
+    return md
 
-        md += f"| {idx} | **{eng}** | **{rating:.0f}** | {error_margin} | {error_margin} | {games:,} | {score_pct:.1f}% | {av_op:.0f} | {draw_pct:.1f}% |\n"
+def generate_global_hierarchy_md(global_rankings, global_ratings, global_spcc_data, engine_display_names):
+    """Generates the Global Hierarchy section (1-72) in pure CCRL style table format."""
+    def build_ccrl_table(start_rank, end_rank):
+        table_md = "| Rank | Engine | Elo | + | - | Score | Avg Opp | Draws | Games |\n"
+        table_md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+        
+        for rank in range(start_rank, end_rank + 1):
+            eng_name = global_rankings.get(rank, "[TBD]")
+            
+            if eng_name == "[TBD]" or not eng_name:
+                table_md += f"| {rank} | *[TBD]* | - | - | - | - | - | - | - |\n"
+            else:
+                c_eng = get_canonical_name(eng_name)
+                disp_name = engine_display_names.get(c_eng, eng_name)
+                rating = global_ratings.get(c_eng, DEFAULT_RATING)
+                spcc = global_spcc_data.get(c_eng, {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0})
+                
+                games = spcc["games"]
+                if games > 0:
+                    score_pct = (spcc["points"] / games) * 100.0
+                    draw_pct = (spcc["draws"] / games) * 100.0
+                    avg_opp_diff = (spcc["opp_rating_sum"] / games) - rating
+                    err = max(2, int(round(160.0 / math.sqrt(games))))
+                    avg_opp_str = f"{avg_opp_diff:+.1f}"
+                    table_md += f"| {rank} | **{disp_name}** | **{rating:.0f}** | +{err} | -{err} | {score_pct:.1f}% | {avg_opp_str} | {draw_pct:.1f}% | {games:,} |\n"
+                else:
+                    table_md += f"| {rank} | **{disp_name}** | **{rating:.0f}** | - | - | - | - | - | 0 |\n"
+                    
+        return table_md
+
+    md = "### 🌍 MCEC Season 3 Global Rankings\n\n"
+    
+    md += "#### 🏆 The Foundation (1–36)\n\n"
+    md += build_ccrl_table(1, 36) + "\n"
+        
+    md += "#### 🚪 The Gateway (37–48)\n\n"
+    md += build_ccrl_table(37, 48) + "\n"
+        
+    md += "#### ⛺ The Fringe (49–72)\n\n"
+    md += build_ccrl_table(49, 72) + "\n"
+        
+    return md + "---\n\n"
+
+def main():
+    if not os.path.exists(MAIN_SEASON_DIR):
+        print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
+        return
+
+    subdirs = sorted([d for d in glob.glob(os.path.join(MAIN_SEASON_DIR, "*")) if os.path.isdir(d)])
+    if not subdirs:
+        print("No stage directories found.")
+        return
 
     os.makedirs(STAGES_OUTPUT_DIR, exist_ok=True)
-    output_path = os.path.join(STAGES_OUTPUT_DIR, "computer_rating_list.md")
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(f"# MCEC Season 3 - Computer Rating List\n\n{md}")
-    print(f"Successfully generated SPCC rating list at: {output_path}")
 
-    # Optionally inject into README under custom markers to keep it modular
+    global_ratings = {}
+    global_spcc_data = {}
+    engine_display_names = {}
+    global_rankings = {i: "[TBD]" for i in range(1, 73)}
+    stage_records = []
+
+    for stage_path in subdirs:
+        raw_folder = os.path.basename(stage_path)
+        stage_title = " ".join(raw_folder.split("_")[1:]).title() if "_" in raw_folder else raw_folder.title()
+        stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
+        
+        if stage_pgns:
+            # Each stage processes independently without carrying over prior ratings/stats
+            stage_md = process_stage_pgns(stage_pgns, engine_display_names, global_rankings, stage_name=raw_folder)
+            slug = stage_title.replace(" ", "_")
+            
+            stage_file_path = os.path.join(STAGES_OUTPUT_DIR, f"{slug}.md")
+            with open(stage_file_path, "w", encoding="utf-8") as sf:
+                sf.write(f"# MCEC Season 3 - {stage_title}\n\n{stage_md}")
+            
+            stage_records.append((stage_title, slug, stage_md))
+
+    if not stage_records:
+        print("No PGN files processed.")
+        return
+
+    latest_title, latest_slug, latest_md = stage_records[-1]
+
+    full_md_output = "### 🏰 MCEC Season 3 Structure & Tournament Flow\n\n"
+    full_md_output += "MCEC Season 3 is strictly capped at **72 engines** and operates on a core **half-promote / half-relegate** dynamic, divided into **3 core parts and 2 boundary zones**:\n\n"
+    full_md_output += "#### 📌 Core Structure Parts\n"
+    full_md_output += "* **1–36 | The Foundation:** Multi-tier elite bracket featuring strict 6-to-6 promotion and relegation rules.\n"
+    full_md_output += "* **37–48 | The Gateway:** Entry gate where Gatekeepers and newcomers clash (top half promotes, bottom half relegates).\n"
+    full_md_output += "* **49–72 | The Fringe:** Lower-tier survival circuit where the top 22 retain their spots and others are fully kicked out.\n\n"
+    full_md_output += "#### 🔄 Boundary Zones & Flows\n"
+    full_md_output += "* **Entry League:** Bridge between Gateway and Foundation.\n"
+    full_md_output += "* **The Survival:** Bridge between Gateway and Fringe.\n\n"
+    full_md_output += "---\n\n"
+
+    # Add the Global Hierarchy with CCRL Tables
+    full_md_output += generate_global_hierarchy_md(global_rankings, global_ratings, global_spcc_data, engine_display_names)
+
+    full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names)
+
+    full_md_output += f"## 🏆 Active Stage: {latest_title}\n\n"
+    full_md_output += latest_md + "\n\n---\n\n"
+
+    if len(stage_records) > 1:
+        full_md_output += "### 📦 Archived Stages & Pre-releases\n\n"
+        full_md_output += "| Stage Name | Status | Full Details File |\n"
+        full_md_output += "| :--- | :---: | :--- |\n"
+        for title, slug, _ in stage_records[:-1]:
+            full_md_output += f"| **{title}** | Completed | 🔗 [View Stage Data](Mobile-Chess-Engine-Circuit/more_results/main/season_3/{slug}.md) |\n"
+
     readme_path = "README.md"
     if os.path.exists(readme_path):
         with open(readme_path, "r", encoding="utf-8") as f:
             content = f.read()
 
-        start_marker = "<!-- RATING_LIST_START -->"
-        end_marker = "<!-- RATING_LIST_END -->"
+        start_marker = "<!-- STATS_START -->"
+        end_marker = "<!-- STATS_END -->"
 
         if start_marker in content and end_marker in content:
             before = content.split(start_marker)[0]
             after = content.split(end_marker)[1]
-            new_content = f"{before}{start_marker}\n{md}\n{end_marker}{after}"
+            new_content = f"{before}{start_marker}\n{full_md_output}\n{end_marker}{after}"
+            
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated README.md rating list section!")
+            print("Successfully updated main script with independent stage calculations and updated output path!")
 
 if __name__ == "__main__":
-    generate_spcc_rating_list()
+    main()
