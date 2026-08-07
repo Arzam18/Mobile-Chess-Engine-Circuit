@@ -130,7 +130,7 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
         else: return rank + 48, "🔴 Relegated to Crucible / Out"
     return rank, "⚔️ Active"
 
-def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_name=""):
+def process_stage_pgns(pgn_files, engine_display_names, global_rankings, global_ratings, global_spcc_data, stage_name=""):
     stage_ratings = {}
     stage_spcc_data = {}
     stats = {}
@@ -172,6 +172,8 @@ def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_n
                 for c_eng in [c_white, c_black]:
                     if c_eng not in stage_ratings: stage_ratings[c_eng] = DEFAULT_RATING
                     if c_eng not in stage_spcc_data: stage_spcc_data[c_eng] = {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0}
+                    if c_eng not in global_ratings: global_ratings[c_eng] = DEFAULT_RATING
+                    if c_eng not in global_spcc_data: global_spcc_data[c_eng] = {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0}
 
                 for eng in [white, black]:
                     if eng not in stats:
@@ -199,6 +201,8 @@ def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_n
 
                 stage_spcc_data[c_white]["opp_rating_sum"] += r_b
                 stage_spcc_data[c_black]["opp_rating_sum"] += r_w
+                global_spcc_data[c_white]["opp_rating_sum"] += r_b
+                global_spcc_data[c_black]["opp_rating_sum"] += r_w
 
                 board = game.board()
                 plies = 0
@@ -268,6 +272,8 @@ def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_n
                     head_to_head[black][white]["results"].append("½")
                     stage_spcc_data[c_white]["draws"] += 1
                     stage_spcc_data[c_black]["draws"] += 1
+                    global_spcc_data[c_white]["draws"] += 1
+                    global_spcc_data[c_black]["draws"] += 1
 
                 stats[white]["points"] += s_w
                 stats[black]["points"] += s_b
@@ -283,6 +289,11 @@ def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_n
                 stage_spcc_data[c_black]["games"] += 1
                 stage_spcc_data[c_black]["points"] += s_b
 
+                global_spcc_data[c_white]["games"] += 1
+                global_spcc_data[c_white]["points"] += s_w
+                global_spcc_data[c_black]["games"] += 1
+                global_spcc_data[c_black]["points"] += s_b
+
                 head_to_head[white][black]["pts"] += s_w
                 head_to_head[black][white]["pts"] += s_b
                 head_to_head[white][black]["games"] += 1
@@ -292,6 +303,8 @@ def process_stage_pgns(pgn_files, engine_display_names, global_rankings, stage_n
                 exp_b = calculate_expected_score(r_b, r_w)
                 stage_ratings[c_white] += K_FACTOR * (s_w - exp_w)
                 stage_ratings[c_black] += K_FACTOR * (s_b - exp_b)
+                global_ratings[c_white] += K_FACTOR * (s_w - exp_w)
+                global_ratings[c_black] += K_FACTOR * (s_b - exp_b)
 
     for eng1 in engines_in_stage:
         sb = 0.0
@@ -482,8 +495,7 @@ def main():
         stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
         
         if stage_pgns:
-            # Each stage processes independently without carrying over prior ratings/stats
-            stage_md = process_stage_pgns(stage_pgns, engine_display_names, global_rankings, stage_name=raw_folder)
+            stage_md = process_stage_pgns(stage_pgns, engine_display_names, global_rankings, global_ratings, global_spcc_data, stage_name=raw_folder)
             slug = stage_title.replace(" ", "_")
             
             stage_file_path = os.path.join(STAGES_OUTPUT_DIR, f"{slug}.md")
@@ -498,7 +510,8 @@ def main():
 
     latest_title, latest_slug, latest_md = stage_records[-1]
 
-    full_md_output = "### 🏰 MCEC Season 3 Structure & Tournament Flow\n\n"
+    full_md_output = "# MCEC Season 3 - Overview & Summary\n\n"
+    full_md_output += "### 🏰 MCEC Season 3 Structure & Tournament Flow\n\n"
     full_md_output += "MCEC Season 3 is strictly capped at **72 engines** and operates on a core **half-promote / half-relegate** dynamic, divided into **3 core parts and 2 boundary zones**:\n\n"
     full_md_output += "#### 📌 Core Structure Parts\n"
     full_md_output += "* **1–36 | The Foundation:** Multi-tier elite bracket featuring strict 6-to-6 promotion and relegation rules.\n"
@@ -509,9 +522,7 @@ def main():
     full_md_output += "* **The Survival:** Bridge between Gateway and Fringe.\n\n"
     full_md_output += "---\n\n"
 
-    # Add the Global Hierarchy with CCRL Tables
     full_md_output += generate_global_hierarchy_md(global_rankings, global_ratings, global_spcc_data, engine_display_names)
-
     full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names)
 
     full_md_output += f"## 🏆 Active Stage: {latest_title}\n\n"
@@ -522,24 +533,13 @@ def main():
         full_md_output += "| Stage Name | Status | Full Details File |\n"
         full_md_output += "| :--- | :---: | :--- |\n"
         for title, slug, _ in stage_records[:-1]:
-            full_md_output += f"| **{title}** | Completed | 🔗 [View Stage Data](Mobile-Chess-Engine-Circuit/more_results/main/season_3/{slug}.md) |\n"
+            full_md_output += f"| **{title}** | Completed | 🔗 [View Stage Data]({slug}.md) |\n"
 
-    readme_path = "README.md"
-    if os.path.exists(readme_path):
-        with open(readme_path, "r", encoding="utf-8") as f:
-            content = f.read()
+    index_path = os.path.join(STAGES_OUTPUT_DIR, "index.md")
+    with open(index_path, "w", encoding="utf-8") as f:
+        f.write(full_md_output)
 
-        start_marker = "<!-- STATS_START -->"
-        end_marker = "<!-- STATS_END -->"
-
-        if start_marker in content and end_marker in content:
-            before = content.split(start_marker)[0]
-            after = content.split(end_marker)[1]
-            new_content = f"{before}{start_marker}\n{full_md_output}\n{end_marker}{after}"
-            
-            with open(readme_path, "w", encoding="utf-8") as f:
-                f.write(new_content)
-            print("Successfully updated main script with independent stage calculations and updated output path!")
+    print("Successfully generated independent stage files and overview index in:", STAGES_OUTPUT_DIR)
 
 if __name__ == "__main__":
     main()
