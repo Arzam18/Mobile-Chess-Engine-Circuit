@@ -21,7 +21,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          cache: 'pip'
 
       - name: Install Dependencies
         run: |
@@ -36,6 +35,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md Mobile-Chess-Engine-Circuit/more_results/main/season_3/
+          git add Mobile-Chess-Engine-Circuit/more_results/main/season_3/
           git diff --staged --quiet || git commit -m "chore: run independent evaluation stats update [skip ci]"
           git push
