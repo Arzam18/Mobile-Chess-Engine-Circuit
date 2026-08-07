@@ -8,6 +8,10 @@ on:
       - 'seasons/season_3/**/*.pgn'
   workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
 
+concurrency:
+  group: mcec-stats-updates
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
