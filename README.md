@@ -6,43 +6,7 @@ The MCEC is a dedicated hobbyist Android tournament circuit where world-class ch
 
 ---
 
-## 🎯 Season 3: Tournament Structure & Tiers
 
-Following an initial 72-engine baseline benchmark, participant engines are divided into three core tiers:
-
-* **Top 1–36:** The Main Engines
-* **Top 37–48:** The Gateway (Gatekeepers)
-* **Top 49–72:** The Fringe
-
----
-
-## ⚔️ How "The Gateway" Works
-
-**The Gateway** serves as the entry point and testing ground for new engines joining the circuit:
-
-* **The Gatekeepers (Ranked 37–48):** 12 engines assigned to defend their positions against newcomers.
-* **The Newcomers:** New challengers entering the circuit must fight in The Gateway.
-* **The Split:** Upon conclusion of The Gateway, the participant pool is split in half based on performance:
-  * **Top Half:** Advances to the **MCEC S3 Entry League** to face the bottom half of the Main Engines (Ranked 19–36).
-  * **Bottom Half:** Drops down to face top engines in lower tiers.
-
----
-
-## 🪜 League Progression Ladder
-
-Surviving engines advance up the competitive ladder toward the championship:
-
-1. **The Gateway:** Entry testing ground (Newcomers vs Gatekeepers)
-2. **Entry League:** Gateway Top Half vs Main Engines (Ranked 19–36)
-3. **League 4:** 12 Engines | 396 Games | Top 25–36
-4. **League 3:** 12 Engines | 396 Games | Top 19–30
-5. **League 2:** 12 Engines | 396 Games | Top 13–24
-6. **League 1:** 12 Engines | 396 Games | Top 6–17
-7. **Main League:** 12 Engines | 660 Games | Top 1–12
-8. **Semi-Final:** 6 Engines | 750 Games | Top 1–6
-9. **Final:** 2 Engines | 300 Games | Top 1 vs Top 2
-
----
 
 <!-- STATS_START -->
 ### 🏰 MCEC Season 3 Structure & Tournament Flow
