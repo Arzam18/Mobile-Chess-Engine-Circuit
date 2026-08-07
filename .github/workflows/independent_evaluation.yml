@@ -39,4 +39,5 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add Mobile-Chess-Engine-Circuit/more_results/main/season_3/
           git diff --staged --quiet || git commit -m "chore: run independent evaluation stats update [skip ci]"
+          git pull --rebase origin main
           git push
