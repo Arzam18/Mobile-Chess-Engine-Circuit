@@ -283,21 +283,25 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
         md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{st['points']:.1f}** / {st['played']} | {win_pct} | {loss_pct} | {status_badge} |\n"
     md += "\n</details>\n\n"
 
-    # DEVELOPER LOGS WITH SHORT / LONG DEPTH, TIME, AND KNPS
+    # DEVELOPER LOGS WITH WIN/DRAW/LOSS AND DEPTH/TIME/KNPS COLUMNS TOGETHER
     md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
-    md += "| Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Depth | Short / Long Time | Short / Long kNPS | Time Losses | Crashes |\n"
-    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    md += "| Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Short / Long Time | Short / Long kNPS | Time Losses | Crashes |\n"
+    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
     for idx, eng in enumerate(sorted_engines, start=1):
         st = stats[eng]
         win_pct_total = f"{(st['wins'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
         draw_pct_total = f"{(st['draws'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
         avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
         
+        win_range = f"{st['shortest_win']} / {st['longest_win']} moves" if st['shortest_win'] <= 9999 else "N/A"
+        draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st['shortest_draw'] <= 9999 else "N/A"
+        loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st['shortest_loss'] <= 9999 else "N/A"
+
         depth_range = f"{st['min_depth']} / {st['max_depth']}" if st['min_depth'] <= 9999 else "N/A"
         time_range = f"{format_time_display(st['min_time'])} / {format_time_display(st['max_time'])}" if st['min_time'] < 99990.0 else "N/A"
         knps_range = f"{st['min_knps']:.1f} / {st['max_knps']:.1f}" if st['min_knps'] <= 9999.0 else "N/A"
 
-        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {avg_len} | {depth_range} | {time_range} | {knps_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {avg_len} | {win_range} | {draw_range} | {loss_range} | {depth_range} | {time_range} | {knps_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
     md += "\n</details>\n\n"
 
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
@@ -396,7 +400,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated README.md with depth, time, and knps developer metrics!")
+            print("Successfully restored win/draw/loss columns and added depth, time, and knps columns!")
 
 if __name__ == "__main__":
     main()
