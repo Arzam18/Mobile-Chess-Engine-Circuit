@@ -24,6 +24,88 @@ MCEC Season 3 is strictly capped at **72 engines** and operates on a core **half
 
 ---
 
+### 🌍 MCEC Season 3 Global Rankings
+
+#### The Foundation
+1. [TBD]
+2. [TBD]
+3. [TBD]
+4. [TBD]
+5. [TBD]
+6. [TBD]
+7. [TBD]
+8. [TBD]
+9. [TBD]
+10. [TBD]
+11. [TBD]
+12. [TBD]
+13. [TBD]
+14. [TBD]
+15. [TBD]
+16. [TBD]
+17. [TBD]
+18. [TBD]
+19. [TBD]
+20. [TBD]
+21. [TBD]
+22. [TBD]
+23. [TBD]
+24. [TBD]
+25. [TBD]
+26. [TBD]
+27. [TBD]
+28. [TBD]
+29. [TBD]
+30. [TBD]
+31. [TBD]
+32. [TBD]
+33. [TBD]
+34. [TBD]
+35. [TBD]
+36. [TBD]
+
+#### The Gateway
+37. [TBD]
+38. [TBD]
+39. [TBD]
+40. [TBD]
+41. [TBD]
+42. [TBD]
+43. [TBD]
+44. [TBD]
+45. [TBD]
+46. [TBD]
+47. [TBD]
+48. [TBD]
+
+#### The Fringe
+49. [TBD]
+50. [TBD]
+51. [TBD]
+52. [TBD]
+53. [TBD]
+54. [TBD]
+55. [TBD]
+56. [TBD]
+57. [TBD]
+58. [TBD]
+59. [TBD]
+60. [TBD]
+61. [TBD]
+62. [TBD]
+63. [TBD]
+64. [TBD]
+65. [TBD]
+66. [TBD]
+67. [TBD]
+68. [TBD]
+69. [TBD]
+70. [TBD]
+71. [TBD]
+72. [TBD]
+
+---
+
 <details><summary><b>📊 View Official Computer Rating List (SPCC Style)</b></summary>
 
 Ranking engines based on cumulative Elo performance, score percentages, average opponent strength, and draw rates across all stages.
