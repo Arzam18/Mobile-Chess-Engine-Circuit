@@ -9,13 +9,12 @@ DEFAULT_RATING = 3000.0
 K_FACTOR = 32.0
 
 # 🛠️ ENGINE ALIAS & RENAME MAP
-# Map any old name, typo, or previous version to a unified canonical ID 
-# so they share historical Elo and stats continuity.
+# Maps variations, typos, or previous versions to a unified canonical ID 
+# for shared historical Elo and stats continuity.
 ENGINE_ALIASES = {
     "hobess": "Hobbes",
     "hobbes 3.0": "Hobbes",
     "hobbes dev": "Hobbes",
-    # Add any future renames here like: "old_engine_name": "New_Canonical_Name"
 }
 
 def calculate_expected_score(r1, r2):
@@ -28,7 +27,6 @@ def get_canonical_name(name):
     if lower_name in ENGINE_ALIASES:
         return ENGINE_ALIASES[lower_name]
         
-    # Fallback regex to strip standard version numbers (e.g., 'Stockfish 15' -> 'Stockfish')
     cleaned = re.sub(r'\s+(?:v?\d+(?:\.\d+)*).*$', '', name, flags=re.IGNORECASE).strip()
     return cleaned if cleaned else name
 
@@ -55,7 +53,7 @@ def parse_move_comments(game):
     return avg_time
 
 def get_mcec_stage_status(idx, stage_type, total_engines):
-    """Calculates Global Rank and Status Badges according to updated MCEC dynamic stage rules."""
+    """Calculates Global Rank and Status Badges according to MCEC Season 3 Structure Rules."""
     rank = idx + 1  
     half_cutoff = math.ceil(total_engines / 2.0)
 
@@ -67,9 +65,9 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
 
     elif "entry" in stage_type:
         if rank <= half_cutoff:
-            return rank + 30, "🟢 Promoted to League 4"
+            return rank, "🟢 Promoted to Foundation"
         else:
-            return rank + 30, "🔴 Relegated to The Survival"
+            return rank + 36, "🔴 Relegated to Gatekeeper / Fringe"
 
     elif "league_4" in stage_type or "league4" in stage_type or "l4" in stage_type:
         if rank <= 6:
@@ -116,22 +114,16 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
             return rank, "🥉 Podium"
 
     elif "survival" in stage_type:
-        if rank <= half_cutoff:
-            return rank + 36, "🟢 Advanced to The Fringe"
+        if rank <= 22:
+            return rank + 48, "🟢 Advanced to The Fringe"
         else:
-            return rank + 36, "🔴 Relegated to Crucible"
+            return rank + 48, "🔴 Fully Kicked Out"
 
     elif "fringe" in stage_type:
         if rank <= half_cutoff:
             return rank + 48, "🟢 Retained in Circuit"
         else:
-            return rank + 48, "🔴 Relegated to Crucible"
-
-    elif "crucible" in stage_type:
-        if rank <= half_cutoff:
-            return rank + 48, "🛡️ Saved in Circuit"
-        else:
-            return rank + 48, "❌ Fully Kicked Out"
+            return rank + 48, "🔴 Relegated to Crucible / Out"
 
     return rank, "⚔️ Active"
 
@@ -298,7 +290,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
     md = f"> 📊 **Active Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
-    # 1. CLEAN, INDEPENDENT STAGE STANDINGS (Pure 1..N)
+    # 1. CLEAN STANDINGS
     md += "#### 🏆 Standings\n\n"
     md += "| Rank | Engine | Score |\n"
     md += "| :---: | :--- | :---: |\n"
@@ -308,7 +300,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
         p, g = st["points"], st["played"]
         md += f"| {idx} | **{eng}** | **{p:.1f}** / {g} |\n"
 
-    # 2. FULL RATING LISTS / FULL ENGINES
+    # 2. FULL RATINGS DETAILS
     md += "\n<details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>\n\n"
     md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |\n"
@@ -330,7 +322,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
 
     md += "\n</details>\n\n"
 
-    # 3. INDEPENDENT DEVELOPER PERFORMANCE LOGS
+    # 3. DEVELOPER LOGS
     md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
     md += "| Engine | Stage Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
@@ -351,7 +343,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
 
     md += "\n</details>\n\n"
 
-    # 4. INDEPENDENT CROSSTABLE
+    # 4. CROSSTABLE
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
     header_row = "| Engine | " + " | ".join([f"**#{i}**" for i in range(1, total_engines_count + 1)]) + " |\n"
     divider_row = "| :--- | " + " | ".join([":---:"] * total_engines_count) + " |\n"
@@ -421,11 +413,19 @@ def main():
     latest_stage_title = stage_titles[-1]
     latest_stage_md = rendered_stages[-1]
 
-    full_md_output = "🔄 **Post-Season Relegation & Capped Pool (Executed after Finals)**\n\n"
-    full_md_output += "Because MCEC maintains a strict cap of 72 engines through dynamic newcomers:\n\n"
-    full_md_output += "* **The Survival**: Gateway bottom half and matching number of fringe engines fight for survival.\n"
-    full_md_output += "* **The Fringe**: Lower-tier survival league (Ranked 49–72).\n"
-    full_md_output += "* **The Crucible**: Gateway-mirrored sizing (half of gateway size) where fringe engines and kicked-out engines fight to defend or earn their spot in the circuit.\n\n"
+    # OVERWRITTEN README EXPLANATION FOR MCEC SEASON 3 STRUCTURE
+    full_md_output = "### 🏰 MCEC Season 3 Structure & Tournament Flow\n\n"
+    full_md_output += "MCEC Season 3 is strictly capped at **72 engines** and operates on a core **half-promote / half-relegate** dynamic, divided into **3 core parts and 2 boundary zones**:\n\n"
+    
+    full_md_output += "#### 📌 Core Structure Parts\n"
+    full_md_output += "* **1–36 | The Foundation:** The main tier featuring strict 6-to-6 promotion and relegation rules across Leagues 4 through Main, Semifinals, and Finals.\n"
+    full_md_output += "* **37–48 | The Gateway:** The entry point where Gatekeepers and newcomers clash. The top half promotes, and the bottom half relegates.\n"
+    full_md_output += "* **49–72 | The Fringe:** Lower-tier survival circuit where the top 22 retain their spots and others are fully kicked out.\n\n"
+    
+    full_md_output += "#### 🔄 Boundary Zones & Flows\n"
+    full_md_output += "* **Entry League:** The bridge between Gateway and Foundation. Gateway top-half survivors challenge the bottom tier of the Foundation.\n"
+    full_md_output += "* **The Survival:** The bridge between Gateway and Fringe. Fallen Gateway engines and gatekeeper spillover defend their ranks against the Fringe circuit.\n\n"
+    
     full_md_output += "---\n\n"
 
     full_md_output += f"## 🏆 Active Stage: {latest_stage_title}\n\n"
@@ -454,8 +454,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print(f"Successfully updated README.md with Main View ({latest_stage_title}) and alias mapping!")
+            print("Successfully updated README.md with MCEC Season 3 Structure & dynamic stage rules!")
 
 if __name__ == "__main__":
     main()
-
