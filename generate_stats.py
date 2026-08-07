@@ -61,7 +61,6 @@ def update_global_rankings(sorted_engines, stage_type, global_rankings):
     stage_type = stage_type.lower()
     
     if "entry" in stage_type:
-        # Bottom half/relegates (first 12 of bottom half) to Gateway 37-48
         bottom_half = sorted_engines[len(sorted_engines)//2:]
         for i, eng in enumerate(bottom_half[:12]):
             global_rankings[37 + i] = eng
@@ -81,16 +80,13 @@ def update_global_rankings(sorted_engines, stage_type, global_rankings):
         for i, eng in enumerate(sorted_engines[-6:]):
             global_rankings[7 + i] = eng
     elif "semi" in stage_type:
-        # Put all 6 engines to 1-6 initially
         for i, eng in enumerate(sorted_engines[:6]):
             global_rankings[1 + i] = eng
     elif "final" in stage_type:
-        # Replace 1-2 with Final results
         if len(sorted_engines) >= 1: global_rankings[1] = sorted_engines[0]
         if len(sorted_engines) >= 2: global_rankings[2] = sorted_engines[1]
     elif "crucible" in stage_type:
-        # Top 22 engines to 49-72
-        for i, eng in enumerate(sorted_engines[:24]): # Accounts for 24 available slots (49 to 72)
+        for i, eng in enumerate(sorted_engines[:24]):
             if 49 + i <= 72:
                 global_rankings[49 + i] = eng
 
@@ -315,7 +311,6 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, engine_displ
     )
     total_engines_count = len(sorted_engines)
     
-    # Update global hierarchical ranking using the sorted stage results
     update_global_rankings(sorted_engines, stage_key, global_rankings)
 
     w_pct = (total_white_wins / total_stage_games * 100) if total_stage_games > 0 else 0
@@ -421,22 +416,48 @@ def generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_
     md += "\n</details>\n\n"
     return md
 
-def generate_global_hierarchy_md(global_rankings):
+def generate_global_hierarchy_md(global_rankings, global_ratings, global_spcc_data, engine_display_names):
+    """Generates the Global Hierarchy section (1-72) in pure CCRL style table format."""
+    def build_ccrl_table(start_rank, end_rank):
+        table_md = "| Rank | Engine | Elo | + | - | Score | Avg Opp | Draws | Games |\n"
+        table_md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+        
+        for rank in range(start_rank, end_rank + 1):
+            eng_name = global_rankings.get(rank, "[TBD]")
+            
+            if eng_name == "[TBD]" or not eng_name:
+                table_md += f"| {rank} | *[TBD]* | - | - | - | - | - | - | - |\n"
+            else:
+                c_eng = get_canonical_name(eng_name)
+                disp_name = engine_display_names.get(c_eng, eng_name)
+                rating = global_ratings.get(c_eng, DEFAULT_RATING)
+                spcc = global_spcc_data.get(c_eng, {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0})
+                
+                games = spcc["games"]
+                if games > 0:
+                    score_pct = (spcc["points"] / games) * 100.0
+                    draw_pct = (spcc["draws"] / games) * 100.0
+                    avg_opp_diff = (spcc["opp_rating_sum"] / games) - rating
+                    err = max(2, int(round(160.0 / math.sqrt(games))))
+                    avg_opp_str = f"{avg_opp_diff:+.1f}"
+                    table_md += f"| {rank} | **{disp_name}** | **{rating:.0f}** | +{err} | -{err} | {score_pct:.1f}% | {avg_opp_str} | {draw_pct:.1f}% | {games:,} |\n"
+                else:
+                    table_md += f"| {rank} | **{disp_name}** | **{rating:.0f}** | - | - | - | - | - | 0 |\n"
+                    
+        return table_md
+
     md = "### 🌍 MCEC Season 3 Global Rankings\n\n"
     
-    md += "#### The Foundation\n"
-    for i in range(1, 37):
-        md += f"{i}. {global_rankings[i]}\n"
+    md += "#### 🏆 The Foundation (1–36)\n\n"
+    md += build_ccrl_table(1, 36) + "\n"
         
-    md += "\n#### The Gateway\n"
-    for i in range(37, 49):
-        md += f"{i}. {global_rankings[i]}\n"
+    md += "#### 🚪 The Gateway (37–48)\n\n"
+    md += build_ccrl_table(37, 48) + "\n"
         
-    md += "\n#### The Fringe\n"
-    for i in range(49, 73):
-        md += f"{i}. {global_rankings[i]}\n"
+    md += "#### ⛺ The Fringe (49–72)\n\n"
+    md += build_ccrl_table(49, 72) + "\n"
         
-    return md + "\n---\n\n"
+    return md + "---\n\n"
 
 def main():
     if not os.path.exists(MAIN_SEASON_DIR):
@@ -488,8 +509,8 @@ def main():
     full_md_output += "* **The Survival:** Bridge between Gateway and Fringe.\n\n"
     full_md_output += "---\n\n"
 
-    # Add the newly generated Global Rankings section here
-    full_md_output += generate_global_hierarchy_md(global_rankings)
+    # Add the Global Hierarchy with CCRL Tables
+    full_md_output += generate_global_hierarchy_md(global_rankings, global_ratings, global_spcc_data, engine_display_names)
 
     full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names)
 
@@ -518,7 +539,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated main script with Global Rankings!")
+            print("Successfully updated main script with CCRL-style Global Rankings!")
 
 if __name__ == "__main__":
     main()
