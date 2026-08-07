@@ -159,7 +159,7 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, engine_displ
                             "min_depth": 9999, "max_depth": 0, "depths_list": [],
                             "min_time": 99999.0, "max_time": 0.0, "times_list": [],
                             "min_knps": 99999.0, "max_knps": 0.0, "knps_list": [],
-                            "time_losses": 0, "crashes": 0
+                            "time_losses": 0, "crashes": 0, "sb": 0.0
                         }
 
                 if white not in head_to_head: head_to_head[white] = {}
@@ -268,9 +268,20 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, engine_displ
                 global_ratings[c_white] += K_FACTOR * (s_w - exp_w)
                 global_ratings[c_black] += K_FACTOR * (s_b - exp_b)
 
+    # Calculate Sonneborn-Berger (SB) tiebreaks before sorting
+    for eng1 in engines_in_stage:
+        sb = 0.0
+        if eng1 in head_to_head:
+            for eng2, rec in head_to_head[eng1].items():
+                wins = rec["results"].count("1")
+                draws = rec["results"].count("½")
+                sb += wins * stats[eng2]["points"]
+                sb += draws * (stats[eng2]["points"] / 2.0)
+        stats[eng1]["sb"] = sb
+
     sorted_engines = sorted(
         engines_in_stage, 
-        key=lambda x: (stats[x]["points"], global_ratings[get_canonical_name(x)]), 
+        key=lambda x: (stats[x]["points"], stats[x]["sb"], global_ratings[get_canonical_name(x)]), 
         reverse=True
     )
     total_engines_count = len(sorted_engines)
@@ -282,12 +293,27 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, engine_displ
     md = f"> 📊 **Active Stage Summary:** **{total_stage_games:,}** Total Games Played\n"
     md += f"> ⚪ **White Wins:** {total_white_wins} ({w_pct:.1f}%) | ⬛ **Black Wins:** {total_black_wins} ({b_pct:.1f}%) | 🤝 **Draws:** {total_draws} ({d_pct:.1f}%)\n\n"
 
-    md += "#### 🏆 Standings\n\n"
-    md += "| Rank | Engine | Score |\n"
-    md += "| :---: | :--- | :---: |\n"
+    # TCEC Style Standings Replace the basic one here
+    md += "#### 🏆 Standings (TCEC Style)\n\n"
+    md += "| Rank | Engine | Games | Points | % | Wins [W/B] | Losses [W/B] | Draws [W/B] | SB | Elo |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
     for idx, eng in enumerate(sorted_engines, start=1):
         st = stats[eng]
-        md += f"| {idx} | **{eng}** | **{st['points']:.1f}** / {st['played']} |\n"
+        games = st['played']
+        pts = st['points']
+        pct = (pts / games * 100) if games > 0 else 0.0
+        
+        wins_str = f"{st['wins']} [{st['white_wins']}/{st['black_wins']}]"
+        losses_str = f"{st['losses']} [{st['white_losses']}/{st['black_losses']}]"
+        draws_str = f"{st['draws']} [{st['white_draws']}/{st['black_draws']}]"
+        
+        sb_str = f"{st['sb']:.2f}".rstrip('0').rstrip('.')
+        pts_str = f"{pts:.1f}".rstrip('0').rstrip('.')
+        
+        c_eng = get_canonical_name(eng)
+        elo = global_ratings[c_eng]
+        
+        md += f"| {idx} | **{eng}** | {games} | **{pts_str}** | {pct:.2f}% | {wins_str} | {losses_str} | {draws_str} | {sb_str} | {elo:.0f} |\n"
 
     md += "\n<details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>\n\n"
     md += "| Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |\n"
@@ -429,7 +455,6 @@ def main():
     full_md_output += "* **The Survival:** Bridge between Gateway and Fringe.\n\n"
     full_md_output += "---\n\n"
 
-    # Append SPCC Computer Rating List with versions included
     full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names)
 
     full_md_output += f"## 🏆 Active Stage: {latest_title}\n\n"
@@ -457,7 +482,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated main script with engine versions shown in the SPCC rating list!")
+            print("Successfully updated main script with TCEC-Style Standings!")
 
 if __name__ == "__main__":
     main()
