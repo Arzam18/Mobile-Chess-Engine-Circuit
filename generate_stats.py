@@ -26,22 +26,37 @@ def get_canonical_name(name):
     cleaned = re.sub(r'\s+(?:v?\d+(?:\.\d+)*).*$', '', name, flags=re.IGNORECASE).strip()
     return cleaned if cleaned else name
 
-def parse_move_comments(game):
-    clk_times = []
-    prev_clk = None
-    for node in game.mainline():
-        comment = node.comment
-        if not comment:
-            continue
-        clk_match = re.search(r'\[%clk\s+(\d+):(\d+):(\d+(?:\.\d+)?)\]', comment)
-        if clk_match:
-            h, m, s = float(clk_match.group(1)), float(clk_match.group(2)), float(clk_match.group(3))
-            total_sec = h * 3600 + m * 60 + s
-            if prev_clk is not None:
-                used_sec = max(0.0, prev_clk - total_sec)
-                clk_times.append(used_sec)
-            prev_clk = total_sec
-    return round(sum(clk_times) / len(clk_times), 2) if clk_times else None
+def format_time_display(sec):
+    if sec >= 99990.0:
+        return "N/A"
+    if sec < 1.0:
+        return f"{int(round(sec * 1000))}ms"
+    return f"{sec:.1f}s"
+
+def parse_engine_comment(comment):
+    """Parses depth, time in seconds, and normalized kNPS from PGN comments like:
+       [19] 2.03 1.8s 158.0knps or [130] mate 3 1.7s 1.5Mnps"""
+    if not comment:
+        return None, None, None
+        
+    match = re.search(r'\[(\d+)\]\s+(?:mate\s+\d+|[-\d\.]+)\s+([\d\.]+)(s|ms)\s+([\d\.]+)([kKM]?)nps', comment, re.IGNORECASE)
+    if not match:
+        return None, None, None
+        
+    depth = int(match.group(1))
+    val = float(match.group(2))
+    unit = match.group(3).lower()
+    time_sec = val / 1000.0 if unit == 'ms' else val
+    
+    nps_val = float(match.group(4))
+    multiplier = match.group(5).upper()
+    
+    if multiplier == 'M':
+        knps = nps_val * 1000.0
+    else:
+        knps = nps_val # covers knps and bare nps
+
+    return depth, time_sec, knps
 
 def get_mcec_stage_status(idx, stage_type, total_engines):
     rank = idx + 1  
@@ -118,10 +133,6 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 engines_in_stage.add(black)
                 total_stage_games += 1
 
-                plies = sum(1 for _ in game.mainline_moves())
-                game_length = (plies + 1) // 2
-                avg_time = parse_move_comments(game)
-
                 c_white = get_canonical_name(white)
                 c_black = get_canonical_name(black)
 
@@ -136,9 +147,13 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                             "white_wins": 0, "black_wins": 0, "white_draws": 0, "black_draws": 0,
                             "white_losses": 0, "black_losses": 0, "white_pts": 0.0, "white_games": 0,
                             "black_pts": 0.0, "black_games": 0, "total_moves": 0, 
-                            "shortest_win": 9999, "longest_win": 0, "shortest_draw": 9999, "longest_draw": 0,
-                            "shortest_loss": 9999, "longest_loss": 0, "time_losses": 0, "crashes": 0,
-                            "move_times": []
+                            "shortest_win": 9999, "longest_win": 0, 
+                            "shortest_draw": 9999, "longest_draw": 0,
+                            "shortest_loss": 9999, "longest_loss": 0,
+                            "min_depth": 9999, "max_depth": 0,
+                            "min_time": 99999.0, "max_time": 0.0,
+                            "min_knps": 99999.0, "max_knps": 0.0,
+                            "time_losses": 0, "crashes": 0
                         }
 
                 if white not in head_to_head: head_to_head[white] = {}
@@ -146,10 +161,27 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 if black not in head_to_head[white]: head_to_head[white][black] = {"pts": 0.0, "games": 0, "results": []}
                 if white not in head_to_head[black]: head_to_head[black][white] = {"pts": 0.0, "games": 0, "results": []}
 
-                if avg_time:
-                    stats[white]["move_times"].append(avg_time)
-                    stats[black]["move_times"].append(avg_time)
+                board = game.board()
+                plies = 0
+                for node in game.mainline():
+                    plies += 1
+                    is_white = board.turn == chess.WHITE
+                    player = white if is_white else black
+                    
+                    depth, time_sec, knps = parse_engine_comment(node.comment)
+                    if depth is not None:
+                        stats[player]["min_depth"] = min(stats[player]["min_depth"], depth)
+                        stats[player]["max_depth"] = max(stats[player]["max_depth"], depth)
+                    if time_sec is not None:
+                        stats[player]["min_time"] = min(stats[player]["min_time"], time_sec)
+                        stats[player]["max_time"] = max(stats[player]["max_time"], time_sec)
+                    if knps is not None:
+                        stats[player]["min_knps"] = min(stats[player]["min_knps"], knps)
+                        stats[player]["max_knps"] = max(stats[player]["max_knps"], knps)
 
+                    board.push(node.move)
+
+                game_length = (plies + 1) // 2
                 stats[white]["total_moves"] += game_length
                 stats[black]["total_moves"] += game_length
 
@@ -251,20 +283,21 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
         md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{st['points']:.1f}** / {st['played']} | {win_pct} | {loss_pct} | {status_badge} |\n"
     md += "\n</details>\n\n"
 
+    # DEVELOPER LOGS WITH SHORT / LONG DEPTH, TIME, AND KNPS
     md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
-    md += "| Engine | Stage Rank | Win % | Draw % | White Win % | Black Win % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Time Losses | Crashes |\n"
-    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    md += "| Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Depth | Short / Long Time | Short / Long kNPS | Time Losses | Crashes |\n"
+    md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
     for idx, eng in enumerate(sorted_engines, start=1):
         st = stats[eng]
         win_pct_total = f"{(st['wins'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
         draw_pct_total = f"{(st['draws'] / st['played'] * 100):.1f}%" if st['played'] > 0 else "0.0%"
-        w_pct_e = f"{(st['white_pts'] / st['white_games'] * 100):.1f}%" if st['white_games'] > 0 else "0.0%"
-        b_pct_e = f"{(st['black_pts'] / st['black_games'] * 100):.1f}%" if st['black_games'] > 0 else "0.0%"
         avg_len = f"{(st['total_moves'] / st['played']):.1f} moves" if st['played'] > 0 else "N/A"
-        win_range = f"{st['shortest_win']} / {st['longest_win']} moves" if st["wins"] > 0 else "N/A"
-        draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st["draws"] > 0 else "N/A"
-        loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st["losses"] > 0 else "N/A"
-        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {w_pct_e} | {b_pct_e} | {avg_len} | {win_range} | {draw_range} | {loss_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
+        
+        depth_range = f"{st['min_depth']} / {st['max_depth']}" if st['min_depth'] <= 9999 else "N/A"
+        time_range = f"{format_time_display(st['min_time'])} / {format_time_display(st['max_time'])}" if st['min_time'] < 99990.0 else "N/A"
+        knps_range = f"{st['min_knps']:.1f} / {st['max_knps']:.1f}" if st['min_knps'] <= 9999.0 else "N/A"
+
+        md += f"| **{eng}** | #{idx} | {win_pct_total} | {draw_pct_total} | {avg_len} | {depth_range} | {time_range} | {knps_range} | `{st['time_losses']}` | `{st['crashes']}` |\n"
     md += "\n</details>\n\n"
 
     md += "<details><summary><b>🔍 View Stage Crosstable</b></summary>\n\n"
@@ -315,7 +348,6 @@ def main():
             stage_md = process_stage_pgns(stage_pgns, global_ratings, stage_name=raw_folder)
             slug = stage_title.lower().replace(" ", "-")
             
-            # Save full stage details into a dedicated file in the stages/ folder
             stage_file_path = os.path.join(STAGES_OUTPUT_DIR, f"{slug}.md")
             with open(stage_file_path, "w", encoding="utf-8") as sf:
                 sf.write(f"# MCEC Season 3 - {stage_title}\n\n{stage_md}")
@@ -326,7 +358,6 @@ def main():
         print("No PGN files processed.")
         return
 
-    # Latest stage is displayed live in README
     latest_title, latest_slug, latest_md = stage_records[-1]
 
     full_md_output = "### 🏰 MCEC Season 3 Structure & Tournament Flow\n\n"
@@ -343,7 +374,6 @@ def main():
     full_md_output += f"## 🏆 Active Stage: {latest_title}\n\n"
     full_md_output += latest_md + "\n\n---\n\n"
 
-    # Archived / Pre-release past stages table linking to dedicated files
     if len(stage_records) > 1:
         full_md_output += "### 📦 Archived Stages & Pre-releases\n\n"
         full_md_output += "| Stage Name | Status | Full Details File |\n"
@@ -366,7 +396,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated README.md and archived past stages into the stages/ folder!")
+            print("Successfully updated README.md with depth, time, and knps developer metrics!")
 
 if __name__ == "__main__":
     main()
