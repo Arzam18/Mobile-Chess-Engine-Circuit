@@ -45,13 +45,18 @@ Surviving engines advance up the competitive ladder toward the championship:
 ---
 
 <!-- STATS_START -->
-🔄 **Post-Season Relegation & Capped Pool (Executed after Finals)**
+### 🏰 MCEC Season 3 Structure & Tournament Flow
 
-Because MCEC maintains a strict cap of 72 engines through dynamic newcomers:
+MCEC Season 3 is strictly capped at **72 engines** and operates on a core **half-promote / half-relegate** dynamic, divided into **3 core parts and 2 boundary zones**:
 
-* **The Survival**: Gateway bottom half and matching number of fringe engines fight for survival.
-* **The Fringe**: Lower-tier survival league (Ranked 49–72).
-* **The Crucible**: Gateway-mirrored sizing (half of gateway size) where fringe engines and kicked-out engines fight to defend or earn their spot in the circuit.
+#### 📌 Core Structure Parts
+* **1–36 | The Foundation:** The main tier featuring strict 6-to-6 promotion and relegation rules across Leagues 4 through Main, Semifinals, and Finals.
+* **37–48 | The Gateway:** The entry point where Gatekeepers and newcomers clash. The top half promotes, and the bottom half relegates.
+* **49–72 | The Fringe:** Lower-tier survival circuit where the top 22 retain their spots and others are fully kicked out.
+
+#### 🔄 Boundary Zones & Flows
+* **Entry League:** The bridge between Gateway and Foundation. Gateway top-half survivors challenge the bottom tier of the Foundation.
+* **The Survival:** The bridge between Gateway and Fringe. Fallen Gateway engines and gatekeeper spillover defend their ranks against the Fringe circuit.
 
 ---
 
