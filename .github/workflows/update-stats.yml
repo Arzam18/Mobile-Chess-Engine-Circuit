@@ -7,8 +7,8 @@ on:
       - 'seasons/**' # Triggers automatically whenever PGNs inside seasons/ change
 
 concurrency:
-  group: update-stats-${{ github.ref }}
-  cancel-in-progress: true
+  group: mcec-stats-updates
+  cancel-in-progress: false
 
 jobs:
   build-stats:
