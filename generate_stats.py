@@ -98,7 +98,7 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
         else: return rank + 48, "🔴 Relegated to Crucible / Out"
     return rank, "⚔️ Active"
 
-def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, stage_name=""):
+def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, engine_display_names, stage_name=""):
     stage_start_ratings = {}
     stats = {}
     head_to_head = {}
@@ -131,6 +131,12 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, stage_name="
 
                 c_white = get_canonical_name(white)
                 c_black = get_canonical_name(black)
+
+                # Capture best version/display name for the rating table
+                if c_white not in engine_display_names or len(white) >= len(engine_display_names[c_white]):
+                    engine_display_names[c_white] = white
+                if c_black not in engine_display_names or len(black) >= len(engine_display_names[c_black]):
+                    engine_display_names[c_black] = black
 
                 for c_eng in [c_white, c_black]:
                     if c_eng not in global_ratings:
@@ -213,8 +219,6 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, stage_name="
                     total_white_wins += 1
                     head_to_head[white][black]["results"].append("1")
                     head_to_head[black][white]["results"].append("0")
-                    global_spcc_data[c_white]["draws"] += 0
-                    global_spcc_data[c_black]["draws"] += 0
                 elif result == "0-1":
                     s_w, s_b = 0.0, 1.0
                     stats[black]["wins"] += 1; stats[black]["black_wins"] += 1
@@ -226,8 +230,6 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, stage_name="
                     total_black_wins += 1
                     head_to_head[white][black]["results"].append("0")
                     head_to_head[black][white]["results"].append("1")
-                    global_spcc_data[c_white]["draws"] += 0
-                    global_spcc_data[c_black]["draws"] += 0
                 else:
                     s_w, s_b = 0.5, 0.5
                     stats[white]["draws"] += 1; stats[white]["white_draws"] += 1
@@ -353,7 +355,7 @@ def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, stage_name="
     md += "\n</details>\n"
     return md
 
-def generate_spcc_rating_table(global_ratings, global_spcc_data):
+def generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names):
     sorted_spcc = sorted(global_ratings.items(), key=lambda x: x[1], reverse=True)
     
     md = "<details><summary><b>📊 View Official Computer Rating List (SPCC Style)</b></summary>\n\n"
@@ -361,18 +363,19 @@ def generate_spcc_rating_table(global_ratings, global_spcc_data):
     md += "| Rank | Engine | Rating | + | - | Games | Score % | Av. Op. | Draws % |\n"
     md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
-    for idx, (eng, rating) in enumerate(sorted_spcc, start=1):
-        data = global_spcc_data.get(eng, {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0})
+    for idx, (c_eng, rating) in enumerate(sorted_spcc, start=1):
+        data = global_spcc_data.get(c_eng, {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0})
         games = data["games"]
         if games == 0:
             continue
         
+        display_name = engine_display_names.get(c_eng, c_eng)
         score_pct = (data["points"] / games) * 100.0
         draw_pct = (data["draws"] / games) * 100.0
         av_op = data["opp_rating_sum"] / games
         error_margin = max(2, int(round(160.0 / math.sqrt(games)))) if games > 0 else 0
 
-        md += f"| {idx} | **{eng}** | **{rating:.0f}** | {error_margin} | {error_margin} | {games:,} | {score_pct:.1f}% | {av_op:.0f} | {draw_pct:.1f}% |\n"
+        md += f"| {idx} | **{display_name}** | **{rating:.0f}** | {error_margin} | {error_margin} | {games:,} | {score_pct:.1f}% | {av_op:.0f} | {draw_pct:.1f}% |\n"
 
     md += "\n</details>\n\n"
     return md
@@ -391,6 +394,7 @@ def main():
 
     global_ratings = {}
     global_spcc_data = {}
+    engine_display_names = {}
     stage_records = []
 
     for stage_path in subdirs:
@@ -399,7 +403,7 @@ def main():
         stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
         
         if stage_pgns:
-            stage_md = process_stage_pgns(stage_pgns, global_ratings, global_spcc_data, stage_name=raw_folder)
+            stage_md = process_stage_pgns(stage_pgns, global_ratings, global_spcc_data, engine_display_names, stage_name=raw_folder)
             slug = stage_title.lower().replace(" ", "-")
             
             stage_file_path = os.path.join(STAGES_OUTPUT_DIR, f"{slug}.md")
@@ -425,8 +429,8 @@ def main():
     full_md_output += "* **The Survival:** Bridge between Gateway and Fringe.\n\n"
     full_md_output += "---\n\n"
 
-    # Append SPCC Computer Rating List above active stage or right below intro
-    full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data)
+    # Append SPCC Computer Rating List with versions included
+    full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data, engine_display_names)
 
     full_md_output += f"## 🏆 Active Stage: {latest_title}\n\n"
     full_md_output += latest_md + "\n\n---\n\n"
@@ -453,7 +457,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully updated main script with SPCC Computer Rating List, Normal Depths, Times, and kNPS!")
+            print("Successfully updated main script with engine versions shown in the SPCC rating list!")
 
 if __name__ == "__main__":
     main()
