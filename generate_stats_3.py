@@ -95,7 +95,6 @@ def main():
                 c_white = get_canonical_name(white)
                 c_black = get_canonical_name(black)
 
-                # Dynamically update to track the latest version/name string encountered
                 engine_display_names[c_white] = white
                 engine_display_names[c_black] = black
 
@@ -109,6 +108,9 @@ def main():
                             "points": 0.0, "played": 0, "wins": 0, "draws": 0, "losses": 0,
                             "white_wins": 0, "black_wins": 0, "white_draws": 0, "black_draws": 0,
                             "white_losses": 0, "black_losses": 0, "total_moves": 0,
+                            "shortest_win": 9999, "longest_win": 0,
+                            "shortest_draw": 9999, "longest_draw": 0,
+                            "shortest_loss": 9999, "longest_loss": 0,
                             "min_depth": 9999, "max_depth": 0, "depths_list": [],
                             "min_time": 99999.0, "max_time": 0.0, "times_list": [],
                             "min_knps": 99999.0, "max_knps": 0.0, "knps_list": [],
@@ -158,14 +160,26 @@ def main():
                     s_w, s_b = 1.0, 0.0
                     global_stats[c_white]["wins"] += 1; global_stats[c_white]["white_wins"] += 1
                     global_stats[c_black]["losses"] += 1; global_stats[c_black]["black_losses"] += 1
+                    global_stats[c_white]["shortest_win"] = min(global_stats[c_white]["shortest_win"], game_length)
+                    global_stats[c_white]["longest_win"] = max(global_stats[c_white]["longest_win"], game_length)
+                    global_stats[c_black]["shortest_loss"] = min(global_stats[c_black]["shortest_loss"], game_length)
+                    global_stats[c_black]["longest_loss"] = max(global_stats[c_black]["longest_loss"], game_length)
                 elif result == "0-1":
                     s_w, s_b = 0.0, 1.0
                     global_stats[c_black]["wins"] += 1; global_stats[c_black]["black_wins"] += 1
                     global_stats[c_white]["losses"] += 1; global_stats[c_white]["white_losses"] += 1
+                    global_stats[c_black]["shortest_win"] = min(global_stats[c_black]["shortest_win"], game_length)
+                    global_stats[c_black]["longest_win"] = max(global_stats[c_black]["longest_win"], game_length)
+                    global_stats[c_white]["shortest_loss"] = min(global_stats[c_white]["shortest_loss"], game_length)
+                    global_stats[c_white]["longest_loss"] = max(global_stats[c_white]["longest_loss"], game_length)
                 else:
                     s_w, s_b = 0.5, 0.5
                     global_stats[c_white]["draws"] += 1; global_stats[c_white]["white_draws"] += 1
                     global_stats[c_black]["draws"] += 1; global_stats[c_black]["black_draws"] += 1
+                    global_stats[c_white]["shortest_draw"] = min(global_stats[c_white]["shortest_draw"], game_length)
+                    global_stats[c_white]["longest_draw"] = max(global_stats[c_white]["longest_draw"], game_length)
+                    global_stats[c_black]["shortest_draw"] = min(global_stats[c_black]["shortest_draw"], game_length)
+                    global_stats[c_black]["longest_draw"] = max(global_stats[c_black]["longest_draw"], game_length)
                     global_spcc_data[c_white]["draws"] += 1
                     global_spcc_data[c_black]["draws"] += 1
 
@@ -190,9 +204,10 @@ def main():
     md += f"> 📊 **Master Overview:** Tracking **{len(sorted_master_engines):,}** Unique Engines across **{total_master_games:,}** Total Season Games.\n"
     md += "> *Note: Aliased engines and version updates (e.g., Hobbes, Hobbes 3.0, Hobbes dev) are consolidated under their canonical identity, showing their latest active version name with cumulative history included.*\n\n"
 
-    md += "### 🏆 Master Comprehensive Engine Tracking Table\n\n"
-    md += "| Rank | Engine (Latest Version) | Rating | + | - | Games | Score % | Wins [W/B] | Losses [W/B] | Draws [W/B] | Av. Op. | Win % | Loss % | Avg Depth | Avg Time | Crashes |\n"
-    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+    # Master Table Part 1: Standings & Ratings (SPCC / TCEC Style)
+    md += "### 🏆 Master Standings & Ratings List\n\n"
+    md += "| Rank | Engine (Latest Version) | Rating | + | - | Games | Score % | Wins [W/B] | Losses [W/B] | Draws [W/B] | Av. Op. |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
 
     for idx, c_eng in enumerate(sorted_master_engines, start=1):
         disp_name = engine_display_names.get(c_eng, c_eng)
@@ -205,8 +220,6 @@ def main():
             continue
             
         score_pct = (st["points"] / games) * 100.0
-        win_pct = (st["wins"] / games) * 100.0
-        loss_pct = (st["losses"] / games) * 100.0
         av_op = spcc["opp_rating_sum"] / games
         err = max(2, int(round(160.0 / math.sqrt(games))))
         
@@ -214,16 +227,42 @@ def main():
         losses_str = f"{st['losses']} [{st['white_losses']}/{st['black_losses']}]"
         draws_str = f"{st['draws']} [{st['white_draws']}/{st['black_draws']}]"
         
-        avg_depth = f"{(sum(st['depths_list']) / len(st['depths_list'])):.1f}" if st['depths_list'] else "N/A"
-        avg_time = format_time_display(sum(st['times_list']) / len(st['times_list'])) if st['times_list'] else "N/A"
+        md += f"| {idx} | **{disp_name}** | **{rating:.0f}** | +{err} | -{err} | {games:,} | {score_pct:.1f}% | {wins_str} | {losses_str} | {draws_str} | {av_op:.0f} |\n"
+
+    md += "\n--- \n\n"
+
+    # Master Table Part 2: Comprehensive Developer Performance Logs (Matching Screenshots)
+    md += "### 🛠️ Master Developer Performance Logs\n\n"
+    md += "| Rank | Engine (Latest Version) | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Normal Depth | Short / Long Time | Normal Time | Short / Long kNPS | Normal kNPS | Crashes |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+
+    for idx, c_eng in enumerate(sorted_master_engines, start=1):
+        disp_name = engine_display_names.get(c_eng, c_eng)
+        st = global_stats[c_eng]
+        games = st["played"]
+        if games == 0:
+            continue
+
+        win_range = f"{st['shortest_win']} / {st['longest_win']} moves" if st['shortest_win'] <= 9999 else "N/A"
+        draw_range = f"{st['shortest_draw']} / {st['longest_draw']} moves" if st['shortest_draw'] <= 9999 else "N/A"
+        loss_range = f"{st['shortest_loss']} / {st['longest_loss']} moves" if st['shortest_loss'] <= 9999 else "N/A"
         
-        md += f"| {idx} | **{disp_name}** | **{rating:.0f}** | +{err} | -{err} | {games:,} | {score_pct:.1f}% | {wins_str} | {losses_str} | {draws_str} | {av_op:.0f} | {win_pct:.1f}% | {loss_pct:.1f}% | {avg_depth} | {avg_time} | `{st['crashes']}` |\n"
+        depth_range = f"{st['min_depth']} / {st['max_depth']}" if st['min_depth'] <= 9999 else "N/A"
+        normal_depth = f"{(sum(st['depths_list']) / len(st['depths_list'])):.1f}" if st['depths_list'] else "N/A"
+        
+        time_range = f"{format_time_display(st['min_time'])} / {format_time_display(st['max_time'])}" if st['min_time'] < 99990.0 else "N/A"
+        normal_time = format_time_display(sum(st['times_list']) / len(st['times_list'])) if st['times_list'] else "N/A"
+        
+        knps_range = f"{st['min_knps']:.1f} / {st['max_knps']:.1f}" if st['min_knps'] <= 9999.0 else "N/A"
+        normal_knps = f"{(sum(st['knps_list']) / len(st['knps_list'])):.1f}" if st['knps_list'] else "N/A"
+
+        md += f"| {idx} | **{disp_name}** | {win_range} | {draw_range} | {loss_range} | {depth_range} | {normal_depth} | {time_range} | {normal_time} | {knps_range} | {normal_knps} | `{st['crashes']}` |\n"
 
     index_file_path = os.path.join(OUTPUT_DIR, "index.md")
     with open(index_file_path, "w", encoding="utf-8") as f:
         f.write(md)
 
-    print(f"Successfully generated master tracking index at: {index_file_path}")
+    print(f"Successfully generated master tracking index with developer logs at: {index_file_path}")
 
 if __name__ == "__main__":
     main()
