@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # Adjust to your default branch if different (e.g., master)
+    paths:
+      - 'seasons/season_3/**/*.pgn'
   workflow_dispatch: # Allows manual triggering from the GitHub Actions tab
 
 permissions:
