@@ -54,7 +54,7 @@ def parse_engine_comment(comment):
     if multiplier == 'M':
         knps = nps_val * 1000.0
     else:
-        knps = nps_val # covers knps and bare nps
+        knps = nps_val
 
     return depth, time_sec, knps
 
@@ -63,15 +63,11 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
     half_cutoff = math.ceil(total_engines / 2.0)
 
     if "gateway" in stage_type:
-        if rank <= half_cutoff:
-            return rank + 36, "🟢 Advanced to Entry League"
-        else:
-            return rank + 36, "🔴 Relegated to The Survival"
+        if rank <= half_cutoff: return rank + 36, "🟢 Advanced to Entry League"
+        else: return rank + 36, "🔴 Relegated to The Survival"
     elif "entry" in stage_type:
-        if rank <= half_cutoff:
-            return rank, "🟢 Promoted to Foundation"
-        else:
-            return rank + 36, "🔴 Relegated to Gatekeeper / Fringe"
+        if rank <= half_cutoff: return rank, "🟢 Promoted to Foundation"
+        else: return rank + 36, "🔴 Relegated to Gatekeeper / Fringe"
     elif "league_4" in stage_type or "league4" in stage_type or "l4" in stage_type:
         if rank <= 6: return rank + 24, "🟢 Promoted to League 3"
         else: return rank + 24, "🔴 Relegated"
@@ -102,7 +98,7 @@ def get_mcec_stage_status(idx, stage_type, total_engines):
         else: return rank + 48, "🔴 Relegated to Crucible / Out"
     return rank, "⚔️ Active"
 
-def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
+def process_stage_pgns(pgn_files, global_ratings, global_spcc_data, stage_name=""):
     stage_start_ratings = {}
     stats = {}
     head_to_head = {}
@@ -136,11 +132,15 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 c_white = get_canonical_name(white)
                 c_black = get_canonical_name(black)
 
-                for eng, c_eng in [(white, c_white), (black, c_black)]:
+                for c_eng in [c_white, c_black]:
                     if c_eng not in global_ratings:
                         global_ratings[c_eng] = DEFAULT_RATING
+                    if c_eng not in global_spcc_data:
+                        global_spcc_data[c_eng] = {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0}
+
+                for eng in [white, black]:
                     if eng not in stage_start_ratings:
-                        stage_start_ratings[eng] = global_ratings[c_eng]
+                        stage_start_ratings[eng] = global_ratings[get_canonical_name(eng)]
                     if eng not in stats:
                         stats[eng] = {
                             "points": 0.0, "played": 0, "wins": 0, "draws": 0, "losses": 0,
@@ -150,12 +150,9 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                             "shortest_win": 9999, "longest_win": 0, 
                             "shortest_draw": 9999, "longest_draw": 0,
                             "shortest_loss": 9999, "longest_loss": 0,
-                            "min_depth": 9999, "max_depth": 0,
-                            "depths_list": [],
-                            "min_time": 99999.0, "max_time": 0.0,
-                            "times_list": [],
-                            "min_knps": 99999.0, "max_knps": 0.0,
-                            "knps_list": [],
+                            "min_depth": 9999, "max_depth": 0, "depths_list": [],
+                            "min_time": 99999.0, "max_time": 0.0, "times_list": [],
+                            "min_knps": 99999.0, "max_knps": 0.0, "knps_list": [],
                             "time_losses": 0, "crashes": 0
                         }
 
@@ -163,6 +160,13 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 if black not in head_to_head: head_to_head[black] = {}
                 if black not in head_to_head[white]: head_to_head[white][black] = {"pts": 0.0, "games": 0, "results": []}
                 if white not in head_to_head[black]: head_to_head[black][white] = {"pts": 0.0, "games": 0, "results": []}
+
+                r_w = global_ratings[c_white]
+                r_b = global_ratings[c_black]
+
+                # Accumulate SPCC opponent ratings pre-update
+                global_spcc_data[c_white]["opp_rating_sum"] += r_b
+                global_spcc_data[c_black]["opp_rating_sum"] += r_w
 
                 board = game.board()
                 plies = 0
@@ -209,6 +213,8 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                     total_white_wins += 1
                     head_to_head[white][black]["results"].append("1")
                     head_to_head[black][white]["results"].append("0")
+                    global_spcc_data[c_white]["draws"] += 0
+                    global_spcc_data[c_black]["draws"] += 0
                 elif result == "0-1":
                     s_w, s_b = 0.0, 1.0
                     stats[black]["wins"] += 1; stats[black]["black_wins"] += 1
@@ -220,6 +226,8 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                     total_black_wins += 1
                     head_to_head[white][black]["results"].append("0")
                     head_to_head[black][white]["results"].append("1")
+                    global_spcc_data[c_white]["draws"] += 0
+                    global_spcc_data[c_black]["draws"] += 0
                 else:
                     s_w, s_b = 0.5, 0.5
                     stats[white]["draws"] += 1; stats[white]["white_draws"] += 1
@@ -231,6 +239,8 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                     total_draws += 1
                     head_to_head[white][black]["results"].append("½")
                     head_to_head[black][white]["results"].append("½")
+                    global_spcc_data[c_white]["draws"] += 1
+                    global_spcc_data[c_black]["draws"] += 1
 
                 stats[white]["points"] += s_w
                 stats[black]["points"] += s_b
@@ -241,12 +251,16 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
                 stats[black]["black_pts"] += s_b
                 stats[black]["black_games"] += 1
 
+                global_spcc_data[c_white]["games"] += 1
+                global_spcc_data[c_white]["points"] += s_w
+                global_spcc_data[c_black]["games"] += 1
+                global_spcc_data[c_black]["points"] += s_b
+
                 head_to_head[white][black]["pts"] += s_w
                 head_to_head[black][white]["pts"] += s_b
                 head_to_head[white][black]["games"] += 1
                 head_to_head[black][white]["games"] += 1
 
-                r_w, r_b = global_ratings[c_white], global_ratings[c_black]
                 exp_w = calculate_expected_score(r_w, r_b)
                 exp_b = calculate_expected_score(r_b, r_w)
                 global_ratings[c_white] += K_FACTOR * (s_w - exp_w)
@@ -289,7 +303,7 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
         md += f"| #{abs_rank} | **{eng}** | {start_r:.0f} | **{end_r:.0f}** | `{diff_str}` | **{st['points']:.1f}** / {st['played']} | {win_pct} | {loss_pct} | {status_badge} |\n"
     md += "\n</details>\n\n"
 
-    # DEVELOPER LOGS WITH SHORT/LONG AND NORMAL (AVERAGE) METRICS
+    # DEVELOPER LOGS WITH SHORT/LONG AND NORMAL METRICS
     md += "<details><summary><b>🛠️ View Developer Performance Logs</b></summary>\n\n"
     md += "| Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Normal Depth | Short / Long Time | Normal Time | Short / Long kNPS | Normal kNPS | Time Losses | Crashes |\n"
     md += "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
@@ -339,6 +353,30 @@ def process_stage_pgns(pgn_files, global_ratings, stage_name=""):
     md += "\n</details>\n"
     return md
 
+def generate_spcc_rating_table(global_ratings, global_spcc_data):
+    sorted_spcc = sorted(global_ratings.items(), key=lambda x: x[1], reverse=True)
+    
+    md = "<details><summary><b>📊 View Official Computer Rating List (SPCC Style)</b></summary>\n\n"
+    md += "Ranking engines based on cumulative Elo performance, score percentages, average opponent strength, and draw rates across all stages.\n\n"
+    md += "| Rank | Engine | Rating | + | - | Games | Score % | Av. Op. | Draws % |\n"
+    md += "| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n"
+
+    for idx, (eng, rating) in enumerate(sorted_spcc, start=1):
+        data = global_spcc_data.get(eng, {"games": 0, "points": 0.0, "draws": 0, "opp_rating_sum": 0.0})
+        games = data["games"]
+        if games == 0:
+            continue
+        
+        score_pct = (data["points"] / games) * 100.0
+        draw_pct = (data["draws"] / games) * 100.0
+        av_op = data["opp_rating_sum"] / games
+        error_margin = max(2, int(round(160.0 / math.sqrt(games)))) if games > 0 else 0
+
+        md += f"| {idx} | **{eng}** | **{rating:.0f}** | {error_margin} | {error_margin} | {games:,} | {score_pct:.1f}% | {av_op:.0f} | {draw_pct:.1f}% |\n"
+
+    md += "\n</details>\n\n"
+    return md
+
 def main():
     if not os.path.exists(MAIN_SEASON_DIR):
         print(f"Directory {MAIN_SEASON_DIR} does not exist yet.")
@@ -352,6 +390,7 @@ def main():
     os.makedirs(STAGES_OUTPUT_DIR, exist_ok=True)
 
     global_ratings = {}
+    global_spcc_data = {}
     stage_records = []
 
     for stage_path in subdirs:
@@ -360,7 +399,7 @@ def main():
         stage_pgns = sorted(glob.glob(os.path.join(stage_path, "*.pgn")))
         
         if stage_pgns:
-            stage_md = process_stage_pgns(stage_pgns, global_ratings, stage_name=raw_folder)
+            stage_md = process_stage_pgns(stage_pgns, global_ratings, global_spcc_data, stage_name=raw_folder)
             slug = stage_title.lower().replace(" ", "-")
             
             stage_file_path = os.path.join(STAGES_OUTPUT_DIR, f"{slug}.md")
@@ -385,6 +424,9 @@ def main():
     full_md_output += "* **Entry League:** Bridge between Gateway and Foundation.\n"
     full_md_output += "* **The Survival:** Bridge between Gateway and Fringe.\n\n"
     full_md_output += "---\n\n"
+
+    # Append SPCC Computer Rating List above active stage or right below intro
+    full_md_output += generate_spcc_rating_table(global_ratings, global_spcc_data)
 
     full_md_output += f"## 🏆 Active Stage: {latest_title}\n\n"
     full_md_output += latest_md + "\n\n---\n\n"
@@ -411,7 +453,7 @@ def main():
             
             with open(readme_path, "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("Successfully added Normal Depth, Normal Time, and Normal kNPS columns!")
+            print("Successfully updated main script with SPCC Computer Rating List, Normal Depths, Times, and kNPS!")
 
 if __name__ == "__main__":
     main()
