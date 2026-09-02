@@ -1,41 +1,41 @@
 # MCEC Season 3 - League4
 
-> 📊 **Active Stage Summary:** **162** Total Games Played
-> ⚪ **White Wins:** 65 (40.1%) | ⬛ **Black Wins:** 11 (6.8%) | 🤝 **Draws:** 86 (53.1%)
+> 📊 **Active Stage Summary:** **260** Total Games Played
+> ⚪ **White Wins:** 118 (45.4%) | ⬛ **Black Wins:** 21 (8.1%) | 🤝 **Draws:** 121 (46.5%)
 
 #### 🏆 Standings (TCEC Style)
 
 | Rank | Engine | Games | Points | % | Wins [W/B] | Losses [W/B] | Draws [W/B] | SB | Elo |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | **Cinder 0.6.1** | 28 | **18** | 64.29% | 11 [10/1] | 3 [1/2] | 14 [3/11] | 226.5 | 3074 |
-| 2 | **Tcheran v14.0 dev de10455f** | 26 | **16** | 61.54% | 11 [9/2] | 5 [1/4] | 10 [3/7] | 205.25 | 3040 |
-| 3 | **Zangdar 7.25** | 28 | **15** | 53.57% | 7 [4/3] | 5 [0/5] | 16 [10/6] | 200.25 | 3013 |
-| 4 | **Uralochka 3.42a** | 26 | **15** | 57.69% | 8 [7/1] | 4 [0/4] | 14 [6/8] | 194.5 | 3021 |
-| 5 | **Titan 1.1.0** | 26 | **14.5** | 55.77% | 6 [5/1] | 3 [0/3] | 17 [8/9] | 184.25 | 3022 |
-| 6 | **Icarus 1.1.1 dev 7a05c88** | 28 | **14** | 50.00% | 6 [6/0] | 6 [1/5] | 16 [7/9] | 190.25 | 2992 |
-| 7 | **Devre 7.0** | 28 | **13.5** | 48.21% | 5 [4/1] | 6 [1/5] | 17 [9/8] | 165.75 | 2988 |
-| 8 | **PZChessBot 7.1** | 26 | **13** | 50.00% | 7 [7/0] | 7 [0/7] | 12 [6/6] | 174.5 | 3000 |
-| 9 | **Akimbo** | 28 | **12.5** | 44.64% | 6 [6/0] | 9 [1/8] | 13 [7/6] | 162.75 | 2978 |
-| 10 | **Velvet 9.0.0 dev7** | 26 | **12** | 46.15% | 4 [2/2] | 6 [0/6] | 16 [11/5] | 159.5 | 3001 |
-| 11 | **Starzix 6.1** | 26 | **9.5** | 36.54% | 3 [3/0] | 10 [3/7] | 13 [7/6] | 130.25 | 2954 |
-| 12 | **Altair 7.2.1** | 28 | **9** | 32.14% | 2 [2/0] | 12 [3/9] | 14 [9/5] | 123.25 | 2916 |
+| 1 | **Tcheran v14.0 dev de10455f** | 44 | **27** | 61.36% | 18 [16/2] | 8 [2/6] | 18 [4/14] | 563 | 3054 |
+| 2 | **Uralochka 3.42a** | 44 | **25.5** | 57.95% | 15 [12/3] | 8 [0/8] | 21 [10/11] | 520 | 3038 |
+| 3 | **Cinder 0.6.1** | 42 | **25** | 59.52% | 17 [16/1] | 9 [1/8] | 16 [4/12] | 519.75 | 3039 |
+| 4 | **Icarus 1.1.1 dev 7a05c88** | 44 | **24.5** | 55.68% | 15 [12/3] | 10 [1/9] | 19 [9/10] | 520.25 | 3068 |
+| 5 | **Zangdar 7.25** | 42 | **23.5** | 55.95% | 13 [8/5] | 8 [0/8] | 21 [13/8] | 494.5 | 3048 |
+| 6 | **PZChessBot 7.1** | 44 | **22.5** | 51.14% | 12 [12/0] | 11 [0/11] | 21 [10/11] | 488 | 3005 |
+| 7 | **Titan 1.1.0** | 44 | **22** | 50.00% | 11 [10/1] | 11 [2/9] | 22 [10/12] | 456 | 2976 |
+| 8 | **Devre 7.0** | 44 | **22** | 50.00% | 9 [7/2] | 9 [1/8] | 26 [14/12] | 454.75 | 3020 |
+| 9 | **Velvet 9.0.0 dev7** | 42 | **21** | 50.00% | 10 [6/4] | 10 [0/10] | 22 [15/7] | 434.5 | 3021 |
+| 10 | **Akimbo** | 44 | **17** | 38.64% | 7 [7/0] | 17 [4/13] | 20 [11/9] | 361 | 2900 |
+| 11 | **Starzix 6.1** | 44 | **16.5** | 37.50% | 7 [7/0] | 18 [5/13] | 19 [10/9] | 351.25 | 2948 |
+| 12 | **Altair 7.2.1** | 42 | **13.5** | 32.14% | 5 [5/0] | 20 [5/15] | 17 [11/6] | 295.5 | 2882 |
 
 <details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>
 
 | Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| #25 | **Cinder 0.6.1** | 3000 | **3074** | `+74.0` | **18.0** / 28 | 39.3% | 10.7% | 🟢 Promoted to League 3 |
-| #26 | **Tcheran v14.0 dev de10455f** | 3000 | **3040** | `+40.2` | **16.0** / 26 | 42.3% | 19.2% | 🟢 Promoted to League 3 |
-| #27 | **Zangdar 7.25** | 3000 | **3013** | `+12.7` | **15.0** / 28 | 25.0% | 17.9% | 🟢 Promoted to League 3 |
-| #28 | **Uralochka 3.42a** | 3000 | **3021** | `+21.2` | **15.0** / 26 | 30.8% | 15.4% | 🟢 Promoted to League 3 |
-| #29 | **Titan 1.1.0** | 3000 | **3022** | `+21.8` | **14.5** / 26 | 23.1% | 11.5% | 🟢 Promoted to League 3 |
-| #30 | **Icarus 1.1.1 dev 7a05c88** | 3000 | **2992** | `-7.7` | **14.0** / 28 | 21.4% | 21.4% | 🟢 Promoted to League 3 |
-| #31 | **Devre 7.0** | 3000 | **2988** | `-11.5` | **13.5** / 28 | 17.9% | 21.4% | 🔴 Relegated |
-| #32 | **PZChessBot 7.1** | 3000 | **3000** | `+0.5` | **13.0** / 26 | 26.9% | 26.9% | 🔴 Relegated |
-| #33 | **Akimbo** | 3000 | **2978** | `-22.1` | **12.5** / 28 | 21.4% | 32.1% | 🔴 Relegated |
-| #34 | **Velvet 9.0.0 dev7** | 3000 | **3001** | `+1.0` | **12.0** / 26 | 15.4% | 23.1% | 🔴 Relegated |
-| #35 | **Starzix 6.1** | 3000 | **2954** | `-46.2` | **9.5** / 26 | 11.5% | 38.5% | 🔴 Relegated |
-| #36 | **Altair 7.2.1** | 3000 | **2916** | `-83.7` | **9.0** / 28 | 7.1% | 42.9% | 🔴 Relegated |
+| #25 | **Tcheran v14.0 dev de10455f** | 3000 | **3054** | `+54.0` | **27.0** / 44 | 40.9% | 18.2% | 🟢 Promoted to League 3 |
+| #26 | **Uralochka 3.42a** | 3000 | **3038** | `+37.9` | **25.5** / 44 | 34.1% | 18.2% | 🟢 Promoted to League 3 |
+| #27 | **Cinder 0.6.1** | 3000 | **3039** | `+39.1` | **25.0** / 42 | 40.5% | 21.4% | 🟢 Promoted to League 3 |
+| #28 | **Icarus 1.1.1 dev 7a05c88** | 3000 | **3068** | `+68.3` | **24.5** / 44 | 34.1% | 22.7% | 🟢 Promoted to League 3 |
+| #29 | **Zangdar 7.25** | 3000 | **3048** | `+48.3` | **23.5** / 42 | 31.0% | 19.0% | 🟢 Promoted to League 3 |
+| #30 | **PZChessBot 7.1** | 3000 | **3005** | `+4.7` | **22.5** / 44 | 27.3% | 25.0% | 🟢 Promoted to League 3 |
+| #31 | **Titan 1.1.0** | 3000 | **2976** | `-24.0` | **22.0** / 44 | 25.0% | 25.0% | 🔴 Relegated |
+| #32 | **Devre 7.0** | 3000 | **3020** | `+20.1` | **22.0** / 44 | 20.5% | 20.5% | 🔴 Relegated |
+| #33 | **Velvet 9.0.0 dev7** | 3000 | **3021** | `+20.9` | **21.0** / 42 | 23.8% | 23.8% | 🔴 Relegated |
+| #34 | **Akimbo** | 3000 | **2900** | `-99.9` | **17.0** / 44 | 15.9% | 38.6% | 🔴 Relegated |
+| #35 | **Starzix 6.1** | 3000 | **2948** | `-51.7` | **16.5** / 44 | 15.9% | 40.9% | 🔴 Relegated |
+| #36 | **Altair 7.2.1** | 3000 | **2882** | `-117.5` | **13.5** / 42 | 11.9% | 47.6% | 🔴 Relegated |
 
 </details>
 
@@ -43,18 +43,18 @@
 
 | Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Normal Depth | Short / Long Time | Normal Time | Short / Long kNPS | Normal kNPS | Time Losses | Crashes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Cinder 0.6.1** | #1 | 39.3% | 50.0% | 59.5 moves | 37 / 75 moves | 41 / 78 moves | 49 / 75 moves | 0 / 61 | 17.4 | 0ms / 8.9s | 1.8s | 0.0 / 420.1 | 155.5 | `3` | `0` |
-| **Tcheran v14.0 dev de10455f** | #2 | 42.3% | 38.5% | 67.8 moves | 49 / 82 moves | 41 / 147 moves | 57 / 105 moves | 10 / 254 | 25.6 | 0ms / 12.0s | 1.5s | 3.3 / 2500.0 | 380.0 | `0` | `0` |
-| **Zangdar 7.25** | #3 | 25.0% | 57.1% | 62.6 moves | 49 / 94 moves | 33 / 146 moves | 54 / 62 moves | 0 / 128 | 24.4 | 0ms / 8.7s | 1.6s | 0.0 / 1100.0 | 381.8 | `0` | `0` |
-| **Uralochka 3.42a** | #4 | 30.8% | 53.8% | 61.2 moves | 49 / 81 moves | 33 / 103 moves | 63 / 75 moves | 4 / 64 | 18.1 | 1ms / 7.4s | 1.6s | 2.0 / 613.1 | 245.0 | `0` | `0` |
-| **Titan 1.1.0** | #5 | 23.1% | 65.4% | 71.9 moves | 44 / 84 moves | 39 / 146 moves | 53 / 67 moves | 15 / 1275 | 22.6 | 550ms / 5.5s | 1.5s | 181.1 / 2900.0 | 323.7 | `0` | `0` |
-| **Icarus 1.1.1 dev 7a05c88** | #6 | 21.4% | 57.1% | 59.7 moves | 54 / 87 moves | 32 / 74 moves | 56 / 88 moves | 14 / 256 | 21.1 | 4ms / 11.1s | 1.4s | 206.1 / 1500.0 | 387.8 | `0` | `0` |
-| **Devre 7.0** | #7 | 17.9% | 60.7% | 64.7 moves | 54 / 71 moves | 41 / 101 moves | 57 / 94 moves | 8 / 100 | 17.7 | 11ms / 9.7s | 1.6s | 18.2 / 745.1 | 199.4 | `0` | `0` |
-| **PZChessBot 7.1** | #8 | 26.9% | 46.2% | 61.3 moves | 53 / 102 moves | 28 / 134 moves | 44 / 78 moves | 11 / 199 | 19.2 | 10ms / 14.5s | 1.8s | 102.6 / 1200.0 | 159.7 | `0` | `0` |
-| **Akimbo** | #9 | 21.4% | 46.4% | 66.1 moves | 37 / 99 moves | 33 / 134 moves | 50 / 87 moves | 11 / 64 | 17.3 | 4ms / 4.6s | 1.4s | 127.1 / 459.9 | 274.0 | `0` | `0` |
-| **Velvet 9.0.0 dev7** | #10 | 15.4% | 61.5% | 64.8 moves | 40 / 67 moves | 28 / 147 moves | 52 / 99 moves | 9 / 255 | 17.6 | 4ms / 5.8s | 1.5s | 221.9 / 4800.0 | 369.5 | `0` | `0` |
-| **Starzix 6.1** | #11 | 11.5% | 50.0% | 64.3 moves | 45 / 105 moves | 32 / 118 moves | 37 / 85 moves | 11 / 100 | 18.7 | 326ms / 10.0s | 1.8s | 59.6 / 466.5 | 164.5 | `0` | `0` |
-| **Altair 7.2.1** | #12 | 7.1% | 50.0% | 65.0 moves | 54 / 85 moves | 41 / 131 moves | 37 / 102 moves | 9 / 255 | 18.4 | 9ms / 6.0s | 1.5s | 177.1 / 656.9 | 279.3 | `0` | `0` |
+| **Tcheran v14.0 dev de10455f** | #1 | 40.9% | 40.9% | 65.7 moves | 48 / 84 moves | 40 / 147 moves | 30 / 105 moves | 9 / 254 | 23.2 | 0ms / 12.4s | 1.6s | 3.3 / 2600.0 | 394.5 | `0` | `0` |
+| **Uralochka 3.42a** | #2 | 34.1% | 47.7% | 64.9 moves | 42 / 141 moves | 33 / 150 moves | 46 / 78 moves | 4 / 64 | 18.2 | 1ms / 7.4s | 1.6s | 2.0 / 613.1 | 252.7 | `0` | `0` |
+| **Cinder 0.6.1** | #3 | 40.5% | 38.1% | 59.6 moves | 37 / 86 moves | 41 / 78 moves | 49 / 79 moves | 0 / 68 | 17.2 | 0ms / 10.4s | 1.8s | 0.0 / 523.3 | 161.1 | `9` | `0` |
+| **Icarus 1.1.1 dev 7a05c88** | #4 | 34.1% | 43.2% | 61.4 moves | 30 / 93 moves | 26 / 74 moves | 56 / 131 moves | 14 / 256 | 21.7 | 4ms / 11.1s | 1.4s | 206.1 / 2000.0 | 438.4 | `0` | `0` |
+| **Zangdar 7.25** | #5 | 31.0% | 50.0% | 62.1 moves | 46 / 94 moves | 33 / 146 moves | 54 / 119 moves | 0 / 128 | 24.0 | 0ms / 11.0s | 1.5s | 0.0 / 1100.0 | 400.0 | `0` | `0` |
+| **PZChessBot 7.1** | #6 | 27.3% | 47.7% | 65.7 moves | 53 / 131 moves | 28 / 135 moves | 44 / 104 moves | 9 / 199 | 19.3 | 10ms / 14.5s | 1.7s | 102.6 / 1200.0 | 170.2 | `0` | `0` |
+| **Titan 1.1.0** | #7 | 25.0% | 50.0% | 66.3 moves | 44 / 91 moves | 39 / 146 moves | 40 / 88 moves | 14 / 1275 | 21.6 | 158ms / 5.5s | 1.5s | 181.1 / 2900.0 | 326.4 | `0` | `0` |
+| **Devre 7.0** | #8 | 20.5% | 59.1% | 67.0 moves | 54 / 71 moves | 41 / 160 moves | 57 / 141 moves | 8 / 100 | 19.1 | 11ms / 11.5s | 1.5s | 18.2 / 905.7 | 229.1 | `0` | `0` |
+| **Velvet 9.0.0 dev7** | #9 | 23.8% | 52.4% | 65.2 moves | 8 / 96 moves | 28 / 150 moves | 52 / 115 moves | 9 / 255 | 17.9 | 2ms / 6.3s | 1.5s | 221.9 / 4800.0 | 391.9 | `0` | `0` |
+| **Akimbo** | #10 | 15.9% | 45.5% | 72.2 moves | 37 / 99 moves | 33 / 160 moves | 50 / 96 moves | 11 / 64 | 17.9 | 1ms / 4.6s | 1.4s | 127.1 / 1000.0 | 307.7 | `0` | `0` |
+| **Starzix 6.1** | #11 | 15.9% | 43.2% | 61.8 moves | 45 / 105 moves | 26 / 118 moves | 37 / 85 moves | 11 / 100 | 17.9 | 252ms / 18.1s | 1.8s | 59.6 / 466.5 | 158.0 | `0` | `0` |
+| **Altair 7.2.1** | #12 | 11.9% | 40.5% | 63.8 moves | 54 / 101 moves | 41 / 131 moves | 8 / 102 moves | 9 / 255 | 19.1 | 9ms / 6.0s | 1.6s | 177.1 / 832.6 | 298.5 | `1` | `0` |
 
 </details>
 
@@ -62,17 +62,17 @@
 
 | Engine | **#1** | **#2** | **#3** | **#4** | **#5** | **#6** | **#7** | **#8** | **#9** | **#10** | **#11** | **#12** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **#1. Cinder 0.6.1** | — | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½ 1 ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 0 1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 1 ½ ½</nobr><br>(+2.0) |
-| **#2. Tcheran v14.0 dev de10455f** | <nobr>½ 1</nobr><br>(+1.0) | — | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>1 1 0 1</nobr><br>(+2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 1 0 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#3. Zangdar 7.25** | <nobr>1 ½ 0 ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 1</nobr><br>(+2.0) |
-| **#4. Uralochka 3.42a** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1 0 ½</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>½ ½</nobr><br>(0.0) |
-| **#5. Titan 1.1.0** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) |
-| **#6. Icarus 1.1.1 dev 7a05c88** | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>1 0 1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | — | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1 0 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) |
-| **#7. Devre 7.0** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | — | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) |
-| **#8. PZChessBot 7.1** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | — | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#9. Akimbo** | <nobr>0 1 0 ½</nobr><br>(-1.0) | <nobr>0 0 1 0</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | — | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) |
-| **#10. Velvet 9.0.0 dev7** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0 1 1</nobr><br>(+1.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#11. Starzix 6.1** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 0 1 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>0 1</nobr><br>(0.0) |
-| **#12. Altair 7.2.1** | <nobr>0 0 ½ ½</nobr><br>(-2.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | — |
+| **#1. Tcheran v14.0 dev de10455f** | — | <nobr>0 ½ ½ 1</nobr><br>(0.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ 1 0 0</nobr><br>(-1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>0 ½ 1 ½</nobr><br>(0.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>1 1 0 1</nobr><br>(+2.0) | <nobr>1 1 0 ½</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) |
+| **#2. Uralochka 3.42a** | <nobr>1 ½ ½ 0</nobr><br>(0.0) | — | <nobr>0 ½ 0 1</nobr><br>(-1.0) | <nobr>0 1 0 ½</nobr><br>(-1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>1 ½ 1 0</nobr><br>(+1.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) | <nobr>1 1 1 1</nobr><br>(+4.0) | <nobr>½ ½ 1 1</nobr><br>(+2.0) |
+| **#3. Cinder 0.6.1** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>1 ½ 1 0</nobr><br>(+1.0) | — | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>0 ½ 1 ½</nobr><br>(0.0) | <nobr>1 ½ 1 0</nobr><br>(+1.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 0 1 ½</nobr><br>(+1.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>1 1 ½ ½</nobr><br>(+2.0) |
+| **#4. Icarus 1.1.1 dev 7a05c88** | <nobr>½ 0 1 1</nobr><br>(+1.0) | <nobr>1 0 1 ½</nobr><br>(+1.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | — | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ 1 1 1</nobr><br>(+3.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ 1 0 0</nobr><br>(-1.0) | <nobr>1 ½ 1 1</nobr><br>(+3.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) |
+| **#5. Zangdar 7.25** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>1 ½ 0 ½</nobr><br>(0.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | — | <nobr>1 0 1 0</nobr><br>(0.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) | <nobr>0 1 ½ 1</nobr><br>(+1.0) | <nobr>½ ½ 1 1</nobr><br>(+2.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) |
+| **#6. PZChessBot 7.1** | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>0 ½ 0 1</nobr><br>(-1.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>0 1 0 1</nobr><br>(0.0) | — | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ 0 1 ½</nobr><br>(0.0) | <nobr>1 0 ½ 0</nobr><br>(-1.0) | <nobr>1 ½ ½ 0</nobr><br>(0.0) |
+| **#7. Titan 1.1.0** | <nobr>1 ½ 0 ½</nobr><br>(0.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ 0 0 0</nobr><br>(-3.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | — | <nobr>½ 1 ½ 0</nobr><br>(0.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) |
+| **#8. Devre 7.0** | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>0 ½ 0 1</nobr><br>(-1.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ 0 ½ 1</nobr><br>(0.0) | — | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>1 1 1 ½</nobr><br>(+3.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) |
+| **#9. Velvet 9.0.0 dev7** | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0 1 1</nobr><br>(+1.0) | <nobr>1 0 ½ 0</nobr><br>(-1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | — | <nobr>0 ½ 1 ½</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>1 ½ 1 1</nobr><br>(+3.0) |
+| **#10. Akimbo** | <nobr>0 0 1 0</nobr><br>(-2.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>0 1 0 ½</nobr><br>(-1.0) | <nobr>0 ½ 0 0</nobr><br>(-3.0) | <nobr>½ ½ 0 0</nobr><br>(-2.0) | <nobr>½ 1 0 ½</nobr><br>(0.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>1 ½ 0 ½</nobr><br>(0.0) | — | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) |
+| **#11. Starzix 6.1** | <nobr>0 0 1 ½</nobr><br>(-1.0) | <nobr>0 0 0 0</nobr><br>(-4.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>0 1 ½ 1</nobr><br>(+1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>0 0 0 ½</nobr><br>(-3.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | — | <nobr>0 1 0 1</nobr><br>(0.0) |
+| **#12. Altair 7.2.1** | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ ½ 0 0</nobr><br>(-2.0) | <nobr>0 0 ½ ½</nobr><br>(-2.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>0 ½ ½ 1</nobr><br>(0.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>0 ½ 0 0</nobr><br>(-3.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>1 0 1 0</nobr><br>(0.0) | — |
 
 </details>
