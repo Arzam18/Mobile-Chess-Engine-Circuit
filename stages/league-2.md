@@ -1,41 +1,41 @@
 # MCEC Season 3 - League 2
 
-> 📊 **Active Stage Summary:** **124** Total Games Played
-> ⚪ **White Wins:** 54 (43.5%) | ⬛ **Black Wins:** 3 (2.4%) | 🤝 **Draws:** 67 (54.0%)
+> 📊 **Active Stage Summary:** **212** Total Games Played
+> ⚪ **White Wins:** 100 (47.2%) | ⬛ **Black Wins:** 6 (2.8%) | 🤝 **Draws:** 106 (50.0%)
 
 #### 🏆 Standings (TCEC Style)
 
 | Rank | Engine | Games | Points | % | Wins [W/B] | Losses [W/B] | Draws [W/B] | SB | Elo |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | **Hobbes 20260912** | 22 | **15** | 68.18% | 9 [8/1] | 1 [0/1] | 12 [3/9] | 143.5 | 3243 |
-| 2 | **Triumviratus 7.0** | 22 | **14** | 63.64% | 8 [7/1] | 2 [0/2] | 12 [4/8] | 131 | 3198 |
-| 3 | **Quanticade 20260908** | 20 | **12** | 60.00% | 5 [5/0] | 1 [0/1] | 14 [5/9] | 122.25 | 3111 |
-| 4 | **Cinder 0.6.1** | 20 | **12** | 60.00% | 5 [5/0] | 1 [0/1] | 14 [5/9] | 116.75 | 3174 |
-| 5 | **Pawnocchio 2.0.1** | 20 | **11.5** | 57.50% | 5 [5/0] | 2 [0/2] | 13 [5/8] | 109 | 3187 |
-| 6 | **Halogen 16.7.12** | 22 | **11** | 50.00% | 5 [5/0] | 5 [0/5] | 12 [6/6] | 104.75 | 3132 |
-| 7 | **Astra 20260623** | 20 | **10** | 50.00% | 5 [5/0] | 5 [0/5] | 10 [5/5] | 92.75 | 3069 |
-| 8 | **Coda 20260912** | 20 | **9.5** | 47.50% | 3 [3/0] | 4 [0/4] | 13 [7/6] | 99.5 | 3137 |
-| 9 | **Horsie 1.1.8** | 22 | **7.5** | 34.09% | 2 [2/0] | 9 [0/9] | 11 [9/2] | 78.25 | 3002 |
-| 10 | **Koivisto 9.2** | 20 | **7.5** | 37.50% | 4 [3/1] | 9 [0/9] | 7 [7/0] | 73.75 | 3016 |
-| 11 | **Clarity 8.0.0** | 20 | **7** | 35.00% | 2 [2/0] | 8 [1/7] | 10 [7/3] | 72.25 | 3002 |
-| 12 | **Motor 0.9.0** | 20 | **7** | 35.00% | 4 [4/0] | 10 [2/8] | 6 [4/2] | 68.25 | 3010 |
+| 1 | **Hobbes 20260912** | 36 | **24** | 66.67% | 15 [14/1] | 3 [0/3] | 18 [4/14] | 397.25 | 3228 |
+| 2 | **Cinder 0.6.1** | 36 | **21** | 58.33% | 11 [11/0] | 5 [0/5] | 20 [7/13] | 366.75 | 3173 |
+| 3 | **Triumviratus 7.0** | 36 | **20.5** | 56.94% | 11 [10/1] | 6 [2/4] | 19 [6/13] | 326.75 | 3115 |
+| 4 | **Coda 20260912** | 36 | **19.5** | 54.17% | 9 [8/1] | 6 [0/6] | 21 [10/11] | 336 | 3168 |
+| 5 | **Pawnocchio 2.0.1** | 34 | **19.5** | 57.35% | 10 [10/0] | 5 [0/5] | 19 [7/12] | 320.5 | 3175 |
+| 6 | **Halogen 16.7.12** | 36 | **19.5** | 54.17% | 11 [11/0] | 8 [0/8] | 17 [7/10] | 320.5 | 3147 |
+| 7 | **Quanticade 20260908** | 34 | **19** | 55.88% | 9 [8/1] | 5 [0/5] | 20 [9/11] | 319.5 | 3110 |
+| 8 | **Astra 20260623** | 36 | **19** | 52.78% | 12 [12/0] | 10 [0/10] | 14 [6/8] | 317.5 | 3118 |
+| 9 | **Koivisto 9.2** | 34 | **14** | 41.18% | 8 [7/1] | 14 [0/14] | 12 [10/2] | 235.5 | 3048 |
+| 10 | **Motor 0.9.0** | 34 | **12.5** | 36.76% | 5 [5/0] | 14 [2/12] | 15 [10/5] | 208.5 | 3020 |
+| 11 | **Clarity 8.0.0** | 36 | **12** | 33.33% | 3 [2/1] | 15 [2/13] | 18 [14/4] | 217 | 2999 |
+| 12 | **Horsie 1.1.8** | 36 | **11.5** | 31.94% | 2 [2/0] | 15 [0/15] | 19 [16/3] | 207.75 | 2982 |
 
 <details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>
 
 | Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| #13 | **Hobbes 20260912** | 3250 | **3243** | `-7.5` | **15.0** / 22 | 40.9% | 4.5% | 🟢 Promoted to League 1 |
-| #14 | **Triumviratus 7.0** | 3207 | **3198** | `-9.9` | **14.0** / 22 | 36.4% | 9.1% | 🟢 Promoted to League 1 |
-| #15 | **Quanticade 20260908** | 3000 | **3111** | `+111.4` | **12.0** / 20 | 25.0% | 5.0% | 🟢 Promoted to League 1 |
-| #16 | **Cinder 0.6.1** | 3194 | **3174** | `-19.7` | **12.0** / 20 | 25.0% | 5.0% | 🟢 Promoted to League 1 |
-| #17 | **Pawnocchio 2.0.1** | 3220 | **3187** | `-32.9` | **11.5** / 20 | 25.0% | 10.0% | 🟢 Promoted to League 1 |
-| #18 | **Halogen 16.7.12** | 3189 | **3132** | `-56.7` | **11.0** / 22 | 22.7% | 22.7% | 🟢 Promoted to League 1 |
-| #19 | **Astra 20260623** | 3000 | **3069** | `+68.9` | **10.0** / 20 | 25.0% | 25.0% | 🔴 Relegated |
-| #20 | **Coda 20260912** | 3221 | **3137** | `-83.8` | **9.5** / 20 | 15.0% | 20.0% | 🔴 Relegated |
-| #21 | **Horsie 1.1.8** | 3000 | **3002** | `+1.7` | **7.5** / 22 | 9.1% | 40.9% | 🔴 Relegated |
-| #22 | **Koivisto 9.2** | 3000 | **3016** | `+16.4` | **7.5** / 20 | 20.0% | 45.0% | 🔴 Relegated |
-| #23 | **Clarity 8.0.0** | 3000 | **3002** | `+2.0` | **7.0** / 20 | 10.0% | 40.0% | 🔴 Relegated |
-| #24 | **Motor 0.9.0** | 3000 | **3010** | `+10.1` | **7.0** / 20 | 20.0% | 50.0% | 🔴 Relegated |
+| #13 | **Hobbes 20260912** | 3250 | **3228** | `-22.5` | **24.0** / 36 | 41.7% | 8.3% | 🟢 Promoted to League 1 |
+| #14 | **Cinder 0.6.1** | 3194 | **3173** | `-21.3` | **21.0** / 36 | 30.6% | 13.9% | 🟢 Promoted to League 1 |
+| #15 | **Triumviratus 7.0** | 3207 | **3115** | `-92.9` | **20.5** / 36 | 30.6% | 16.7% | 🟢 Promoted to League 1 |
+| #16 | **Coda 20260912** | 3221 | **3168** | `-53.5` | **19.5** / 36 | 25.0% | 16.7% | 🟢 Promoted to League 1 |
+| #17 | **Pawnocchio 2.0.1** | 3220 | **3175** | `-45.3` | **19.5** / 34 | 29.4% | 14.7% | 🟢 Promoted to League 1 |
+| #18 | **Halogen 16.7.12** | 3189 | **3147** | `-41.3` | **19.5** / 36 | 30.6% | 22.2% | 🟢 Promoted to League 1 |
+| #19 | **Quanticade 20260908** | 3000 | **3110** | `+109.8` | **19.0** / 34 | 26.5% | 14.7% | 🔴 Relegated |
+| #20 | **Astra 20260623** | 3000 | **3118** | `+117.9` | **19.0** / 36 | 33.3% | 27.8% | 🔴 Relegated |
+| #21 | **Koivisto 9.2** | 3000 | **3048** | `+48.4` | **14.0** / 34 | 23.5% | 41.2% | 🔴 Relegated |
+| #22 | **Motor 0.9.0** | 3000 | **3020** | `+19.8` | **12.5** / 34 | 14.7% | 41.2% | 🔴 Relegated |
+| #23 | **Clarity 8.0.0** | 3000 | **2999** | `-1.0` | **12.0** / 36 | 8.3% | 41.7% | 🔴 Relegated |
+| #24 | **Horsie 1.1.8** | 3000 | **2982** | `-18.1` | **11.5** / 36 | 5.6% | 41.7% | 🔴 Relegated |
 
 </details>
 
@@ -43,18 +43,18 @@
 
 | Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Normal Depth | Short / Long Time | Normal Time | Short / Long kNPS | Normal kNPS | Time Losses | Crashes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Hobbes 20260912** | #1 | 40.9% | 54.5% | 69.5 moves | 42 / 86 moves | 41 / 129 moves | 49 / 49 moves | 11 / 256 | 19.6 | 14ms / 14.1s | 1.7s | 49.0 / 934.0 | 206.5 | `0` | `0` |
-| **Triumviratus 7.0** | #2 | 36.4% | 54.5% | 66.1 moves | 42 / 101 moves | 39 / 129 moves | 60 / 86 moves | 1 / 59 | 19.5 | 1ms / 14.5s | 1.7s | 2.0 / 649.0 | 148.6 | `0` | `0` |
-| **Quanticade 20260908** | #3 | 25.0% | 70.0% | 74.1 moves | 49 / 92 moves | 39 / 161 moves | 113 / 113 moves | 9 / 254 | 21.7 | 7ms / 19.7s | 1.6s | 16.9 / 1100.0 | 230.0 | `0` | `0` |
-| **Cinder 0.6.1** | #4 | 25.0% | 70.0% | 61.0 moves | 56 / 111 moves | 40 / 93 moves | 54 / 54 moves | 0 / 127 | 18.3 | 0ms / 8.3s | 1.8s | 0.0 / 726.4 | 166.1 | `1` | `0` |
-| **Pawnocchio 2.0.1** | #5 | 25.0% | 65.0% | 68.4 moves | 56 / 73 moves | 39 / 153 moves | 61 / 73 moves | 10 / 255 | 19.8 | 7ms / 11.3s | 1.6s | 100.2 / 1500.0 | 245.8 | `0` | `0` |
-| **Halogen 16.7.12** | #6 | 22.7% | 54.5% | 61.8 moves | 52 / 59 moves | 41 / 113 moves | 56 / 76 moves | 7 / 38 | 17.4 | 93ms / 16.6s | 1.9s | 60.0 / 1800.0 | 305.5 | `3` | `0` |
-| **Astra 20260623** | #7 | 25.0% | 50.0% | 60.0 moves | 56 / 69 moves | 36 / 105 moves | 56 / 72 moves | 11 / 127 | 18.9 | 3ms / 17.6s | 1.9s | 96.8 / 1600.0 | 178.8 | `1` | `0` |
-| **Coda 20260912** | #8 | 15.0% | 65.0% | 65.3 moves | 54 / 71 moves | 36 / 125 moves | 63 / 81 moves | 7 / 40 | 18.4 | 8ms / 4.3s | 1.3s | 27.9 / 627.1 | 174.4 | `0` | `0` |
-| **Horsie 1.1.8** | #9 | 9.1% | 50.0% | 60.8 moves | 59 / 76 moves | 39 / 69 moves | 52 / 89 moves | 9 / 63 | 16.6 | 1ms / 13.4s | 1.8s | 94.2 / 1400.0 | 156.4 | `0` | `0` |
-| **Koivisto 9.2** | #10 | 20.0% | 35.0% | 73.2 moves | 44 / 113 moves | 41 / 153 moves | 42 / 79 moves | 1 / 39 | 22.3 | 1ms / 9.3s | 1.6s | 1.0 / 795.6 | 579.8 | `0` | `0` |
-| **Clarity 8.0.0** | #11 | 10.0% | 50.0% | 85.1 moves | 72 / 89 moves | 41 / 161 moves | 44 / 111 moves | 8 / 99 | 18.6 | 15ms / 5.2s | 876ms | 201.0 / 496.1 | 314.9 | `0` | `0` |
-| **Motor 0.9.0** | #12 | 20.0% | 30.0% | 67.0 moves | 56 / 80 moves | 40 / 112 moves | 42 / 101 moves | 9999 / 0 | N/A | N/A | N/A | N/A | N/A | `0` | `0` |
+| **Hobbes 20260912** | #1 | 41.7% | 50.0% | 68.4 moves | 35 / 90 moves | 41 / 129 moves | 49 / 111 moves | 11 / 256 | 19.6 | 14ms / 18.2s | 1.7s | 49.0 / 1300.0 | 203.6 | `0` | `0` |
+| **Cinder 0.6.1** | #2 | 30.6% | 55.6% | 61.6 moves | 39 / 111 moves | 28 / 93 moves | 45 / 66 moves | 0 / 127 | 18.2 | 0ms / 17.1s | 1.8s | 0.0 / 819.4 | 177.3 | `4` | `0` |
+| **Triumviratus 7.0** | #3 | 30.6% | 52.8% | 67.9 moves | 42 / 101 moves | 28 / 161 moves | 8 / 116 moves | 1 / 64 | 20.4 | 1ms / 15.1s | 1.7s | 2.0 / 649.0 | 157.1 | `1` | `0` |
+| **Coda 20260912** | #4 | 25.0% | 58.3% | 71.0 moves | 54 / 116 moves | 36 / 147 moves | 39 / 81 moves | 6 / 59 | 18.7 | 8ms / 4.9s | 1.2s | 27.9 / 801.0 | 184.6 | `0` | `0` |
+| **Pawnocchio 2.0.1** | #5 | 29.4% | 55.9% | 72.3 moves | 56 / 87 moves | 39 / 153 moves | 55 / 80 moves | 6 / 255 | 19.4 | 4ms / 11.8s | 1.6s | 100.2 / 1700.0 | 255.6 | `0` | `0` |
+| **Halogen 16.7.12** | #6 | 30.6% | 47.2% | 61.8 moves | 51 / 68 moves | 41 / 113 moves | 56 / 76 moves | 7 / 127 | 17.4 | 4ms / 16.6s | 1.9s | 28.0 / 2400.0 | 336.9 | `6` | `0` |
+| **Quanticade 20260908** | #7 | 26.5% | 58.8% | 77.4 moves | 49 / 95 moves | 39 / 161 moves | 63 / 113 moves | 8 / 254 | 21.4 | 7ms / 19.7s | 1.6s | 5.5 / 1100.0 | 232.8 | `0` | `0` |
+| **Astra 20260623** | #8 | 33.3% | 38.9% | 60.3 moves | 45 / 78 moves | 36 / 105 moves | 35 / 76 moves | 6 / 127 | 18.5 | 1ms / 17.6s | 1.9s | 88.3 / 1600.0 | 171.5 | `1` | `0` |
+| **Koivisto 9.2** | #9 | 23.5% | 35.3% | 71.8 moves | 44 / 113 moves | 41 / 161 moves | 42 / 79 moves | 1 / 74 | 22.4 | 1ms / 10.4s | 1.6s | 1.0 / 858.2 | 585.1 | `0` | `0` |
+| **Motor 0.9.0** | #10 | 14.7% | 44.1% | 67.4 moves | 56 / 80 moves | 40 / 112 moves | 42 / 101 moves | 9999 / 0 | N/A | N/A | N/A | N/A | N/A | `0` | `0` |
+| **Clarity 8.0.0** | #11 | 8.3% | 50.0% | 77.7 moves | 8 / 89 moves | 41 / 161 moves | 44 / 111 moves | 8 / 99 | 18.5 | 15ms / 5.2s | 906ms | 201.0 / 496.1 | 319.4 | `1` | `0` |
+| **Horsie 1.1.8** | #12 | 5.6% | 52.8% | 66.2 moves | 59 / 76 moves | 39 / 114 moves | 52 / 95 moves | 9 / 63 | 17.0 | 1ms / 15.9s | 1.7s | 94.2 / 1400.0 | 163.4 | `0` | `0` |
 
 </details>
 
@@ -62,17 +62,17 @@
 
 | Engine | **#1** | **#2** | **#3** | **#4** | **#5** | **#6** | **#7** | **#8** | **#9** | **#10** | **#11** | **#12** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **#1. Hobbes 20260912** | — | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) |
-| **#2. Triumviratus 7.0** | <nobr>0 ½</nobr><br>(-1.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 1</nobr><br>(+2.0) |
-| **#3. Quanticade 20260908** | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) |
-| **#4. Cinder 0.6.1** | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | — | * | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#5. Pawnocchio 2.0.1** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | * | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) |
-| **#6. Halogen 16.7.12** | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) |
-| **#7. Astra 20260623** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) |
-| **#8. Coda 20260912** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | * | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) |
-| **#9. Horsie 1.1.8** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) |
-| **#10. Koivisto 9.2** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | * | <nobr>0 1</nobr><br>(0.0) | — | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 0</nobr><br>(0.0) |
-| **#11. Clarity 8.0.0** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | — | * |
-| **#12. Motor 0.9.0** | <nobr>0 0</nobr><br>(-2.0) | <nobr>0 0</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | * | — |
+| **#1. Hobbes 20260912** | — | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1 0 ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0 1 ½</nobr><br>(0.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>1 1 1 ½</nobr><br>(+3.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) |
+| **#2. Cinder 0.6.1** | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | — | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>0 1 ½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½ 1 0</nobr><br>(+1.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ ½</nobr><br>(0.0) |
+| **#3. Triumviratus 7.0** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | — | <nobr>0 1 0 0</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>1 1 ½ ½</nobr><br>(+2.0) | <nobr>½ 1 ½ 0</nobr><br>(0.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) |
+| **#4. Coda 20260912** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0 ½ 0</nobr><br>(-1.0) | <nobr>1 0 1 1</nobr><br>(+2.0) | — | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0 1 ½</nobr><br>(+1.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) |
+| **#5. Pawnocchio 2.0.1** | <nobr>½ 0 1 ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | — | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) |
+| **#6. Halogen 16.7.12** | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½ 0 1</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | — | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>1 0 1 0</nobr><br>(0.0) | <nobr>1 ½ 1 0</nobr><br>(+1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>0 1</nobr><br>(0.0) |
+| **#7. Quanticade 20260908** | <nobr>½ 1 0 ½</nobr><br>(0.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | — | <nobr>1 0</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½ 1 1</nobr><br>(+3.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) |
+| **#8. Astra 20260623** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1 0 1</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | — | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1 ½ 1</nobr><br>(+1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) |
+| **#9. Koivisto 9.2** | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>0 ½ 0 1</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | — | <nobr>1 0 1 0</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 1 ½ 1</nobr><br>(+1.0) |
+| **#10. Motor 0.9.0** | <nobr>0 0 0 ½</nobr><br>(-3.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 0 ½ ½</nobr><br>(-2.0) | <nobr>0 1 0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 1 0 1</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) |
+| **#11. Clarity 8.0.0** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ 0 ½ 1</nobr><br>(0.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>0 ½ 0 0</nobr><br>(-3.0) | <nobr>1 0 ½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ 1</nobr><br>(+1.0) |
+| **#12. Horsie 1.1.8** | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>1 0 ½ 0</nobr><br>(-1.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | — |
 
 </details>
