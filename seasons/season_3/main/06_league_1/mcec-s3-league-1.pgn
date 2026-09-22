@@ -1,0 +1,69 @@
+[Event "MCEC S3 League 1"]
+[Site "ChessEnginesTournament"]
+[Date "2026.09.22"]
+[Round "1.1"]
+[White "Alexandria 9.0.14"]
+[Black "Viridithas 20260921"]
+[Result "1-0"]
+[TimeControl "1+1"]
+[ECO "D30"]
+[WhiteElo "1500"]
+[BlackElo "1500"]
+[PlyCount "98"]
+[Termination "adjudication"]
+[TerminationDetails "GUI fast win rule"]
+[EventType "round robin"]
+
+1. d4 d5 2. c4 e6 3. Nf3 Nf6 4. g3 dxc4 5. Bg2 Bb4+ 6. Bd2 a5 7. O-O Bxd2 8.
+Qxd2 Ne4 9. Qc2 {[14] 0.86 774ms 143.0knps Qc2 Nd6} 9... Nd6 {[18] 1.49 2.0s
+104.1knps 0tb ..Nd6 Ne5} 10. Ne5 {[14] 0.89 634ms 132.0knps Ne5 Nd7} 10... Nd7
+{[18] 1.57 2.1s 94.7knps 0tb ..Nd7 Nxc4} 11. Nxc4 {[15] 0.94 671ms 141.0knps
+Nxc4 Nxc4} 11... Nxc4 {[19] 1.6 1.7s 99.2knps 0tb ..Nxc4 Qxc4} 12. Qxc4 {[15]
+0.92 260ms 165.0knps Qxc4 O-O} 12... O-O {[19] 1.66 2.3s 95.1knps 0tb ..O-O
+Nc3} 13. Rd1 {[13] 0.87 474ms 133.0knps Rd1 c6} 13... c6 {[16] 1.54 1.4s
+99.3knps 0tb ..c6 Nc3} 14. Nc3 {[16] 0.87 4.1s 128.0knps Nc3 Nb6} 14... a4
+{[17] 1.64 2.7s 91.7knps 0tb ..a4 Ne4} 15. Ne4 {[15] 0.71 5.1s 125.0knps Ne4
+Qe7} 15... Qe7 {[16] 1.65 2.2s 87.6knps 0tb ..Qe7 a3} 16. a3 {[14] 0.83 875ms
+134.0knps a3 Nb6} 16... Kh8 {[18] 1.95 6.7s 85.5knps 0tb ..Kh8 Qc3} 17. f4
+{[14] 0.94 1.6s 115.0knps f4 h6} 17... Ra5 {[14] 1.91 2.7s 81.0knps 0tb ..Ra5
+Rac1} 18. Qc3 {[13] 1.08 1.3s 118.0knps Qc3 Rb5} 18... Rb5 {[15] 2.0 1.6s
+84.2knps 0tb ..Rb5 Qc2} 19. Qc2 {[13] 1.01 628ms 136.0knps Qc2 Ra5} 19... Nb6
+{[19] 1.88 9.6s 82.4knps 0tb ..Nb6 Nc3} 20. Nc5 {[15] 1.13 811ms 147.0knps Nc5
+f6} 20... f6 {[14] 1.92 1.0s 93.1knps 0tb ..f6 e3} 21. e4 {[17] 1.42 2.9s
+135.0knps e4 e5} 21... e5 {[16] 1.87 1.1s 93.3knps 0tb ..e5 Bf1} 22. Bf1 {[17]
+1.26 849ms 146.0knps Bf1 Bg4} 22... Bg4 {[12] 1.77 517ms 86.7knps 0tb ..Bg4
+Rd2} 23. Rd2 {[14] 1.18 496ms 180.0knps Rd2 exf4} 23... Ra5 {[15] 1.85 1.3s
+90.4knps 0tb ..Ra5 Qc3} 24. h3 {[16] 1.37 1.8s 161.0knps h3 Bh5} 24... Bh5
+{[14] 1.72 1.1s 84.8knps 0tb ..Bh5 Qc3} 25. Qc3 {[14] 1.22 875ms 146.0knps Qc3
+Rfa8} 25... Rfa8 {[16] 3.02 703ms 101.5knps 0tb ..Rfa8 Qb4} 26. Qb4 {[17] 1.23
+2.7s 137.0knps Qb4 exd4} 26... exd4 {[17] 3.01 886ms 95.0knps 0tb ..exd4 Rc1}
+27. Rc1 {[16] 1.2 617ms 137.0knps Rc1 Nd7} 27... Nd7 {[16] 2.82 839ms 96.1knps
+0tb ..Nd7 Qxb7} 28. Qxb7 {[14] 1.28 335ms 144.0knps Qxb7 R8a7} 28... R8a7 {[17]
+3.43 2.3s 93.8knps 0tb ..R8a7 Qc8+} 29. Qc8+ {[15] 1.12 645ms 148.0knps Qc8+
+Be8} 29... Nf8 {[18] 1.36 1.2s 112.2knps 0tb ..Nf8 Rxd4} 30. Na6 {[13] 2.21
+1.3s 121.0knps Na6 g5} 30... d3 {[17] 6.76 9.1s 92.9knps 0tb ..d3 Rxc6} 31.
+Rxd3 {[17] 3.2 1.8s 126.0knps Rxd3 R5xa6} 31... R5xa6 {[18] 7.06 1.0s 112.9knps
+0tb ..R5xa6 Rd8} 32. Rd8 {[17] 3.17 489ms 147.0knps Rd8 Ra8} 32... Ra8 {[18]
+8.13 920ms 124.9knps 0tb ..Ra8 Rxf8+} 33. Rxf8+ {[13] 3.26 607ms 131.0knps
+Rxf8+ Qxf8} 33... Qxf8 {[1] 8.13 1ms 3.2knps 0tb ..Qxf8} 34. Qxf8+ {[17] 3.5
+588ms 167.0knps Qxf8+ Rxf8} 34... Rxf8 {[1] 8.13 0ms 2.9knps 0tb ..Rxf8} 35.
+Bxa6 {[16] 3.26 1.1s 154.0knps Bxa6 Re8} 35... Re8 {[16] 8.65 1.3s 117.1knps
+0tb ..Re8 Rc4} 36. Rxc6 {[17] 3.75 392ms 210.0knps Rxc6 Rxe4} 36... Rxe4 {[15]
+7.43 378ms 133.0knps 0tb ..Rxe4 Rc4} 37. Rc8+ {[16] 3.74 425ms 234.0knps Rc8+
+Re8} 37... Re8 {[17] 8.65 1.0s 166.1knps 0tb ..Re8 Rxe8+} 38. Rxe8+ {[17] 4.32
+573ms 234.0knps Rxe8+ Bxe8} 38... Bxe8 {[1] 8.65 0ms 3.9knps 0tb ..Bxe8} 39. h4
+{[18] 4.57 1.3s 215.0knps h4 Kg8} 39... g6 {[20] 11.06 2.0s 194.5knps 0tb ..g6
+Kf2} 40. Bd3 {[18] 4.8 566ms 197.0knps Bd3 Kg7} 40... Kg7 {[19] 13.75 1.6s
+216.6knps 0tb ..Kg7 Kf2} 41. Kf2 {[15] 4.83 371ms 175.0knps Kf2 Kf7} 41... h6
+{[22] 14.24 2.1s 201.0knps 0tb ..h6 Bc2} 42. Bc2 {[17] 5.01 644ms 203.0knps Bc2
+Kf7} 42... g5 {[20] 15.24 1.8s 199.9knps 0tb ..g5 Ke3} 43. Ke3 {[17] 4.98 391ms
+197.0knps Ke3 Kf7} 43... Kf7 {[18] 15.26 424ms 284.0knps 0tb ..Kf7 Kd4} 44. Kd4
+{[19] 5.17 577ms 193.0knps Kd4 gxf4} 44... gxf4 {[20] 14.7 1.1s 210.8knps 0tb
+..gxf4 gxf4} 45. gxf4 {[16] 5.29 239ms 201.0knps gxf4 Ke6} 45... Ke6 {[18]
+16.02 649ms 192.6knps 0tb ..Ke6 Kc4} 46. Kc5 {[16] 5.19 557ms 202.0knps Kc5
+Bd7} 46... Bd7 {[18] 18.5 1.3s 193.8knps 0tb ..Bd7 Kb4} 47. Kb4 {[16] 5.41
+258ms 233.0knps Kb4 Kd5} 47... Kd5 {[16] 18.76 421ms 228.7knps 0tb ..Kd5 Bxa4}
+48. Bxa4 {[15] 5.63 492ms 193.0knps Bxa4 Bh3} 48... Bg4 {[18] 19.87 981ms
+202.2knps 0tb ..Bg4 Bc2} 49. Bc2 {[15] 5.61 330ms 215.0knps Bc2 Kd4} 49... Kd4
+{[20] 20.47 825ms 210.7knps 0tb ..Kd4 a4} {[%playeraction resign]} 1-0
+
