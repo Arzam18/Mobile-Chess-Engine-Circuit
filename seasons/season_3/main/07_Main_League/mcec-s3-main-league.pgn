@@ -1,0 +1,59 @@
+[Event "MCEC S3 Main League"]
+[Site "ChessEnginesTournament"]
+[Date "2026.10.02"]
+[Round "1.1"]
+[White "Caissa 2.0.5"]
+[Black "Triumviratus 20260930"]
+[Result "1/2-1/2"]
+[TimeControl "1+1"]
+[ECO "B06"]
+[WhiteElo "1500"]
+[BlackElo "1500"]
+[PlyCount "81"]
+[Termination "adjudication"]
+[TerminationDetails "GUI draw rule"]
+[EventType "round robin"]
+
+1. e4 g6 2. d4 Bg7 3. Nc3 a6 4. f4 b5 5. Nf3 b4 6. Ne2 Bb7 7. Ng3 d6 8. Bd3 Nd7
+9. O-O {[20] 0.82 4.1s 220.8knps O-O c5} 9... c5 {[16] 0.75 1.4s 89.9knps 0tb
+..c5 d5} 10. c3 {[15] 0.8 1.2s 247.8knps c3 Qb6} 10... Qb6 {[15] 0.69 1.6s
+88.7knps 0tb ..Qb6 Be3} 11. Qe2 {[16] 0.79 1.3s 252.6knps Qe2 a5} 11... cxd4
+{[16] 0.71 1.6s 87.3knps 0tb ..cxd4 cxd4} 12. cxd4 {[18] 0.73 2.8s 239.1knps
+cxd4 a5} 12... Ngf6 {[16] 0.58 1.6s 93.4knps 0tb ..Ngf6 Kh1} 13. Kh1 {[18] 0.89
+1.4s 266.8knps Kh1 O-O} 13... O-O {[16] 0.69 1.1s 103.7knps 0tb ..O-O f5} 14.
+f5 {[20] 0.89 3.3s 251.3knps f5 a5} 14... a5 {[16] 0.8 2.2s 91.3knps 0tb ..a5
+h3} 15. Be3 {[19] 0.81 5.3s 247.1knps Be3 Ba6} 15... Ba6 {[16] 0.84 2.5s
+93.8knps 0tb ..Ba6 Rae1} 16. Rae1 {[21] 0.9 6.0s 253.8knps Rae1 Bxd3} 16...
+Bxd3 {[15] 0.52 1.5s 106.0knps 0tb ..Bxd3 Qxd3} 17. Qxd3 {[14] 1.04 413ms
+295.7knps Qxd3 Qa6} 17... Qa6 {[15] 0.49 1.5s 105.6knps 0tb ..Qa6 Qd2} 18. Qd2
+{[16] 0.68 2.7s 252.3knps Qd2 e5} 18... e5 {[16] 0.55 1.8s 102.6knps 0tb ..e5
+dxe5} 19. fxe6 {[17] 0.54 4.1s 250.7knps e6 fxe6} 19... fxe6 {[14] 0.57 589ms
+115.7knps 0tb ..fxe6 Bh6} 20. Bh6 {[20] 0.47 5.1s 251.9knps Bh6 e5} 20... e5
+{[17] 0.31 2.5s 108.1knps 0tb ..e5 Bxg7} 21. h4 {[20] 0.61 5.3s 243.4knps h4
+Rae8} 21... exd4 {[19] 0.35 9.2s 99.3knps 0tb ..exd4 h5} 22. h5 {[18] 0.52 4.3s
+243.0knps h5 Rf7} 22... Rf7 {[17] 0.39 2.1s 114.9knps 0tb ..Rf7 Bxg7} 23. Bxg7
+{[16] 0.38 800ms 262.1knps Bxg7 Rxg7} 23... Rxg7 {[14] 0.33 653ms 115.9knps 0tb
+..Rxg7 Nxd4} 24. Qxd4 {[18] 0.5 2.4s 260.2knps Qxd4 Rf8} 24... Re8 {[16] 0.34
+3.1s 105.7knps 0tb ..Re8 Nd2} 25. Rd1 {[17] 0.41 3.9s 251.6knps Rd1 Ne5} 25...
+Ne5 {[17] 0.19 5.0s 107.8knps 0tb ..Ne5 b3} 26. b3 {[16] 0.32 2.3s 254.9knps b3
+Rf7} 26... Rf7 {[16] 0.16 1.3s 124.8knps 0tb ..Rf7 Qxd6} 27. hxg6 {[17] 0.43
+740ms 278.6knps hxg6 hxg6} 27... hxg6 {[15] 0.0 424ms 123.8knps 0tb ..hxg6 Ng5}
+28. Qxd6 {[18] 0.42 1.1s 273.4knps Qxd6 Qxd6} 28... Qa7 {[18] 0.03 1.9s
+122.7knps 0tb ..Qa7 Qd4} 29. Qd4 {[17] 0.16 1.1s 257.4knps Qd4 Qxd4} 29... Qc7
+{[21] 0.02 2.0s 127.5knps 0tb ..Qc7 Nxe5} 30. Nxe5 {[16] 0.08 774ms 267.9knps
+Nxe5 Qxe5} 30... Qxe5 {[21] 0.06 1.4s 127.7knps 0tb ..Qxe5 Qxe5} 31. Qxe5 {[16]
+0.19 566ms 278.1knps Qxe5 Rxe5} 31... Rxe5 {[19] 0.03 434ms 136.8knps 0tb
+..Rxe5 Kg1} 32. Rf4 {[16] 0.1 864ms 256.4knps 2tb Rf4 Kg7} 32... Kg7 {[17] 0.0
+2.4s 117.5knps 0tb ..Kg7 Rd6} 33. Rdf1 {[20] 0.0 1.4s 276.1knps Rdf1 Re6} 33...
+Re6 {[19] 0.0 2.0s 116.0knps 0tb ..Re6 Kg1} 34. Rc1 {[21] 0.05 1.1s 268.9knps
+Rc1 Rfe7} 34... Rfe7 {[20] 0.04 3.3s 125.8knps 146tb ..Rfe7 Kg1} 35. Rc4 {[21]
+0.0 994ms 285.0knps Rc4 Nd7} 35... Nd7 {[19] 0.04 1.4s 126.3knps 0tb ..Nd7 Rc8}
+36. Nf1 {[20] 0.05 1.2s 259.7knps Nf1 Ne5} 36... Ne5 {[18] 0.05 1.6s 119.5knps
+0tb ..Ne5 Rd4} 37. Rd4 {[19] 0.0 666ms 280.6knps 1tb Rd4 a4} 37... Rc7 {[19]
+0.0 1.5s 118.6knps 0tb ..Rc7 Rd2} 38. Rd5 {[19] 0.0 1.1s 251.6knps Rd5 a4}
+38... a4 {[20] 0.02 1.3s 127.7knps 0tb ..a4 bxa4} 39. bxa4 {[18] -0.01 825ms
+261.2knps bxa4 Rc2} 39... Rc2 {[18] 0.04 985ms 124.6knps 1tb ..Rc2 Rb5} 40. Rb5
+{[18] 0.0 1.2s 250.4knps Rb5 Rxa2} 40... Rxa2 {[19] 0.04 3.0s 122.3knps 25tb
+..Rxa2 Rxb4} 41. Rxb4 {[21] 0.0 2.8s 236.5knps 3tb Rxb4 Nd3} {[%playeraction
+draw offer]} 41... -- {[%playeraction draw accept]} 1/2-1/2
+
