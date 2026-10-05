@@ -1,41 +1,41 @@
 # MCEC Season 3 - Main League
 
-> 📊 **Active Stage Summary:** **132** Total Games Played
-> ⚪ **White Wins:** 57 (43.2%) | ⬛ **Black Wins:** 2 (1.5%) | 🤝 **Draws:** 73 (55.3%)
+> 📊 **Active Stage Summary:** **264** Total Games Played
+> ⚪ **White Wins:** 119 (45.1%) | ⬛ **Black Wins:** 3 (1.1%) | 🤝 **Draws:** 142 (53.8%)
 
 #### 🏆 Standings (TCEC Style)
 
 | Rank | Engine | Games | Points | % | Wins [W/B] | Losses [W/B] | Draws [W/B] | SB | Elo |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | **Stockfish 20260930** | 22 | **15.5** | 70.45% | 10 [10/0] | 1 [0/1] | 11 [1/10] | 161.75 | 3123 |
-| 2 | **Reckless 20260909** | 22 | **15** | 68.18% | 10 [10/0] | 2 [0/2] | 10 [1/9] | 156.5 | 3112 |
-| 3 | **Cinder 20261001** | 22 | **11.5** | 52.27% | 5 [5/0] | 4 [1/3] | 13 [5/8] | 120.25 | 3086 |
-| 4 | **Obsidian 16.15** | 22 | **11** | 50.00% | 4 [4/0] | 4 [0/4] | 14 [7/7] | 120 | 3027 |
-| 5 | **Integral 20260929** | 22 | **11** | 50.00% | 5 [4/1] | 5 [0/5] | 12 [7/5] | 115.75 | 3042 |
-| 6 | **PlentyChess 8.0.0** | 22 | **11** | 50.00% | 4 [4/0] | 4 [1/3] | 14 [6/8] | 115.25 | 3050 |
-| 7 | **Pawnocchio 2.0.1** | 22 | **11** | 50.00% | 5 [4/1] | 5 [0/5] | 12 [7/5] | 115 | 3081 |
-| 8 | **Coda 20260929** | 22 | **10.5** | 47.73% | 5 [5/0] | 6 [0/6] | 11 [6/5] | 110.5 | 3066 |
-| 9 | **Triumviratus 20260930** | 22 | **9.5** | 43.18% | 2 [2/0] | 5 [0/5] | 15 [9/6] | 102.5 | 3035 |
-| 10 | **Caissa 2.0.5** | 22 | **9** | 40.91% | 3 [3/0] | 7 [0/7] | 12 [8/4] | 95.5 | 3000 |
-| 11 | **Hobbes 20260912** | 22 | **9** | 40.91% | 2 [2/0] | 6 [0/6] | 14 [9/5] | 95 | 3039 |
-| 12 | **Stormphrax 8.0.0** | 22 | **8** | 36.36% | 4 [4/0] | 10 [0/10] | 8 [7/1] | 88 | 3002 |
+| 1 | **Stockfish 20260930** | 44 | **30** | 68.18% | 19 [19/0] | 3 [0/3] | 22 [3/19] | 632 | 3149 |
+| 2 | **Reckless 20260909** | 44 | **28** | 63.64% | 16 [16/0] | 4 [0/4] | 24 [6/18] | 590.75 | 3108 |
+| 3 | **PlentyChess 8.0.0** | 44 | **23.5** | 53.41% | 11 [11/0] | 8 [1/7] | 25 [10/15] | 502 | 3083 |
+| 4 | **Cinder 20261001** | 44 | **23** | 52.27% | 9 [9/0] | 7 [2/5] | 28 [11/17] | 491.75 | 3078 |
+| 5 | **Integral 20260929** | 44 | **22** | 50.00% | 11 [9/2] | 11 [0/11] | 22 [13/9] | 467 | 3063 |
+| 6 | **Coda 20260929** | 44 | **21.5** | 48.86% | 10 [10/0] | 11 [0/11] | 23 [12/11] | 456.75 | 3057 |
+| 7 | **Obsidian 16.15** | 44 | **21** | 47.73% | 9 [9/0] | 11 [0/11] | 24 [13/11] | 452.5 | 3016 |
+| 8 | **Pawnocchio 2.0.1** | 44 | **20** | 45.45% | 8 [7/1] | 12 [0/12] | 24 [15/9] | 439 | 3021 |
+| 9 | **Hobbes 20260912** | 44 | **20** | 45.45% | 8 [8/0] | 12 [0/12] | 24 [14/10] | 430.75 | 3062 |
+| 10 | **Stormphrax 8.0.0** | 44 | **19** | 43.18% | 9 [9/0] | 15 [0/15] | 20 [13/7] | 411.75 | 3033 |
+| 11 | **Caissa 2.0.5** | 44 | **18.5** | 42.05% | 8 [8/0] | 15 [0/15] | 21 [14/7] | 399.25 | 3001 |
+| 12 | **Triumviratus 20260930** | 44 | **17.5** | 39.77% | 4 [4/0] | 13 [0/13] | 27 [18/9] | 380.5 | 2992 |
 
 <details><summary><b>📈 View Full Rating Lists / Full Engines (Elo Updates, Win % & Loss %)</b></summary>
 
 | Global Rank | Engine | Start Elo | End Elo | Δ Elo | Points / Played | Win % | Loss % | Status |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| #1 | **Stockfish 20260930** | 3000 | **3123** | `+122.7` | **15.5** / 22 | 45.5% | 4.5% | 🟢 Advanced to Semi-Final |
-| #2 | **Reckless 20260909** | 3000 | **3112** | `+112.5` | **15.0** / 22 | 45.5% | 9.1% | 🟢 Advanced to Semi-Final |
-| #3 | **Cinder 20261001** | 3142 | **3086** | `-55.9` | **11.5** / 22 | 22.7% | 18.2% | 🟢 Advanced to Semi-Final |
-| #4 | **Obsidian 16.15** | 3000 | **3027** | `+27.1` | **11.0** / 22 | 18.2% | 18.2% | 🟢 Advanced to Semi-Final |
-| #5 | **Integral 20260929** | 3000 | **3042** | `+42.0` | **11.0** / 22 | 22.7% | 22.7% | 🟢 Advanced to Semi-Final |
-| #6 | **PlentyChess 8.0.0** | 3000 | **3050** | `+50.0` | **11.0** / 22 | 18.2% | 18.2% | 🟢 Advanced to Semi-Final |
-| #7 | **Pawnocchio 2.0.1** | 3087 | **3081** | `-6.0` | **11.0** / 22 | 22.7% | 22.7% | 🔴 Relegated |
-| #8 | **Coda 20260929** | 3117 | **3066** | `-51.5` | **10.5** / 22 | 22.7% | 27.3% | 🔴 Relegated |
-| #9 | **Triumviratus 20260930** | 3110 | **3035** | `-74.7` | **9.5** / 22 | 9.1% | 22.7% | 🔴 Relegated |
-| #10 | **Caissa 2.0.5** | 3000 | **3000** | `+0.1` | **9.0** / 22 | 13.6% | 31.8% | 🔴 Relegated |
-| #11 | **Hobbes 20260912** | 3125 | **3039** | `-85.8` | **9.0** / 22 | 9.1% | 27.3% | 🔴 Relegated |
-| #12 | **Stormphrax 8.0.0** | 3083 | **3002** | `-80.4` | **8.0** / 22 | 18.2% | 45.5% | 🔴 Relegated |
+| #1 | **Stockfish 20260930** | 3000 | **3149** | `+148.8` | **30.0** / 44 | 43.2% | 6.8% | 🟢 Advanced to Semi-Final |
+| #2 | **Reckless 20260909** | 3000 | **3108** | `+108.0` | **28.0** / 44 | 36.4% | 9.1% | 🟢 Advanced to Semi-Final |
+| #3 | **PlentyChess 8.0.0** | 3000 | **3083** | `+82.9` | **23.5** / 44 | 25.0% | 18.2% | 🟢 Advanced to Semi-Final |
+| #4 | **Cinder 20261001** | 3142 | **3078** | `-64.0` | **23.0** / 44 | 20.5% | 15.9% | 🟢 Advanced to Semi-Final |
+| #5 | **Integral 20260929** | 3000 | **3063** | `+62.5` | **22.0** / 44 | 25.0% | 25.0% | 🟢 Advanced to Semi-Final |
+| #6 | **Coda 20260929** | 3117 | **3057** | `-59.7` | **21.5** / 44 | 22.7% | 25.0% | 🟢 Advanced to Semi-Final |
+| #7 | **Obsidian 16.15** | 3000 | **3016** | `+16.5` | **21.0** / 44 | 20.5% | 25.0% | 🔴 Relegated |
+| #8 | **Pawnocchio 2.0.1** | 3087 | **3021** | `-65.8` | **20.0** / 44 | 18.2% | 27.3% | 🔴 Relegated |
+| #9 | **Hobbes 20260912** | 3125 | **3062** | `-63.3` | **20.0** / 44 | 18.2% | 27.3% | 🔴 Relegated |
+| #10 | **Stormphrax 8.0.0** | 3083 | **3033** | `-49.9` | **19.0** / 44 | 20.5% | 34.1% | 🔴 Relegated |
+| #11 | **Caissa 2.0.5** | 3000 | **3001** | `+1.3` | **18.5** / 44 | 18.2% | 34.1% | 🔴 Relegated |
+| #12 | **Triumviratus 20260930** | 3110 | **2992** | `-117.3` | **17.5** / 44 | 9.1% | 29.5% | 🔴 Relegated |
 
 </details>
 
@@ -43,18 +43,18 @@
 
 | Engine | Stage Rank | Win % | Draw % | Avg Length | Short / Long Win | Short / Long Draw | Short / Long Loss | Short / Long Depth | Normal Depth | Short / Long Time | Normal Time | Short / Long kNPS | Normal kNPS | Time Losses | Crashes |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Stockfish 20260930** | #1 | 45.5% | 50.0% | 54.5 moves | 42 / 74 moves | 32 / 57 moves | 64 / 64 moves | 1 / 245 | 21.4 | 1ms / 14.0s | 1.6s | 8.3 / 2500.0 | 206.4 | `0` | `0` |
-| **Reckless 20260909** | #2 | 45.5% | 45.5% | 62.4 moves | 55 / 119 moves | 41 / 68 moves | 74 / 91 moves | 7 / 239 | 18.3 | 9ms / 23.9s | 1.7s | 38.4 / 1100.0 | 281.9 | `0` | `0` |
-| **Cinder 20261001** | #3 | 22.7% | 59.1% | 57.9 moves | 44 / 78 moves | 38 / 68 moves | 64 / 73 moves | 0 / 45 | 16.2 | 0ms / 10.9s | 1.7s | 0.0 / 515.5 | 153.6 | `0` | `0` |
-| **Obsidian 16.15** | #4 | 18.2% | 63.6% | 71.9 moves | 55 / 119 moves | 38 / 104 moves | 78 / 119 moves | 10 / 123 | 18.6 | 1ms / 13.0s | 1.5s | 123.0 / 3100.0 | 260.9 | `0` | `0` |
-| **Integral 20260929** | #5 | 22.7% | 54.5% | 61.1 moves | 51 / 77 moves | 41 / 87 moves | 56 / 81 moves | 11 / 100 | 18.1 | 6ms / 15.4s | 1.6s | 49.3 / 1300.0 | 164.0 | `0` | `0` |
-| **PlentyChess 8.0.0** | #6 | 18.2% | 63.6% | 63.7 moves | 58 / 102 moves | 41 / 97 moves | 68 / 77 moves | 11 / 49 | 18.5 | 330ms / 11.2s | 1.8s | 112.7 / 580.5 | 192.6 | `0` | `0` |
-| **Pawnocchio 2.0.1** | #7 | 22.7% | 54.5% | 61.4 moves | 68 / 110 moves | 41 / 86 moves | 42 / 83 moves | 9 / 48 | 17.0 | 202ms / 10.5s | 1.7s | 83.8 / 903.6 | 217.0 | `0` | `0` |
-| **Coda 20260929** | #8 | 22.7% | 50.0% | 68.0 moves | 55 / 104 moves | 41 / 80 moves | 47 / 119 moves | 6 / 59 | 18.7 | 6ms / 5.1s | 1.2s | 18.4 / 493.3 | 176.4 | `0` | `0` |
-| **Triumviratus 20260930** | #9 | 9.1% | 68.2% | 62.4 moves | 55 / 81 moves | 31 / 161 moves | 51 / 103 moves | 1 / 64 | 17.0 | 1ms / 13.7s | 1.8s | 2.0 / 327.2 | 125.5 | `0` | `0` |
-| **Caissa 2.0.5** | #10 | 13.6% | 54.5% | 58.9 moves | 68 / 119 moves | 38 / 91 moves | 43 / 68 moves | 10 / 255 | 18.6 | 18ms / 9.5s | 1.8s | 172.8 / 1200.0 | 278.9 | `0` | `0` |
-| **Hobbes 20260912** | #11 | 9.1% | 63.6% | 73.7 moves | 46 / 86 moves | 41 / 161 moves | 47 / 110 moves | 9 / 256 | 18.5 | 18ms / 12.7s | 1.7s | 66.0 / 1700.0 | 200.1 | `0` | `0` |
-| **Stormphrax 8.0.0** | #12 | 18.2% | 36.4% | 68.4 moves | 58 / 83 moves | 31 / 91 moves | 55 / 119 moves | 8 / 248 | 18.7 | 3ms / 19.0s | 1.7s | 113.3 / 2100.0 | 216.1 | `0` | `0` |
+| **Stockfish 20260930** | #1 | 43.2% | 50.0% | 57.3 moves | 42 / 85 moves | 32 / 74 moves | 54 / 73 moves | 1 / 245 | 21.8 | 1ms / 14.0s | 1.6s | 8.3 / 2500.0 | 213.8 | `0` | `0` |
+| **Reckless 20260909** | #2 | 36.4% | 54.5% | 60.9 moves | 54 / 119 moves | 24 / 80 moves | 63 / 91 moves | 7 / 239 | 18.2 | 4ms / 23.9s | 1.7s | 35.7 / 1100.0 | 273.3 | `0` | `0` |
+| **PlentyChess 8.0.0** | #3 | 25.0% | 56.8% | 63.2 moves | 44 / 134 moves | 41 / 120 moves | 36 / 78 moves | 11 / 56 | 18.7 | 322ms / 11.2s | 1.7s | 108.3 / 886.3 | 209.1 | `0` | `0` |
+| **Cinder 20261001** | #4 | 20.5% | 63.6% | 60.0 moves | 36 / 78 moves | 33 / 100 moves | 62 / 73 moves | 0 / 73 | 16.8 | 0ms / 10.9s | 1.7s | 0.0 / 515.5 | 162.3 | `0` | `0` |
+| **Integral 20260929** | #5 | 25.0% | 50.0% | 62.0 moves | 51 / 77 moves | 41 / 116 moves | 48 / 92 moves | 11 / 100 | 18.3 | 6ms / 15.4s | 1.5s | 28.6 / 1300.0 | 176.6 | `0` | `0` |
+| **Coda 20260929** | #6 | 22.7% | 52.3% | 65.9 moves | 48 / 104 moves | 41 / 100 moves | 44 / 119 moves | 1 / 100 | 18.9 | 3ms / 5.1s | 1.3s | 18.4 / 671.1 | 183.4 | `0` | `0` |
+| **Obsidian 16.15** | #7 | 20.5% | 54.5% | 67.6 moves | 55 / 119 moves | 24 / 104 moves | 64 / 119 moves | 10 / 123 | 18.1 | 1ms / 13.0s | 1.5s | 87.2 / 3100.0 | 254.6 | `0` | `0` |
+| **Pawnocchio 2.0.1** | #8 | 18.2% | 54.5% | 62.3 moves | 68 / 110 moves | 40 / 120 moves | 37 / 83 moves | 9 / 152 | 17.1 | 199ms / 11.2s | 1.7s | 48.1 / 903.6 | 219.2 | `0` | `0` |
+| **Hobbes 20260912** | #9 | 18.2% | 54.5% | 72.9 moves | 37 / 86 moves | 41 / 161 moves | 47 / 134 moves | 9 / 256 | 18.6 | 13ms / 12.7s | 1.7s | 61.0 / 1700.0 | 202.1 | `0` | `0` |
+| **Stormphrax 8.0.0** | #10 | 20.5% | 45.5% | 65.1 moves | 51 / 92 moves | 24 / 91 moves | 55 / 119 moves | 8 / 248 | 18.5 | 3ms / 19.0s | 1.7s | 108.0 / 2100.0 | 219.0 | `0` | `0` |
+| **Caissa 2.0.5** | #11 | 18.2% | 47.7% | 60.6 moves | 48 / 119 moves | 24 / 91 moves | 42 / 100 moves | 10 / 255 | 18.9 | 18ms / 9.5s | 1.7s | 172.8 / 1200.0 | 296.7 | `0` | `0` |
+| **Triumviratus 20260930** | #12 | 9.1% | 61.4% | 64.2 moves | 55 / 81 moves | 31 / 161 moves | 51 / 103 moves | 1 / 64 | 17.2 | 1ms / 15.1s | 1.8s | 2.0 / 475.9 | 133.3 | `0` | `0` |
 
 </details>
 
@@ -62,17 +62,17 @@
 
 | Engine | **#1** | **#2** | **#3** | **#4** | **#5** | **#6** | **#7** | **#8** | **#9** | **#10** | **#11** | **#12** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **#1. Stockfish 20260930** | — | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#2. Reckless 20260909** | <nobr>1 0</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) |
-| **#3. Cinder 20261001** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#4. Obsidian 16.15** | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) |
-| **#5. Integral 20260929** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) |
-| **#6. PlentyChess 8.0.0** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | — | <nobr>0 1</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) |
-| **#7. Pawnocchio 2.0.1** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | — | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) |
-| **#8. Coda 20260929** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 ½</nobr><br>(+1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | — | <nobr>1 ½</nobr><br>(+1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) |
-| **#9. Triumviratus 20260930** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | — | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) |
-| **#10. Caissa 2.0.5** | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 0</nobr><br>(-1.0) | — | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 1</nobr><br>(+1.0) |
-| **#11. Hobbes 20260912** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>½ ½</nobr><br>(0.0) | <nobr>0 1</nobr><br>(0.0) | — | <nobr>1 ½</nobr><br>(+1.0) |
-| **#12. Stormphrax 8.0.0** | <nobr>0 ½</nobr><br>(-1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>0 1</nobr><br>(0.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>0 ½</nobr><br>(-1.0) | <nobr>1 0</nobr><br>(0.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>½ 1</nobr><br>(+1.0) | <nobr>½ 0</nobr><br>(-1.0) | <nobr>0 ½</nobr><br>(-1.0) | — |
+| **#1. Stockfish 20260930** | — | <nobr>0 1 0 1</nobr><br>(0.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) |
+| **#2. Reckless 20260909** | <nobr>1 0 1 0</nobr><br>(0.0) | — | <nobr>½ 1 0 ½</nobr><br>(0.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>0 1 ½ 1</nobr><br>(+1.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) |
+| **#3. PlentyChess 8.0.0** | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ 0 1 ½</nobr><br>(0.0) | — | <nobr>1 ½ 1 0</nobr><br>(+1.0) | <nobr>½ 0 ½ 1</nobr><br>(0.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>1 ½ ½ 0</nobr><br>(0.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) |
+| **#4. Cinder 20261001** | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>0 ½ 0 1</nobr><br>(-1.0) | — | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) |
+| **#5. Integral 20260929** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ 1 ½ 0</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | — | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>0 1 0 1</nobr><br>(0.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>1 0 1 ½</nobr><br>(+1.0) |
+| **#6. Coda 20260929** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | — | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | <nobr>½ 0 1 ½</nobr><br>(0.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) |
+| **#7. Obsidian 16.15** | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>1 0 ½ 0</nobr><br>(-1.0) | <nobr>½ ½ ½ ½</nobr><br>(0.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | — | <nobr>1 ½ 1 ½</nobr><br>(+2.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>½ 1 ½ 1</nobr><br>(+2.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) |
+| **#8. Pawnocchio 2.0.1** | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>1 ½ ½ ½</nobr><br>(+1.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ ½ 1 0</nobr><br>(0.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | — | <nobr>½ 1 0 ½</nobr><br>(0.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>1 ½ 1 0</nobr><br>(+1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) |
+| **#9. Hobbes 20260912** | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ 0 1 ½</nobr><br>(0.0) | — | <nobr>1 ½ ½ 0</nobr><br>(0.0) | <nobr>0 1 0 1</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) |
+| **#10. Stormphrax 8.0.0** | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>0 ½ ½ 1</nobr><br>(0.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>1 0 1 0</nobr><br>(0.0) | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>0 1 ½ ½</nobr><br>(0.0) | <nobr>1 0 ½ ½</nobr><br>(0.0) | <nobr>0 ½ ½ 1</nobr><br>(0.0) | — | <nobr>½ 0 1 0</nobr><br>(-1.0) | <nobr>½ 1 ½ ½</nobr><br>(+1.0) |
+| **#11. Caissa 2.0.5** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>0 ½ 0 ½</nobr><br>(-2.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>½ ½ ½ 1</nobr><br>(+1.0) | <nobr>½ 1 0 ½</nobr><br>(0.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>0 ½ 0 1</nobr><br>(-1.0) | <nobr>1 0 1 0</nobr><br>(0.0) | <nobr>½ 1 0 1</nobr><br>(+1.0) | — | <nobr>½ 0 1 ½</nobr><br>(0.0) |
+| **#12. Triumviratus 20260930** | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ 0 ½ 0</nobr><br>(-2.0) | <nobr>½ ½ ½ 0</nobr><br>(-1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>0 1 0 ½</nobr><br>(-1.0) | <nobr>0 ½ ½ ½</nobr><br>(-1.0) | <nobr>½ ½ 0 1</nobr><br>(0.0) | <nobr>½ ½ 1 ½</nobr><br>(+1.0) | <nobr>½ ½ 0 ½</nobr><br>(-1.0) | <nobr>½ 0 ½ ½</nobr><br>(-1.0) | <nobr>½ 1 0 ½</nobr><br>(0.0) | — |
 
 </details>
